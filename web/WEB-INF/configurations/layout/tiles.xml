@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="base.definition"
+        template="/WEB-INF/views/layout/layout.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+
+     <definition name="base.definition.withoutheaderfooter"
+        template="/WEB-INF/views/layout/layoutWithoutHeaderFooter.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="body" value="" />
+        
+    </definition> 
+    
+    <definition name="transactionViewiframe" extends="base.definition.withoutheaderfooter">
+        <put-attribute name="body" value="/WEB-INF/views/transactionView.jsp" />
+    </definition>  
+
+ <definition name="beneficiaryViewiframe" extends="base.definition.withoutheaderfooter">
+        <put-attribute name="body" value="/WEB-INF/views/beneficiaryView.jsp" />
+    </definition>  
+
+ <definition name="thirdPartyViewiframe" extends="base.definition.withoutheaderfooter">
+        <put-attribute name="body" value="/WEB-INF/views/thirdPartyView.jsp" />
+    </definition>  
+
+<definition name="miSearchGridIframe" extends="base.definition.withoutheaderfooter">
+        <put-attribute name="body" value="/WEB-INF/views/miSearchGrid.jsp" />
+    </definition>  
+
+  <definition name="ctr.view.definition"
+       template="/WEB-INF/views/layout/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/layout/logged_header.jsp" />
+    <put-attribute name="body" value="" />
+    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+  </definition>
+ 
+    <definition name="login" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+    </definition>
+  
+   <definition name="ctrView" extends="ctr.view.definition">
+        <put-attribute name="body" value="/WEB-INF/views/ctrView.jsp" />
+    </definition>
+
+   <definition name="transactionView" extends="ctr.view.definition">
+        <put-attribute name="body" value="/WEB-INF/views/transactionView.jsp" />
+    </definition>
+
+  <definition name="beneficiaryView" extends="ctr.view.definition">
+    <put-attribute name="body" value="/WEB-INF/views/beneficiaryView.jsp" />
+  </definition>
+
+
+  <definition name="thirdPartyView" extends="ctr.view.definition">
+    <put-attribute name="body" value="/WEB-INF/views/thirdPartyView.jsp" />
+  </definition>
+
+  <definition name="teller/multiRoleLanding" extends="ctr.view.definition">
+    <put-attribute name="body" value="/WEB-INF/views/teller/multiRoleLanding.jsp" />
+  </definition>
+
+  <definition name="teller/landing" extends="ctr.view.definition">
+    <put-attribute name="body" value="/WEB-INF/views/teller/landing.jsp" />
+  </definition>
+
+  <definition name="eFileRejectConfirm" extends="ctr.view.definition">
+	<put-attribute name="body" value="/WEB-INF/views/eFileRejectConfirm.jsp" />
+  </definition>
+
+  <definition name="eFileReport" extends="ctr.view.definition">
+	<put-attribute name="body" value="/WEB-INF/views/eFileReport.jsp" />
+  </definition>
+
+  <definition name="subpoenaReport" extends="ctr.view.definition">
+    <put-attribute name="body" value="/WEB-INF/views/subpoenaReport.jsp" />
+  </definition>
+</tiles-definitions>
