@@ -131,7 +131,7 @@
     <war warfile="${dist.home}/${app.name}.war" webxml="${build.home}/WEB-INF/web.xml">
       <fileset dir="${build.home}"/>
     </war>
-    <!--<copy todir="C:\tomcat6\webapps\"><fileset file="${dist.home}/${app.name}.war"/></copy>-->
+    <copy todir="/home/anik/tomcat6/webapps"><fileset file="${dist.home}/${app.name}.war"/></copy>
   </target>
 
 

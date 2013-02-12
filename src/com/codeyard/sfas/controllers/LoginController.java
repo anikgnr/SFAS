@@ -16,7 +16,8 @@ public class LoginController {
 	private static Logger logger = Logger.getLogger(LoginController.class);
 		
     @RequestMapping(value="/login.html", method=RequestMethod.GET)
-	public String redirctLogin(@RequestParam("error") String error, Model model) {
+	public String redirectLogin(@RequestParam(value="error", required=false) String error,HttpServletRequest request,Model model) {
+    	logger.debug("::  inside redirectLogin :: ");
     	if(!Utils.isNullOrEmpty(error)){
     		logger.debug("LOGIN ERROR :: wrong username/password provided.");
     		model.addAttribute("error", Utils.getMessageBundlePropertyValue("login.error"));

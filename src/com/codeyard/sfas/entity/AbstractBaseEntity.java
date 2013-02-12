@@ -2,6 +2,8 @@ package com.codeyard.sfas.entity;
 
 import java.util.Date;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.TemporalType;
 public abstract class AbstractBaseEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
     private Long id;    
 

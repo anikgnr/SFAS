@@ -21,7 +21,7 @@
 	
 		<form-login login-page="/login.html"		
 					default-target-url="/forward.html"		
-					authentication-failure-url="/bad-login.html?error=1" />
+					authentication-failure-url="/login.html?error=1" />
 					
 		<logout logout-url="/logout.html" logout-success-url="/login.html" delete-cookies="true" invalidate-session="true" />
 		                
@@ -29,9 +29,11 @@
 	
 	<authentication-manager>
 	   <authentication-provider>
-	   		<user-service>
-				<user name="admin" password="admin" authorities="ROLE_ADMIN" />
-	    	</user-service>		
+		<jdbc-user-service data-source-ref="jdbcDataSource" 
+		   users-by-username-query="select user_name as username,password, is_active as enabled 
+		      from cy_be_users where user_name=?"  
+		   authorities-by-username-query="select user_name as username, role as authority from cy_be_users where user_name =?" 
+		/>
 	   </authentication-provider>
 	</authentication-manager>
 

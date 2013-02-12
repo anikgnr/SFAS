@@ -4,14 +4,13 @@
 <html>
 
 <head>
-	<title><spring:message code="layout.title.head"/> : <spring:message code="login.title"/> </title>	
+	<title>login</title>	
 </head>
 
 <body>
   
 <div id="formblock" style="height: 400px; padding-top: 50px;">
-	<input id="close" type="hidden" value="${close}"/>	
-    <center>
+	<center>
     <form name="f" action="j_spring_security_check" method="POST">
       <table cellspacing="10" cellpadding="0">
         <tr><td><spring:message code="login.label.username"/></td><td><input type='text' size='20' name='j_username' value='<c:if test="${not empty error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/></td></tr>
