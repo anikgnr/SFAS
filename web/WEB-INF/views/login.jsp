@@ -3,10 +3,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 
-<head>
-	<title>login</title>	
-</head>
-
 <body>
   
 <div id="formblock" style="height: 400px; padding-top: 50px;">
