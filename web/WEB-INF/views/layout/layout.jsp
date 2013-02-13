@@ -29,9 +29,10 @@
 		<c:if test="${SFASMessage != ''}">
 			<div id="inlineMsgDiv">${SFASMessage}</div>
 		</c:if>
-	
-	    <tiles:insertAttribute name="body" />
-	 
+		<div id="content" class="clearfix" style="min-height: 600px;">
+			<br/><br/>
+	    	<tiles:insertAttribute name="body" />
+	 	</div>
 	    <tiles:insertAttribute name="footer" />
   </div> 
 </body>
