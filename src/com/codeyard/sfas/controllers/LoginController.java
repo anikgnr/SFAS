@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.util.Utils;
 
 
@@ -28,7 +30,10 @@ public class LoginController {
 	@RequestMapping(value="/forward.html", method=RequestMethod.GET)
 	public String forwardOnRole(HttpServletRequest request,Model model) {
 		logger.debug("::  LOGIN SUCCESSFUL :: ");
-		return "";
+		if(Utils.isInRole(Role.ADMIN.getValue())){
+			return "redirect:/admin/userList.html";
+		}
+		return "login";
     }
     
     @RequestMapping(value="/access-denied.html", method=RequestMethod.GET)

@@ -3,15 +3,30 @@ package com.codeyard.sfas.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.codeyard.sfas.entity.AbstractBaseEntity;
 
 public class Utils {
 	private static Logger logger = Logger.getLogger(Utils.class);
-
+	
+	@SuppressWarnings("unchecked")
+	public static boolean isInRole(String roleName){
+		List<GrantedAuthority> grantedRoles = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();	    
+		for(GrantedAuthority role : grantedRoles){
+			logger.debug("ROLE NAME :: "+role.getAuthority());
+			if(roleName.equals(role.getAuthority()))
+				return true;
+		}
+		return false;
+	} 
 	
 	public static boolean isNullOrEmpty(String content){
 		if(content != null && !content.isEmpty())
@@ -102,6 +117,14 @@ public class Utils {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, +1);
 		return cal.getTime();
+	}
+	
+	public static void setEditDeleteLinkOnAbstractEntity(AbstractBaseEntity entity, String moduleName){
+		if(entity != null && !Utils.isNullOrEmpty(moduleName)){
+			entity.setEditLink("<a href='./"+moduleName+".html?id="+entity.getId()+"'>edit</a>");
+			entity.setDeleteLink("<a href='./"+moduleName+"DeleteById.html?id="+entity.getId()+"'>delete</a>");
+		}
+		
 	}
 	
 }

@@ -9,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 @MappedSuperclass
@@ -32,6 +33,12 @@ public abstract class AbstractBaseEntity {
 	
 	@Column(name = "last_modified_by")
     private String lastModifiedBy;
+	
+	@Transient
+	private String editLink;
+	
+	@Transient
+	private String deleteLink;
 	
 
 	public Long getId() {
@@ -72,7 +79,24 @@ public abstract class AbstractBaseEntity {
 
 	public void setLastModifiedBy(String lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public String getEditLink() {
+		return editLink;
+	}
+
+	public void setEditLink(String editLink) {
+		this.editLink = editLink;
+	}
+
+	public String getDeleteLink() {
+		return deleteLink;
+	}
+
+	public void setDeleteLink(String deleteLink) {
+		this.deleteLink = deleteLink;
 	}    
 
+	
 	
 }

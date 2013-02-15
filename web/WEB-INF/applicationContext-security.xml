@@ -14,7 +14,8 @@
 		<intercept-url pattern="/logout.html" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />    
 	
-	    <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>	
+	    <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')"/>	
+		<intercept-url pattern="/**" access="isAuthenticated()" />
 		
 	    <access-denied-handler error-page="/access-denied.html"/>
 	    
