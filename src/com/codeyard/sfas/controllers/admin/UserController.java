@@ -1,6 +1,5 @@
 package com.codeyard.sfas.controllers.admin; 
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.util.Utils;
-import com.codeyard.sfas.vo.admin.UserVo;
+import com.codeyard.sfas.vo.SearchVo;
 
 
 @Controller
@@ -45,10 +43,7 @@ public class UserController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeUserList.html", method=RequestMethod.GET)
 	public @ResponseBody Map userList(HttpServletRequest request, Map map) {    	
-    	List<User> userList = adminService.getAllUserList(fetchUserVoFromRequest(request));
-    	if(userList == null)
-    		userList = new ArrayList<User>();    	
-    	logger.debug("loading user list from db...."+userList.size());
+    	List<AbstractBaseEntity> userList = adminService.getEnityList(SearchVo.fetchFromRequest(request), "User");
     	map.put("user", userList);
 		return map;
     }
@@ -92,25 +87,5 @@ public class UserController {
     	    	
 	    return "redirect:/admin/userList.html";
 	}
-    
-    private UserVo fetchUserVoFromRequest(HttpServletRequest request){
-    	UserVo userVo = new UserVo();
-    	
-    	if(request.getParameter("fn") != null)
-    		userVo.setFirstName((String)request.getParameter("fn"));
-    	if(request.getParameter("ln") != null)
-    		userVo.setLastName((String)request.getParameter("ln"));
-    	if(request.getParameter("un") != null)
-    		userVo.setUserName((String)request.getParameter("un"));
-    	if(request.getParameter("mn") != null)
-    		userVo.setMobileNumber((String)request.getParameter("mn"));
-    	if(request.getParameter("rl") != null)
-    		userVo.setRole((String)request.getParameter("rl"));
-    	if(request.getParameter("ia") != null)
-    		userVo.setIsActive((String)request.getParameter("ia"));
-    	
-    	return userVo;
-    }
-    
     
 }

@@ -10,9 +10,11 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.util.Utils;
-import com.codeyard.sfas.vo.admin.UserVo;
+import com.codeyard.sfas.vo.SearchVo;
  
 
 @Repository
@@ -27,27 +29,41 @@ public class AdminDaoImpl implements AdminDao {
     }
     
     @SuppressWarnings("unchecked")
-    public List<User> getAllUserList(UserVo userVo){
-    	String sql = "From User ";
+    public List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className){
+    	String sql = "From "+className+" ";
     	boolean hasClause = false;
     	
-    	if(!Utils.isNullOrEmpty(userVo.getFirstName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "firstName LIKE '%"+userVo.getFirstName()+"%'";
+    	if(!Utils.isNullOrEmpty(searchVo.getFirstName())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "firstName LIKE '%"+searchVo.getFirstName()+"%'";
+    		hasClause = true;
     	}
-    	if(!Utils.isNullOrEmpty(userVo.getLastName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "lastName LIKE '%"+userVo.getLastName()+"%'";
+    	if(!Utils.isNullOrEmpty(searchVo.getLastName())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "lastName LIKE '%"+searchVo.getLastName()+"%'";
+    		hasClause = true;
     	}
-    	if(!Utils.isNullOrEmpty(userVo.getUserName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "userName LIKE '%"+userVo.getUserName()+"%'";
+    	if(!Utils.isNullOrEmpty(searchVo.getUserName())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "userName LIKE '%"+searchVo.getUserName()+"%'";
+    		hasClause = true;
     	}
-    	if(!Utils.isNullOrEmpty(userVo.getMobileNumber())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "mobileNumber LIKE '%"+userVo.getMobileNumber()+"%'";
+    	if(!Utils.isNullOrEmpty(searchVo.getMobileNumber())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "mobileNumber LIKE '%"+searchVo.getMobileNumber()+"%'";
+    		hasClause = true;
     	}
-    	if(!Utils.isNullOrEmpty(userVo.getRole())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "role = '"+userVo.getRole()+"'";
+    	if(!Utils.isNullOrEmpty(searchVo.getRole())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "role = '"+searchVo.getRole()+"'";
+    		hasClause = true;
     	}
-    	if(!Utils.isNullOrEmpty(userVo.getIsActive())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "active = '"+userVo.getIsActive()+"'";
+    	if(!Utils.isNullOrEmpty(searchVo.getIsActive())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "active = '"+searchVo.getIsActive()+"'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(searchVo.getAddress())){
+    		sql += (hasClause ? "AND ":"WHERE ") + "address LIKE '%"+searchVo.getAddress()+"%'";
+    		hasClause = true;
+    	}
+    	if(searchVo.getRegionId() != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "region.id = '"+searchVo.getRegionId()+"'";
+    		hasClause = true;
     	}
     	logger.debug(sql);
 		return hibernateTemplate.find(sql);
@@ -62,6 +78,12 @@ public class AdminDaoImpl implements AdminDao {
     }
     
     public void saveOrUpdate(AbstractBaseEntity entity){
+    	if(entity.getId() == null || entity.getId() == 0){
+    		entity.setCreatedBy(Utils.getLoggedUser());
+    		entity.setCreated(Utils.today());
+    	}
+    	entity.setLastModifiedBy(Utils.getLoggedUser());
+    	entity.setLastModified(Utils.today());
 		hibernateTemplate.saveOrUpdate(entity);
 	}
     
@@ -69,4 +91,15 @@ public class AdminDaoImpl implements AdminDao {
 		hibernateTemplate.bulkUpdate("Delete From "+className+" where id = ?",id);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Region> getAllRegions(){
+		return hibernateTemplate.find("FROM Region");
+	}
+	
+	public AbstractLookUpEntity loadLookUpEntityById(Long id, String className){
+		List<AbstractLookUpEntity> entityList = hibernateTemplate.find("From "+className+" where id = ?", id);
+		if(entityList != null && entityList.size() > 0)
+			return entityList.get(0);
+		return null;
+	}
 }

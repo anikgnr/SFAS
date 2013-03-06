@@ -5,9 +5,9 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/user.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/rsm.js"></script>
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="user.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="rsm.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
@@ -21,20 +21,20 @@
 								<spring:message code="user.form.lastName"/> : <input type="text" id="ln" name="ln" />	
 							</td>
 							<td>
-								<spring:message code="user.form.userName"/> : <input type="text" id="un" name="un" />	
+								<spring:message code="user.form.cellNumber"/> : <input type="text" id="mn" name="mn" />	
 							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
 							<td>
-								<spring:message code="user.form.cellNumber"/> : <input type="text" id="mn" name="mn" />
+								<spring:message code="rsm.form.address"/> : <input type="text" id="ad" name="ad" />
 							</td>
 							<td>
-								<spring:message code="user.form.role"/> : 
-								<select id="rl" name="rl">
+								<spring:message code="rsm.form.region"/> : 
+								<select id="rg" name="rg">
 									<option value=""></option>
-									<c:forEach items="${roles}" var="role">
-										<option value="${role.value}">${role.label}</option>
+									<c:forEach items="${regions}" var="region">
+										<option value="${region.id}">${region.name}</option>
 									</c:forEach>
 								</select>	
 							</td>
@@ -58,9 +58,9 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-user-grid"></div><br/>
+				<div id="admin-rsm-grid"></div><br/>
 				<center>
-					<input class="button orange" id="createNew" type="button" value='<spring:message code="user.form.newUser"/>'/>
+					<input class="button orange" id="createNew" type="button" value='<spring:message code="rsm.form.new"/>'/>
 				</center>		
 			</div>
 		</div>
