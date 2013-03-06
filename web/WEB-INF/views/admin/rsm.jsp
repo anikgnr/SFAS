@@ -38,7 +38,7 @@
 							<tr>
 								<td><spring:message code="rsm.form.region"/> : <span class="required">*</span></td>
 								<td>
-									<form:select path="region.id">
+									<form:select id="regionId" path="region.id">
 									 	<form:option value="" label=""/>
 	    								<form:options items="${regions}" />
 									</form:select>

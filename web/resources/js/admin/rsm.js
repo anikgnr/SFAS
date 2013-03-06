@@ -86,8 +86,8 @@ $(function () {
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');
         }
-		if ($("#region.id").val() == '') {
-            flag = addError("#region.id", '');
+		if ($("#regionId").val() == '') {			
+            flag = addError("#regionId", '');        
         }
 		
 		if(flag)
