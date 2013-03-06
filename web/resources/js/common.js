@@ -119,3 +119,19 @@ function isNotAlphaNumeric(an) {
     	store_model.load({params:{start:0, limit:25}});   	 
 	     	
  }
+ function deleteLinkClicked(url){
+	 if(confirm("Are you sure ?")){
+		 window.location = url;
+	 }
+ }
+ 
+ function addError(obj, msg) {
+     $(obj).addClass('errorinput');
+     $(obj).parent().next().html(msg);
+     return true;
+ }
+ 
+ function clearErrors(){
+	$("input, select").removeClass('errorinput');
+    $(".inputerrormsg").html('');       		
+ }

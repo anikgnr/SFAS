@@ -1,5 +1,7 @@
 package com.codeyard.sfas.entity;
 
+import java.util.List;
+
 
 public enum Role {
 	 ADMIN("Site Admin", "ROLE_ADMIN"), OPERATOR("Site Operator", "ROLE_OPERATOR");
@@ -35,6 +37,10 @@ public enum Role {
 			}
 		}
 		return value;
-	}	
+	}
+	
+	public static Role[] getAllRoles(){
+		return values();
+	}
 	
 }

@@ -41,3 +41,16 @@
 	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
+#formBlock{
+	padding-left: 150px;
+}
+.required{
+	color: red;
+}
+.errorinput {
+	border:1px solid red;
+}
+.inputerrormsg {
+	color: red;
+	text-align: left;
+}

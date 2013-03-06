@@ -1,6 +1,9 @@
 <%@ page import="java.security.Principal"%>
-<%	final String contextPath = request.getContextPath(); %>
-<%	final Principal loggedUser = request.getUserPrincipal(); %>
+
+<%	
+	final String contextPath = request.getContextPath();
+	final Principal loggedUser = request.getUserPrincipal(); 
+%>
 <script type="text/javascript" src="<%= contextPath %>/resources/js/admin/user.js"></script>
 <div id="header_bar" class="clearfix">
 	<div class="main_width">
@@ -30,7 +33,7 @@
 				<div class="main_width">
 					<ul class="ipsList_inline" id="community_app_menu">					
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu1" href="#" title="">User Module</a>
+							<a id="menu1" href="<%= contextPath %>/admin/userList.html" title="">User Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
 							<a id="menu2" href="#" title="">RSM Module</a>

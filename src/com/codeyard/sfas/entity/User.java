@@ -34,6 +34,9 @@ public class User extends AbstractBaseEntity{
     @Transient
     private String confirmPassword;
 
+    public User(){
+    	active = true;
+    }
     
 	public String getUserName() {
 		return userName;
@@ -99,6 +102,10 @@ public class User extends AbstractBaseEntity{
 		this.confirmPassword = confirmPassword;
 	}
 
+	public String getRoleName() {
+		return Role.getLabelForValue(role);
+	}
+	
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password

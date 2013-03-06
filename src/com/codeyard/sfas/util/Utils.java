@@ -122,7 +122,7 @@ public class Utils {
 	public static void setEditDeleteLinkOnAbstractEntity(AbstractBaseEntity entity, String moduleName){
 		if(entity != null && !Utils.isNullOrEmpty(moduleName)){
 			entity.setEditLink("<a href='./"+moduleName+".html?id="+entity.getId()+"'>edit</a>");
-			entity.setDeleteLink("<a href='./"+moduleName+"DeleteById.html?id="+entity.getId()+"'>delete</a>");
+			entity.setDeleteLink("<a href='javascript:deleteLinkClicked(\"./"+moduleName+"Delete.html?id="+entity.getId()+"\")'>delete</a>");
 		}
 		
 	}
