@@ -12,7 +12,7 @@ public abstract class AbstractLookUpEntity {
 	@Column(name = "id")
     private Long id;    
 
-    @Column(name = "region_name")
+    @Column(name = "name")
     private String name;
 
     public Long getId() {

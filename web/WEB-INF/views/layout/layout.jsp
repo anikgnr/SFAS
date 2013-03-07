@@ -19,7 +19,7 @@
 	<script type="text/javascript" src="<%= contextPath %>/resources/ext4/ext-all.js"></script>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/jquery-ui-1.8.18.custom.min.js"></script>
-		<script type="text/javascript" src="<%= contextPath %>/resources/js/common.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/common.js"></script>
 	<link type="text/css" href="<%= contextPath %>/resources/styles/ipb_styles.css" rel="stylesheet" />	
 </head>
 <body id="ipboard_body">

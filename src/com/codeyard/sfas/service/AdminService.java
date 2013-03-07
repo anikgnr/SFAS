@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
-import com.codeyard.sfas.entity.Region;
-import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.vo.SearchVo;
 
 public interface AdminService { 
@@ -15,5 +13,6 @@ public interface AdminService {
     AbstractLookUpEntity loadLookUpEntityById(Long id, String className);
     void saveOrUpdate(AbstractBaseEntity entity);
     void deleteEntityById(Long id, String className);
-    List<Region> getAllRegions();
+    List<AbstractLookUpEntity> getAllLookUpEntity(String className);
+    List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value);
 }

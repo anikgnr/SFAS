@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.service.AdminService;
@@ -36,7 +37,7 @@ public class RSMController {
     @RequestMapping(value="/admin/rsmList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin rsm home:::::::::::::::::");
-    	model.addAttribute("regions", adminService.getAllRegions());
+    	model.addAttribute("regions", adminService.getAllLookUpEntity("Region"));
 	    return "admin/rsmList";
 	}    
     
@@ -58,7 +59,7 @@ public class RSMController {
     		rsm = new RSM();
     	
     	Map<Long,String> regions = new LinkedHashMap<Long,String>();
-    	for(Region region : adminService.getAllRegions())
+    	for(AbstractLookUpEntity region : adminService.getAllLookUpEntity("Region"))
     		regions.put(region.getId(), region.getName());
     	
     	model.addAttribute("regions", regions);

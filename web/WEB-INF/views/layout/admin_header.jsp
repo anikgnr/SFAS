@@ -38,23 +38,23 @@
 							<a id="menu2" href="<%= contextPath %>/admin/rsmList.html" title="">RSM Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu3" href="#" title="">ASM Module</a>
+							<a id="menu3" href="<%= contextPath %>/admin/asmList.html" title="">ASM Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu4" href="#" title="">TSO Module</a>
+							<a id="menu4" href="<%= contextPath %>/admin/tsoList.html" title="">TSO Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu5" href="#" title="">SR Module</a>
+							<a id="menu5" href="<%= contextPath %>/admin/distributorList.html" title="">Distributor Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu6" href="#" title="">Depo Module</a>
+							<a id="menu6" href="<%= contextPath %>/admin/srList.html" title="">SR Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu7" href="#" title="">Distributor Module</a>
+							<a id="menu7" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu8" href="#" title="">Outlet Module</a>
-						</li>						
+							<a id="menu8" href="<%= contextPath %>/admin/depoList.html" title="">Depo Module</a>
+						</li>												
 					</ul>
 				</div>
  </div>

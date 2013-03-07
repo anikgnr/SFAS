@@ -28,45 +28,13 @@ public class AdminDaoImpl implements AdminDao {
     	hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
     
+	
+	
     @SuppressWarnings("unchecked")
     public List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className){
-    	String sql = "From "+className+" ";
-    	boolean hasClause = false;
-    	
-    	if(!Utils.isNullOrEmpty(searchVo.getFirstName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "firstName LIKE '%"+searchVo.getFirstName()+"%'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getLastName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "lastName LIKE '%"+searchVo.getLastName()+"%'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getUserName())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "userName LIKE '%"+searchVo.getUserName()+"%'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getMobileNumber())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "mobileNumber LIKE '%"+searchVo.getMobileNumber()+"%'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getRole())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "role = '"+searchVo.getRole()+"'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getIsActive())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "active = '"+searchVo.getIsActive()+"'";
-    		hasClause = true;
-    	}
-    	if(!Utils.isNullOrEmpty(searchVo.getAddress())){
-    		sql += (hasClause ? "AND ":"WHERE ") + "address LIKE '%"+searchVo.getAddress()+"%'";
-    		hasClause = true;
-    	}
-    	if(searchVo.getRegionId() != 0){
-    		sql += (hasClause ? "AND ":"WHERE ") + "region.id = '"+searchVo.getRegionId()+"'";
-    		hasClause = true;
-    	}
+    	String sql = searchVo.buildFilterQueryClauses("From "+className+" ");
     	logger.debug(sql);
-		return hibernateTemplate.find(sql);
+    	return hibernateTemplate.find(sql);
     }
 
     @SuppressWarnings("unchecked")
@@ -92,14 +60,20 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Region> getAllRegions(){
-		return hibernateTemplate.find("FROM Region");
+	public List<AbstractLookUpEntity> getAllLookUpEntity(String className){
+		return hibernateTemplate.find("FROM "+className);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public AbstractLookUpEntity loadLookUpEntityById(Long id, String className){
 		List<AbstractLookUpEntity> entityList = hibernateTemplate.find("From "+className+" where id = ?", id);
 		if(entityList != null && entityList.size() > 0)
 			return entityList.get(0);
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value){
+		return hibernateTemplate.find("FROM "+className+" where "+property+" = ?",value);
 	}
 }

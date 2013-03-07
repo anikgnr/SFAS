@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
-import com.codeyard.sfas.entity.Region;
-import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.SearchVo;
@@ -51,11 +49,16 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.deleteEntityById(id, className);
 	}
 	
-	public List<Region> getAllRegions(){
-		return adminDao.getAllRegions();
+	public List<AbstractLookUpEntity> getAllLookUpEntity(String className){
+		return adminDao.getAllLookUpEntity(className);
 	}
 
 	public AbstractLookUpEntity loadLookUpEntityById(Long id, String className){
 		return adminDao.loadLookUpEntityById(id, className);
 	}
+	
+	public List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value){
+		return adminDao.getLookUpEntityList(className, property, value);
+	}
+
 }
