@@ -75,7 +75,7 @@ $(function () {
 	$("#rsmId").bind('change', function () {
 		 $("#asmId").attr("disabled", "disabled");
 	     $("#asmId option").remove();
-	     $("#asmId").append("<option value=''></option>");
+	     $("#asmId").append("<option value=''>Please Select One</option>");
 	     $.getJSON("./asmListByRSM.html?rsm_id=" + $(this).val(), function (json) {
 	          $.each(json.results, function (i, asm) {
 	              $("#asmId").append("<option value='" + asm.id + "'>" + asm.firstName +" "+asm.lastName+"-"+asm.area.name + "</option>");
@@ -88,7 +88,7 @@ $(function () {
 	$("#asmId").bind('change', function () {	
 		 $("#territoryId").attr("disabled", "disabled");
 	     $("#territoryId option").remove();
-	     $("#territoryId").append("<option value=''></option>");
+	     $("#territoryId").append("<option value=''>Please Select One</option>");
 	     $.getJSON("./territoryListByASM.html?asm_id=" + $(this).val(), function (json) {
 	          $.each(json.results, function (i, area) {
 	              $("#territoryId").append("<option value='" + area.id + "'>" + area.name + "</option>");

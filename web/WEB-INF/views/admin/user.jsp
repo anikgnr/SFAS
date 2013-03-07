@@ -44,7 +44,7 @@
 								<td><spring:message code="user.form.role"/> : <span class="required">*</span></td>
 								<td>
 									<form:select path="role">
-									 	<form:option value="" label=""/>
+									 	<form:option value="" label="Please Select One"/>
 	    								<form:options items="${roles}" />
 									</form:select>
 								</td>

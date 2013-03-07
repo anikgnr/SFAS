@@ -80,7 +80,7 @@ $(function () {
 	function loadAreaList(rsmId){
 		 $("#areaId").attr("disabled", "disabled");
 	     $("#areaId option").remove();
-	     $("#areaId").append("<option value=''></option>");
+	     $("#areaId").append("<option value=''>Please Select One</option>");
 	     $.getJSON("./areaListByRSM.html?rsm_id=" + rsmId, function (json) {
 	          $.each(json.results, function (i, area) {
 	              $("#areaId").append("<option value='" + area.id + "'>" + area.name + "</option>");

@@ -35,14 +35,10 @@ public class TSO extends AbstractBaseEntity{
     @JoinColumn(name="territory_id")
     private Territory territory;
     
-    @Transient
-    private long rsmId;
-
     public TSO(){
     	active = true;
     	asm = new ASM();
     	territory = new Territory();
-    	rsmId = 0L;
     }
     
 
@@ -95,12 +91,5 @@ public class TSO extends AbstractBaseEntity{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public long getRsmId() {
-		return rsmId;
-	}
-	public void setRsmId(long rsmId) {
-		this.rsmId = rsmId;
-	}
-	
 
 }

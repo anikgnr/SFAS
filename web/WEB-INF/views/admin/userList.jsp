@@ -32,7 +32,7 @@
 							<td>
 								<spring:message code="user.form.role"/> : 
 								<select id="rl" name="rl">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<c:forEach items="${roles}" var="role">
 										<option value="${role.value}">${role.label}</option>
 									</c:forEach>
@@ -41,7 +41,7 @@
 							<td>
 								<spring:message code="user.form.isActive"/> : 
 								<select id="ia" name="ia">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<option value="1">True</option>
 									<option value="0">False</option>
 								</select>	

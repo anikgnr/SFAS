@@ -39,7 +39,7 @@
 								<td><spring:message code="asm.form.rsm"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="rsmId" path="rsm.id">
-									 	<form:option value="" label=""/>
+									 	<form:option value="" label="Please Select One"/>
 	    								<form:options items="${rsms}" />
 									</form:select>
 								</td>
@@ -49,7 +49,7 @@
 								<td><spring:message code="asm.form.area"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="areaId" path="area.id">
-									 	<form:option value="" label=""/>
+									 	<form:option value="" label="Please Select One"/>
 	    								<form:options items="${areas}" />
 									</form:select>
 								</td>

@@ -32,7 +32,7 @@
 							<td>
 								<spring:message code="rsm.form.region"/> : 
 								<select id="rg" name="rg">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<c:forEach items="${regions}" var="region">
 										<option value="${region.id}">${region.name}</option>
 									</c:forEach>
@@ -41,7 +41,7 @@
 							<td>
 								<spring:message code="user.form.isActive"/> : 
 								<select id="ia" name="ia">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<option value="1">True</option>
 									<option value="0">False</option>
 								</select>	

@@ -29,7 +29,7 @@
 							<td>
 								<spring:message code="asm.form.rsm"/> : 
 								<select id="ars" name="ars">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<c:forEach items="${rsms}" var="rsm">
 										<option value="${rsm.id}">${rsm.firstName} ${rsm.lastName}-(${rsm.region.name})</option>
 									</c:forEach>
@@ -38,7 +38,7 @@
 							<td>
 								<spring:message code="tso.form.asm"/> : 
 								<select id="as" name="as">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<c:forEach items="${asms}" var="asm">
 										<option value="${asm.id}">${asm.firstName} ${asm.lastName}-(${asm.area.name})</option>
 									</c:forEach>
@@ -47,7 +47,7 @@
 							<td>
 								<spring:message code="tso.form.territory"/> : 
 								<select id="tr" name="tr">
-									<option value=""></option>
+									<option value="">Please Select One</option>
 									<c:forEach items="${territories}" var="territory">
 										<option value="${territory.id}">${territory.name}</option>
 									</c:forEach>
