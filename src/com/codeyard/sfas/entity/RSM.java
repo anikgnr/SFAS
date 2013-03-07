@@ -80,5 +80,7 @@ public class RSM extends AbstractBaseEntity{
 	public void setRegion(Region region) {
 		this.region = region;
 	}
-
+	public String getName() {
+		return firstName+" "+lastName;
+	}
 }

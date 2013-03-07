@@ -6,41 +6,41 @@
 <html>
 
 <body>
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/asm.js"></script>	
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/distributor.js"></script>	
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="rsm.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="distributor.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="formBlock">
-					<form:form method="post" action="./saveASM.html">
+					<form:form method="post" action="./saveDistributor.html">
 						<form:hidden path="id"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
-								<td width="150px;"><spring:message code="user.form.firstName"/> : <span class="required">*</span></td>
-								<td width="180px;"><form:input path="firstName" /></td>
+								<td width="150px;"><spring:message code="distributor.form.pointName"/> : <span class="required">*</span></td>
+								<td width="180px;"><form:input path="pointName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
 							</tr>
 							<tr>
-								<td><spring:message code="user.form.lastName"/> : <span class="required">*</span></td>
-								<td><form:input path="lastName" /></td>
-								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><spring:message code="user.form.cellNumber"/> : <span class="required">*</span></td>
-								<td><form:input path="mobileNumber" /></td>
-								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><spring:message code="rsm.form.address"/> : </td>
+								<td><spring:message code="rsm.form.address"/> : <span class="required">*</span></td>
 								<td><form:input path="address" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr>
-								<td><spring:message code="asm.form.rsm"/> : <span class="required">*</span></td>
+								<td><spring:message code="distributor.form.contactName"/> : <span class="required">*</span></td>
+								<td><form:input path="contactName" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
+								<td><spring:message code="distributor.form.contactNumber"/> : <span class="required">*</span></td>
+								<td><form:input path="mobileNumber" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
+								<td><spring:message code="rsm.form.region"/> : <span class="required">*</span></td>
 								<td>
-									<form:select id="rsmId" path="rsm.id">
+									<form:select id="regionId" path="tso.asm.rsm.region.id">
 									 	<form:option value="" label=""/>
-	    								<form:options items="${rsms}" />
+	    								<form:options items="${regions}" />
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -48,9 +48,19 @@
 							<tr>
 								<td><spring:message code="asm.form.area"/> : <span class="required">*</span></td>
 								<td>
-									<form:select id="areaId" path="area.id">
+									<form:select id="areaId" path="tso.asm.area.id">
 									 	<form:option value="" label=""/>
 	    								<form:options items="${areas}" />
+									</form:select>
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
+								<td><spring:message code="distributor.form.tso"/> : <span class="required">*</span></td>
+								<td>
+									<form:select id="tsoId" path="tso.id">
+									 	<form:option value="" label=""/>
+	    								<form:options items="${tsos}" />
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>

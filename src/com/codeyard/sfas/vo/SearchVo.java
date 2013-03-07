@@ -13,12 +13,17 @@ public class SearchVo {
 	private String role;
 	private String isActive;
 	private String address;
+	private String pointName;
 	private long regionId;
 	private long areaId;
 	private long rsmId;
 	private long asmRsmId;
 	private long asmId;
 	private long territoryId;
+	private long tsoAsmRsmId;
+	private long tsoAsmId;
+	private long tsoId;
+	private long asmAreaId;
 	
 	public SearchVo(){
 		this.firstName = null;
@@ -28,12 +33,17 @@ public class SearchVo {
 		this.role = null;
 		this.isActive = null;
 		this.address = null;
+		this.pointName = null;
 		this.regionId = 0;
 		this.areaId = 0;
 		this.rsmId = 0;
 		this.asmRsmId = 0;
 		this.asmId = 0;
 		this.territoryId = 0;
+		this.tsoAsmRsmId = 0;
+		this.tsoAsmId = 0;
+		this.tsoId = 0;
+		this.asmAreaId = 0;
 	}
 	
 	public String getFirstName() {
@@ -127,6 +137,46 @@ public class SearchVo {
 		this.territoryId = territoryId;
 	}
 
+	public long getTsoAsmRsmId() {
+		return tsoAsmRsmId;
+	}
+
+	public void setTsoAsmRsmId(long tsoAsmRsmId) {
+		this.tsoAsmRsmId = tsoAsmRsmId;
+	}
+
+	public long getTsoAsmId() {
+		return tsoAsmId;
+	}
+
+	public void setTsoAsmId(long tsoAsmId) {
+		this.tsoAsmId = tsoAsmId;
+	}
+
+	public long getTsoId() {
+		return tsoId;
+	}
+
+	public void setTsoId(long tsoId) {
+		this.tsoId = tsoId;
+	}
+
+	public long getAsmAreaId() {
+		return asmAreaId;
+	}
+
+	public void setAsmAreaId(long asmAreaId) {
+		this.asmAreaId = asmAreaId;
+	}
+
+	public String getPointName() {
+		return pointName;
+	}
+
+	public void setPointName(String pointName) {
+		this.pointName = pointName;
+	}
+
 	public static SearchVo fetchFromRequest(HttpServletRequest request){
     	SearchVo searchVo = new SearchVo();
     	
@@ -142,6 +192,8 @@ public class SearchVo {
     		searchVo.setRole((String)request.getParameter("rl"));    	
     	if(request.getParameter("ad") != null && !Utils.isNullOrEmpty((String)request.getParameter("ad")))
     		searchVo.setAddress((String)request.getParameter("ad"));
+    	if(request.getParameter("pn") != null && !Utils.isNullOrEmpty((String)request.getParameter("pn")))
+    		searchVo.setPointName((String)request.getParameter("pn"));
     	if(request.getParameter("rg") != null && !Utils.isNullOrEmpty((String)request.getParameter("rg")))
     		searchVo.setRegionId(Long.parseLong((String)request.getParameter("rg")));
     	if(request.getParameter("ia") != null && !Utils.isNullOrEmpty((String)request.getParameter("ia")))
@@ -156,6 +208,12 @@ public class SearchVo {
     		searchVo.setAsmId(Long.parseLong((String)request.getParameter("as")));
       	if(request.getParameter("tr") != null && !Utils.isNullOrEmpty((String)request.getParameter("tr")))
     		searchVo.setTerritoryId(Long.parseLong((String)request.getParameter("tr")));
+      	if(request.getParameter("tars") != null && !Utils.isNullOrEmpty((String)request.getParameter("tars")))
+    		searchVo.setTsoAsmRsmId(Long.parseLong((String)request.getParameter("tars")));
+      	if(request.getParameter("tas") != null && !Utils.isNullOrEmpty((String)request.getParameter("tas")))
+    		searchVo.setTsoAsmId(Long.parseLong((String)request.getParameter("tas")));
+      	if(request.getParameter("ts") != null && !Utils.isNullOrEmpty((String)request.getParameter("ts")))
+    		searchVo.setTsoId(Long.parseLong((String)request.getParameter("ts")));
     	
     	return searchVo;
     }
@@ -191,6 +249,10 @@ public class SearchVo {
     		sql += (hasClause ? "AND ":"WHERE ") + "address LIKE '%"+this.address+"%'";
     		hasClause = true;
     	}
+    	if(!Utils.isNullOrEmpty(this.pointName)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "pointName LIKE '%"+this.pointName+"%'";
+    		hasClause = true;
+    	}
     	if(this.regionId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "region.id = '"+this.regionId+"'";
     		hasClause = true;
@@ -215,7 +277,22 @@ public class SearchVo {
     		sql += (hasClause ? "AND ":"WHERE ") + "territory.id = '"+this.territoryId+"'";
     		hasClause = true;
     	}   	
-		
+    	if(this.tsoAsmRsmId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "tso.asm.rsm.id = '"+this.tsoAsmRsmId+"'";
+    		hasClause = true;
+    	}
+    	if(this.tsoAsmId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "tso.asm.id = '"+this.tsoAsmId+"'";
+    		hasClause = true;
+    	}
+    	if(this.tsoId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "tso.id = '"+this.tsoId+"'";
+    		hasClause = true;
+    	}
+    	if(this.asmAreaId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "asm.area.id = '"+this.asmAreaId+"'";
+    		hasClause = true;
+    	}
     	return sql;
 	}
 

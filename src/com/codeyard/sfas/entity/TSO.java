@@ -91,5 +91,8 @@ public class TSO extends AbstractBaseEntity{
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public String getName() {
+		return firstName+" "+lastName;
+	}
 
 }

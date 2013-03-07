@@ -91,6 +91,8 @@ public class ASM extends AbstractBaseEntity{
 	public void setRsm(RSM rsm) {
 		this.rsm = rsm;
 	}
-	
+	public String getName() {
+		return firstName+" "+lastName;
+	}	
 
 }

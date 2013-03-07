@@ -5,9 +5,9 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/tso.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/distributor.js"></script>
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="tso.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="distributor.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
@@ -15,20 +15,20 @@
 					<table cellspacing="10" cellpadding="0">
 						<tr>
 							<td>
-								<spring:message code="user.form.firstName"/> : <input type="text" id="fn" name="fn" />
+								<spring:message code="distributor.form.pointName"/> : <input type="text" id="pn" name="pn" />
 							</td>
 							<td>
-								<spring:message code="user.form.lastName"/> : <input type="text" id="ln" name="ln" />	
+								<spring:message code="rsm.form.address"/> : <input type="text" id="ad" name="ad" />	
 							</td>
 							<td>
-								<spring:message code="user.form.cellNumber"/> : <input type="text" id="mn" name="mn" />	
+								<spring:message code="distributor.form.contactNumber"/> : <input type="text" id="mn" name="mn" />	
 							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
 							<td>
 								<spring:message code="asm.form.rsm"/> : 
-								<select id="ars" name="ars">
+								<select id="tars" name="tars">
 									<option value=""></option>
 									<c:forEach items="${rsms}" var="rsm">
 										<option value="${rsm.id}">${rsm.firstName} ${rsm.lastName}-(${rsm.region.name})</option>
@@ -37,7 +37,7 @@
 							</td>
 							<td>
 								<spring:message code="tso.form.asm"/> : 
-								<select id="as" name="as">
+								<select id="tas" name="tas">
 									<option value=""></option>
 									<c:forEach items="${asms}" var="asm">
 										<option value="${asm.id}">${asm.firstName} ${asm.lastName}-(${asm.area.name})</option>
@@ -45,14 +45,14 @@
 								</select>	
 							</td>
 							<td>
-								<spring:message code="tso.form.territory"/> : 
-								<select id="tr" name="tr">
+								<spring:message code="distributor.form.tso"/> : 
+								<select id="ts" name="ts">
 									<option value=""></option>
-									<c:forEach items="${territories}" var="territory">
-										<option value="${territory.id}">${territory.name}</option>
+									<c:forEach items="${tsos}" var="tso">
+										<option value="${tso.id}">${tso.firstName} ${tso.lastName}-(${tso.territory.name})</option>
 									</c:forEach>
 								</select>	
-							</td>							
+							</td>														
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
@@ -65,9 +65,9 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-tso-grid"></div><br/>
+				<div id="admin-distributor-grid"></div><br/>
 				<center>
-					<input class="button orange" id="createNew" type="button" value='<spring:message code="tso.form.new"/>'/>
+					<input class="button orange" id="createNew" type="button" value='<spring:message code="distributor.form.new"/>'/>
 				</center>		
 			</div>
 		</div>
