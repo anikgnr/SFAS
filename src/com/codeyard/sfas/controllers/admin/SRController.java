@@ -23,6 +23,7 @@ import com.codeyard.sfas.entity.ASM;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Area;
 import com.codeyard.sfas.entity.RSM;
+import com.codeyard.sfas.entity.SR;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
@@ -30,66 +31,73 @@ import com.codeyard.sfas.vo.SearchVo;
 
 
 @Controller
-public class TSOController {
-	private static Logger logger = Logger.getLogger(TSOController.class);
+public class SRController {
+	private static Logger logger = Logger.getLogger(SRController.class);
 	
 	@Autowired(required=true)
 	private AdminService adminService;
 
 		   
-    @RequestMapping(value="/admin/tsoList.html", method=RequestMethod.GET)
+    @RequestMapping(value="/admin/srList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
-    	logger.debug(":::::::::: inside admin tso home:::::::::::::::::");
+    	logger.debug(":::::::::: inside admin sr home:::::::::::::::::");
     	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
     	model.addAttribute("asms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM"));
-    	model.addAttribute("territories", adminService.getAllLookUpEntity("Territory"));
-	    return "admin/tsoList";
+    	model.addAttribute("tsos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO"));    	
+	    return "admin/srList";
 	}    
     
     @SuppressWarnings("unchecked")
-	@RequestMapping(value = "/admin/completeTSOList.html", method=RequestMethod.GET)
+	@RequestMapping(value = "/admin/completeSRList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> tsoList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO");
-    	map.put("tso", tsoList);
+    	List<AbstractBaseEntity> srList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"SR");
+    	map.put("sr", srList);
 		return map;
     }
     
-    @RequestMapping(value="/admin/tso.html", method=RequestMethod.GET)
+    @RequestMapping(value="/admin/sr.html", method=RequestMethod.GET)
     public ModelAndView addEditEntity(HttpServletRequest request,Model model) {
-    	logger.debug(":::::::::: inside admin add/edit tso form:::::::::::::::::");
-    	TSO tso=null;
+    	logger.debug(":::::::::: inside admin add/edit sr form:::::::::::::::::");
+    	SR sr=null;
     	if(request.getParameter("id") != null)
-    		tso = (TSO)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"TSO");    		
+    		sr = (SR)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"SR");    		
     	else
-    		tso = new TSO();
+    		sr = new SR();
     	
     	Map<Long,String> rsms = new LinkedHashMap<Long,String>();
     	for(AbstractBaseEntity entity : adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM")){
     		RSM rsm = (RSM)entity;
-    		rsms.put(rsm.getId(), rsm.getFirstName()+" "+rsm.getLastName()+"-"+rsm.getRegion().getName());    	
+    		rsms.put(rsm.getId(), rsm.getFirstName()+" "+rsm.getLastName()+"-("+rsm.getRegion().getName()+")");    	
     	}
     	model.addAttribute("rsms", rsms);    	
 
     	Map<Long,String> asms = new LinkedHashMap<Long,String>();
     	SearchVo searchVo = new SearchVo();
-    	if(tso.getAsm().getRsm().getId() == null || tso.getAsm().getRsm().getId() == 0)
+    	if(sr.getTso().getAsm().getRsm().getId() == null || sr.getTso().getAsm().getRsm().getId() == 0)
     		searchVo.setRsmId(-1);
     	else
-    		searchVo.setRsmId(tso.getAsm().getRsm().getId());
+    		searchVo.setRsmId(sr.getTso().getAsm().getRsm().getId());
     	for(AbstractBaseEntity entity : adminService.getEnityList(searchVo,"ASM")){
     		ASM asm = (ASM)entity;
-    		asms.put(asm.getId(), asm.getFirstName()+" "+asm.getLastName()+"-"+asm.getArea().getName());    	
+    		asms.put(asm.getId(), asm.getFirstName()+" "+asm.getLastName()+"-("+asm.getArea().getName()+")");    	
     	}
     	model.addAttribute("asms", asms);    	
 
-    	Map<Long,String> territories = new LinkedHashMap<Long,String>();
-    	for(AbstractLookUpEntity entity : adminService.getLookUpEntityList("Territory","area.id",tso.getAsm().getArea().getId())){
-    		territories.put(entity.getId(), entity.getName());
+    	Map<Long,String> tsos = new LinkedHashMap<Long,String>();
+    	searchVo = new SearchVo();
+    	if(sr.getTso().getAsm().getId() == null || sr.getTso().getAsm().getId() == 0)
+    		searchVo.setAsmId(-1);
+    	else
+    		searchVo.setAsmId(sr.getTso().getAsm().getId());
+    	for(AbstractBaseEntity entity : adminService.getEnityList(searchVo,"TSO")){
+    		TSO tso = (TSO)entity;
+    		tsos.put(tso.getId(), tso.getFirstName()+" "+tso.getLastName()+"-("+tso.getTerritory().getName()+")");    	
     	}
-    	model.addAttribute("territories", territories);    	
-	    return new ModelAndView("admin/tso", "command", tso);
-	}    
+    	model.addAttribute("tsos", tsos);    	
 
+    	return new ModelAndView("admin/sr", "command", sr);
+	}    
+/*
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/admin/asmListByRSM.html", method=RequestMethod.GET)
 	public @ResponseBody Map populateASMResponse(HttpServletRequest request, Map map) {
@@ -99,39 +107,39 @@ public class TSOController {
 		map.put("results", adminService.getEnityList(searchVo,"ASM"));
 		return map; 	
 	}
-	
+*/	
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/admin/territoryListByASM.html", method=RequestMethod.GET)
-	public @ResponseBody Map populateAreaResponse(HttpServletRequest request, Map map) {
-		Long asmId = Long.valueOf(request.getParameter("asm_id"));	
-		ASM asm = (ASM)adminService.loadEntityById(asmId,"ASM");    		
-		logger.debug("Area ID :: "+asm.getArea().getId());
-		map.put("results", adminService.getLookUpEntityList("Territory","area.id",asm.getArea().getId()));
+	@RequestMapping(value = "/admin/tsoListByASM.html", method=RequestMethod.GET)
+	public @ResponseBody Map populateTSOResponse(HttpServletRequest request, Map map) {
+		Long asmId = Long.valueOf(request.getParameter("asm_id"));
+		SearchVo searchVo = new SearchVo();
+		searchVo.setAsmId(asmId);
+		map.put("results", adminService.getEnityList(searchVo,"TSO"));
 		return map; 	
 	}
 	
-    @RequestMapping(value="/admin/saveTSO.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("tso") TSO tso, BindingResult result) {
-    	logger.debug(":::::::::: inside admin save or edit tso:::::::::::::::::");
+    
+    @RequestMapping(value="/admin/saveSR.html", method=RequestMethod.POST)	
+    public String saveUpdateEntity(@ModelAttribute("sr") SR sr, BindingResult result) {
+    	logger.debug(":::::::::: inside admin save or edit sr:::::::::::::::::");
     	
     	try{    		
-    		tso.setAsm((ASM)adminService.loadEntityById(tso.getAsm().getId(),"ASM"));
-    		tso.setTerritory((Territory)adminService.loadLookUpEntityById(tso.getTerritory().getId(), "Territory"));
-    		adminService.saveOrUpdate(tso);
+    		sr.setTso((TSO)adminService.loadEntityById(sr.getTso().getId(),"TSO"));    		
+    		adminService.saveOrUpdate(sr);
     	}catch(Exception ex){
-    		logger.debug("Error while saving/updating tso :: "+ex);
+    		logger.debug("Error while saving/updating sr :: "+ex);
     	}
     	
-	    return "redirect:/admin/tsoList.html";
+	    return "redirect:/admin/srList.html";
 	}    
     
-    @RequestMapping(value="/admin/tsoDelete.html", method=RequestMethod.GET)
+    @RequestMapping(value="/admin/srDelete.html", method=RequestMethod.GET)
     public String deleteEntity(HttpServletRequest request,Model model) {
-    	logger.debug(":::::::::: inside admin delete tso form:::::::::::::::::");
+    	logger.debug(":::::::::: inside admin delete sr form:::::::::::::::::");
     	
     	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"TSO");    		
+    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"SR");    		
     	    	
-	    return "redirect:/admin/tsoList.html";
+	    return "redirect:/admin/srList.html";
 	}        
 }
