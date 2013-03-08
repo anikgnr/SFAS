@@ -30,7 +30,9 @@ public class SR extends AbstractBaseEntity{
     @JoinColumn(name="tso_id")
     private TSO tso;
     
-    
+    @Column(name = "monthly_gross")
+    private Double monthlyGross;
+
     public SR(){
     	active = true;
     	tso = new TSO();    	
@@ -82,6 +84,12 @@ public class SR extends AbstractBaseEntity{
 	}
 	public void setTso(TSO tso) {
 		this.tso = tso;
+	}
+	public Double getMonthlyGross() {
+		return monthlyGross;
+	}
+	public void setMonthlyGross(Double monthlyGross) {
+		this.monthlyGross = monthlyGross;
 	}
 
 	

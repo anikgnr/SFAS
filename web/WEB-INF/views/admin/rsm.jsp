@@ -52,6 +52,11 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
+							<tr>
+								<td><spring:message code="rsm.form.gross"/> : <span class="required">*</span></td>
+								<td><form:input path="monthlyGross" cssStyle="width: 140px;"/>&nbsp;Tk</td>
+								<td colspan="4" class="inputerrormsg">&nbsp;</td>							
+							</tr>						
 							<tr><td>&nbsp;</td></tr>													 
 							<tr><td>&nbsp;</td></tr>
 							<tr>

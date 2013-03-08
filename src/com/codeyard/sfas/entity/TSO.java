@@ -34,6 +34,10 @@ public class TSO extends AbstractBaseEntity{
     @ManyToOne(optional=true)
     @JoinColumn(name="territory_id")
     private Territory territory;
+
+    @Column(name = "monthly_gross")
+    private Double monthlyGross;
+
     
     public TSO(){
     	active = true;
@@ -93,6 +97,12 @@ public class TSO extends AbstractBaseEntity{
 	}
 	public String getName() {
 		return firstName+" "+lastName;
+	}
+	public Double getMonthlyGross() {
+		return monthlyGross;
+	}
+	public void setMonthlyGross(Double monthlyGross) {
+		this.monthlyGross = monthlyGross;
 	}
 
 }

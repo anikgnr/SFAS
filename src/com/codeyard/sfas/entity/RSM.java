@@ -30,6 +30,9 @@ public class RSM extends AbstractBaseEntity{
     @JoinColumn(name="region_id")
     private Region region;
     
+    @Column(name = "monthly_gross")
+    private Double monthlyGross;
+
 
     public RSM(){
     	active = true;
@@ -83,4 +86,11 @@ public class RSM extends AbstractBaseEntity{
 	public String getName() {
 		return firstName+" "+lastName;
 	}
+	public Double getMonthlyGross() {
+		return monthlyGross;
+	}
+	public void setMonthlyGross(Double monthlyGross) {
+		this.monthlyGross = monthlyGross;
+	}
+	
 }

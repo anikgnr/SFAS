@@ -108,6 +108,11 @@ $(function () {
 		if ($("#areaId").val() == '') {			
             flag = addError("#areaId", '');        
         }
+		if ($("#monthlyGross").val() == '') {			
+            flag = addError("#monthlyGross", '');        
+        }else if (isNotNumber($("#monthlyGross").val())) {
+        	flag = addError("#monthlyGross", 'Invalid Amount !!');      
+        }
 		
 		if(flag)
 			return false;

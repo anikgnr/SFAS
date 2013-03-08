@@ -89,7 +89,12 @@ $(function () {
 		if ($("#regionId").val() == '') {			
             flag = addError("#regionId", '');        
         }
-		
+		if ($("#monthlyGross").val() == '') {			
+            flag = addError("#monthlyGross", '');        
+        }else if (isNotNumber($("#monthlyGross").val())) {
+        	flag = addError("#monthlyGross", 'Invalid Amount !!');      
+        }
+        	
 		if(flag)
 			return false;
 	});

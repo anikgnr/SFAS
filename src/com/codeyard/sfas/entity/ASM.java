@@ -34,6 +34,9 @@ public class ASM extends AbstractBaseEntity{
     @JoinColumn(name="area_id")
     private Area area;
     
+    @Column(name = "monthly_gross")
+    private Double monthlyGross;
+
 
     public ASM(){
     	active = true;
@@ -93,6 +96,12 @@ public class ASM extends AbstractBaseEntity{
 	}
 	public String getName() {
 		return firstName+" "+lastName;
+	}
+	public Double getMonthlyGross() {
+		return monthlyGross;
+	}
+	public void setMonthlyGross(Double monthlyGross) {
+		this.monthlyGross = monthlyGross;
 	}	
 
 }
