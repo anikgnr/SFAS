@@ -15,6 +15,7 @@ public class SearchVo {
 	private String address;
 	private String pointName;
 	private String productName;
+	private String name;
 	private String bagSize;
     private Double rate;
 	private Double profitMargin;
@@ -44,6 +45,7 @@ public class SearchVo {
 		this.address = null;
 		this.pointName = null;
 		this.productName = null;
+		this.name = null;
 		this.bagSize = null;
 		this.rate = 0.0;
 		this.profitMargin= 0.0;
@@ -268,6 +270,14 @@ public class SearchVo {
 		this.profitMargin = profitMargin;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public static SearchVo fetchFromRequest(HttpServletRequest request){
     	SearchVo searchVo = new SearchVo();
     	
@@ -285,6 +295,8 @@ public class SearchVo {
     		searchVo.setAddress((String)request.getParameter("ad"));
     	if(request.getParameter("pn") != null && !Utils.isNullOrEmpty((String)request.getParameter("pn")))
     		searchVo.setPointName((String)request.getParameter("pn"));
+    	if(request.getParameter("nm") != null && !Utils.isNullOrEmpty((String)request.getParameter("nm")))
+    		searchVo.setName((String)request.getParameter("nm"));
     	if(request.getParameter("rg") != null && !Utils.isNullOrEmpty((String)request.getParameter("rg")))
     		searchVo.setRegionId(Long.parseLong((String)request.getParameter("rg")));
     	if(request.getParameter("ia") != null && !Utils.isNullOrEmpty((String)request.getParameter("ia")))
@@ -320,7 +332,7 @@ public class SearchVo {
       	if(request.getParameter("rt") != null && !Utils.isNullOrEmpty((String)request.getParameter("rt")))
     		searchVo.setRate(Double.parseDouble((String)request.getParameter("rt")));
       	if(request.getParameter("pfm") != null && !Utils.isNullOrEmpty((String)request.getParameter("pfm")))
-    		searchVo.setProfitMargin(Double.parseDouble((String)request.getParameter("pfm")));
+    		searchVo.setProfitMargin(Double.parseDouble((String)request.getParameter("pfm")));      	
       	
     	
     	return searchVo;
@@ -363,6 +375,10 @@ public class SearchVo {
     	}
     	if(!Utils.isNullOrEmpty(this.productName)){
     		sql += (hasClause ? "AND ":"WHERE ") + "productName LIKE '%"+this.productName+"%'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(this.name)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "name LIKE '%"+this.name+"%'";
     		hasClause = true;
     	}
     	if(!Utils.isNullOrEmpty(this.bagSize)){
