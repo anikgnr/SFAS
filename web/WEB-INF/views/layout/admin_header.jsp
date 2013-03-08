@@ -53,7 +53,10 @@
 							<a id="menu7" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>
 						</li>
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu8" href="<%= contextPath %>/admin/depoList.html" title="">Depo Module</a>
+							<a id="menu8" href="<%= contextPath %>/admin/productList.html" title="">Product Module</a>
+						</li>												
+						<li id="nav_menu_1" class="left  ">
+							<a id="menu9" href="<%= contextPath %>/admin/depoList.html" title="">Depo Module</a>
 						</li>												
 					</ul>
 				</div>

@@ -24,6 +24,11 @@ public class SearchVo {
 	private long tsoAsmId;
 	private long tsoId;
 	private long asmAreaId;
+	private long tsoTerritoryId;
+	private long distributorTsoAsmRsmId;
+	private long distributorTsoAsmId;
+	private long distributorTsoId;
+	private long distributorId;
 	
 	public SearchVo(){
 		this.firstName = null;
@@ -44,6 +49,12 @@ public class SearchVo {
 		this.tsoAsmId = 0;
 		this.tsoId = 0;
 		this.asmAreaId = 0;
+		this.tsoTerritoryId = 0;
+		this.distributorTsoAsmRsmId = 0;
+		this.distributorTsoAsmId = 0;
+		this.distributorTsoId = 0;
+		this.distributorId = 0;
+
 	}
 	
 	public String getFirstName() {
@@ -176,6 +187,45 @@ public class SearchVo {
 	public void setPointName(String pointName) {
 		this.pointName = pointName;
 	}
+	public long getTsoTerritoryId() {
+		return tsoTerritoryId;
+	}
+
+	public void setTsoTerritoryId(long tsoTerritoryId) {
+		this.tsoTerritoryId = tsoTerritoryId;
+	}
+	
+	public long getDistributorTsoAsmRsmId() {
+		return distributorTsoAsmRsmId;
+	}
+
+	public void setDistributorTsoAsmRsmId(long distributorTsoAsmRsmId) {
+		this.distributorTsoAsmRsmId = distributorTsoAsmRsmId;
+	}
+
+	public long getDistributorTsoAsmId() {
+		return distributorTsoAsmId;
+	}
+
+	public void setDistributorTsoAsmId(long distributorTsoAsmId) {
+		this.distributorTsoAsmId = distributorTsoAsmId;
+	}
+
+	public long getDistributorTsoId() {
+		return distributorTsoId;
+	}
+
+	public void setDistributorTsoId(long distributorTsoId) {
+		this.distributorTsoId = distributorTsoId;
+	}
+
+	public long getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(long distributorId) {
+		this.distributorId = distributorId;
+	}
 
 	public static SearchVo fetchFromRequest(HttpServletRequest request){
     	SearchVo searchVo = new SearchVo();
@@ -214,6 +264,14 @@ public class SearchVo {
     		searchVo.setTsoAsmId(Long.parseLong((String)request.getParameter("tas")));
       	if(request.getParameter("ts") != null && !Utils.isNullOrEmpty((String)request.getParameter("ts")))
     		searchVo.setTsoId(Long.parseLong((String)request.getParameter("ts")));
+      	if(request.getParameter("dtars") != null && !Utils.isNullOrEmpty((String)request.getParameter("dtars")))
+    		searchVo.setDistributorTsoAsmRsmId(Long.parseLong((String)request.getParameter("dtars")));
+      	if(request.getParameter("dtas") != null && !Utils.isNullOrEmpty((String)request.getParameter("dtas")))
+    		searchVo.setDistributorTsoAsmId(Long.parseLong((String)request.getParameter("dtas")));
+      	if(request.getParameter("dts") != null && !Utils.isNullOrEmpty((String)request.getParameter("dts")))
+    		searchVo.setDistributorTsoId(Long.parseLong((String)request.getParameter("dts")));
+      	if(request.getParameter("dr") != null && !Utils.isNullOrEmpty((String)request.getParameter("dr")))
+    		searchVo.setDistributorId(Long.parseLong((String)request.getParameter("dr")));
     	
     	return searchVo;
     }
@@ -293,7 +351,27 @@ public class SearchVo {
     		sql += (hasClause ? "AND ":"WHERE ") + "asm.area.id = '"+this.asmAreaId+"'";
     		hasClause = true;
     	}
+    	if(this.tsoTerritoryId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "tso.territory.id = '"+this.tsoTerritoryId+"'";
+    		hasClause = true;
+    	}
+    	if(this.distributorTsoAsmRsmId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.tso.asm.rsm.id = '"+this.distributorTsoAsmRsmId+"'";
+    		hasClause = true;
+    	}
+    	if(this.distributorTsoAsmId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.tso.asm.id = '"+this.distributorTsoAsmId+"'";
+    		hasClause = true;
+    	}
+    	if(this.distributorTsoId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.tso.id = '"+this.distributorTsoId+"'";
+    		hasClause = true;
+    	}
+    	if(this.distributorId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.id = '"+this.distributorId+"'";
+    		hasClause = true;
+    	}
     	return sql;
 	}
-
+	
 }
