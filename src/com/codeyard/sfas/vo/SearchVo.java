@@ -14,6 +14,10 @@ public class SearchVo {
 	private String isActive;
 	private String address;
 	private String pointName;
+	private String productName;
+	private String bagSize;
+    private Double rate;
+	private Double profitMargin;
 	private long regionId;
 	private long areaId;
 	private long rsmId;
@@ -39,6 +43,10 @@ public class SearchVo {
 		this.isActive = null;
 		this.address = null;
 		this.pointName = null;
+		this.productName = null;
+		this.bagSize = null;
+		this.rate = 0.0;
+		this.profitMargin= 0.0;
 		this.regionId = 0;
 		this.areaId = 0;
 		this.rsmId = 0;
@@ -226,6 +234,39 @@ public class SearchVo {
 	public void setDistributorId(long distributorId) {
 		this.distributorId = distributorId;
 	}
+	
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getBagSize() {
+		return bagSize;
+	}
+
+	public void setBagSize(String bagSize) {
+		this.bagSize = bagSize;
+	}
+
+	public Double getRate() {
+		return rate;
+	}
+
+	public void setRate(Double rate) {
+		this.rate = rate;
+	}
+
+	public Double getProfitMargin() {
+		return profitMargin;
+	}
+
+	public void setProfitMargin(Double profitMargin) {
+		this.profitMargin = profitMargin;
+	}
 
 	public static SearchVo fetchFromRequest(HttpServletRequest request){
     	SearchVo searchVo = new SearchVo();
@@ -272,6 +313,15 @@ public class SearchVo {
     		searchVo.setDistributorTsoId(Long.parseLong((String)request.getParameter("dts")));
       	if(request.getParameter("dr") != null && !Utils.isNullOrEmpty((String)request.getParameter("dr")))
     		searchVo.setDistributorId(Long.parseLong((String)request.getParameter("dr")));
+      	if(request.getParameter("prn") != null && !Utils.isNullOrEmpty((String)request.getParameter("prn")))
+    		searchVo.setProductName((String)request.getParameter("prn"));
+      	if(request.getParameter("bs") != null && !Utils.isNullOrEmpty((String)request.getParameter("bs")))
+    		searchVo.setBagSize((String)request.getParameter("bs"));
+      	if(request.getParameter("rt") != null && !Utils.isNullOrEmpty((String)request.getParameter("rt")))
+    		searchVo.setRate(Double.parseDouble((String)request.getParameter("rt")));
+      	if(request.getParameter("pfm") != null && !Utils.isNullOrEmpty((String)request.getParameter("pfm")))
+    		searchVo.setProfitMargin(Double.parseDouble((String)request.getParameter("pfm")));
+      	
     	
     	return searchVo;
     }
@@ -309,6 +359,22 @@ public class SearchVo {
     	}
     	if(!Utils.isNullOrEmpty(this.pointName)){
     		sql += (hasClause ? "AND ":"WHERE ") + "pointName LIKE '%"+this.pointName+"%'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(this.productName)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "productName LIKE '%"+this.productName+"%'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(this.bagSize)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "bagSize LIKE '%"+this.bagSize+"%'";
+    		hasClause = true;
+    	}
+    	if(this.rate != 0.0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "rate = '"+this.rate+"'";
+    		hasClause = true;
+    	}
+    	if(this.profitMargin != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "profitMargin = '"+this.profitMargin+"'";
     		hasClause = true;
     	}
     	if(this.regionId != 0){

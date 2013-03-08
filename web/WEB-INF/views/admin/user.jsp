@@ -11,7 +11,7 @@
 		<h3 class="maintitle"><spring:message code="user.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
-				<div id="formBlock">
+				<div id="formBlock" style="padding-left:160px" >
 					<form:form method="post" action="./saveUser.html">
 						<form:hidden path="id"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">

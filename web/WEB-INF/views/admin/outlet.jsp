@@ -19,8 +19,7 @@
 								<td width="150px;"><spring:message code="outlet.form.pointName"/> : <span class="required">*</span></td>
 								<td width="180px;"><form:input path="pointName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
-							</tr>
-							<tr>
+							
 								<td><spring:message code="rsm.form.address"/> : <span class="required">*</span></td>
 								<td><form:input path="address" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -29,8 +28,7 @@
 								<td><spring:message code="outlet.form.ownerName"/> : </td>
 								<td><form:input path="ownerName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="outlet.form.ownerNumber"/> : </td>
 								<td><form:input path="mobileNumber" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -39,8 +37,7 @@
 								<td><spring:message code="outlet.form.sellerName"/> : </td>
 								<td><form:input path="sellerName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="outlet.form.sellerNumber"/> : </td>
 								<td><form:input path="sellerNumber" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -54,8 +51,7 @@
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="asm.form.area"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="areaId" path="distributor.tso.asm.area.id">
@@ -74,8 +70,7 @@
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="outlet.form.distributor"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="distributorId" path="distributor.id">
@@ -96,12 +91,11 @@
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr><td>&nbsp;</td></tr>													 
+							<tr><td>&nbsp;</td></tr>
 							<tr>
-								<td>&nbsp;</td>
-								<td style="text-align: right;">
+								<td colspan="5" style="text-align: center;">
 									<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>' onclick="clearErrors();"/>&nbsp;<input class="button orange" id="saveBtn" name="saveBtn" type="submit" value='<spring:message code="save.button.title"/>'/>
 								</td>
-								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 						</table>
 					</form:form>

@@ -6,41 +6,36 @@
 <html>
 
 <body>
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/rsm.js"></script>	
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/product.js"></script>	
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="rsm.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="product.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="formBlock">
-					<form:form method="post" action="./saveRSM.html">
+					<form:form method="post" action="./saveProduct.html">
 						<form:hidden path="id"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
-								<td width="150px;"><spring:message code="user.form.firstName"/> : <span class="required">*</span></td>
-								<td width="180px;"><form:input path="firstName" /></td>
+								<td width="150px;"><spring:message code="product.form.productName"/> : <span class="required">*</span></td>
+								<td width="180px;"><form:input path="productName" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+								
+								<td><spring:message code="product.form.description"/> : </td>
+								<td><form:input path="productDescription" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
+							</tr>
+							<tr>
+								<td><spring:message code="product.form.bagSize"/> : <span class="required">*</span></td>
+								<td><form:input path="bagSize" style="width: 100px"/>&nbsp;Pcs</td>
+								<td class="inputerrormsg">&nbsp;</td>
 							
-								<td><spring:message code="user.form.lastName"/> : <span class="required">*</span></td>
-								<td><form:input path="lastName" /></td>
+								<td><spring:message code="product.form.rate"/> : <span class="required">*</span></td>
+								<td><form:input path="rate"  style="width: 100px"/>&nbsp;Tk</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr>
-								<td><spring:message code="user.form.cellNumber"/> : <span class="required">*</span></td>
-								<td><form:input path="mobileNumber" /></td>
-								<td class="inputerrormsg">&nbsp;</td>
-							
-								<td><spring:message code="rsm.form.address"/> : </td>
-								<td><form:input path="address" /></td>
-								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><spring:message code="rsm.form.region"/> : <span class="required">*</span></td>
-								<td>
-									<form:select id="regionId" path="region.id">
-									 	<form:option value="" label=""/>
-	    								<form:options items="${regions}" />
-									</form:select>
-								</td>
+								<td><spring:message code="product.form.profitMargin"/> : <span class="required">*</span></td>
+								<td><form:input path="profitMargin" style="width: 100px"/>&nbsp;%</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							
 								<td><spring:message code="user.form.isActive"/> : </td>
@@ -52,9 +47,9 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
-							<tr><td>&nbsp;</td></tr>													 
 							<tr><td>&nbsp;</td></tr>
-							<tr>
+							<tr><td>&nbsp;</td></tr>																		 
+							<tr>								
 								<td colspan="5" style="text-align: center;">
 									<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>' onclick="clearErrors();"/>&nbsp;<input class="button orange" id="saveBtn" name="saveBtn" type="submit" value='<spring:message code="save.button.title"/>'/>
 								</td>								

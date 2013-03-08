@@ -19,8 +19,7 @@
 								<td width="150px;"><spring:message code="user.form.firstName"/> : <span class="required">*</span></td>
 								<td width="180px;"><form:input path="firstName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
-							</tr>
-							<tr>
+							
 								<td><spring:message code="user.form.lastName"/> : <span class="required">*</span></td>
 								<td><form:input path="lastName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -29,8 +28,7 @@
 								<td><spring:message code="user.form.cellNumber"/> : <span class="required">*</span></td>
 								<td><form:input path="mobileNumber" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="rsm.form.address"/> : </td>
 								<td><form:input path="address" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
@@ -44,8 +42,7 @@
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="tso.form.asm"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="asmId" path="tso.asm.id">
@@ -64,8 +61,7 @@
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+							
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">
@@ -76,12 +72,11 @@
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr><td>&nbsp;</td></tr>													 
-							<tr>
-								<td>&nbsp;</td>
-								<td style="text-align: right;">
+							<tr><td>&nbsp;</td></tr>
+							<tr>								
+								<td colspan="5" style="text-align: center;">
 									<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>' onclick="clearErrors();"/>&nbsp;<input class="button orange" id="saveBtn" name="saveBtn" type="submit" value='<spring:message code="save.button.title"/>'/>
 								</td>
-								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 						</table>
 					</form:form>
