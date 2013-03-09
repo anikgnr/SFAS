@@ -50,6 +50,16 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
+							<tr id="inventoryBlock">
+								<td><spring:message code="user.form.inventory"/> : <span class="required">*</span></td>
+								<td>
+									<form:select path="inventoryId">
+									 	<form:option value="" label=""/>
+	    								<form:options items="${inventories}" />
+									</form:select>
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
 							<tr>
 								<td><spring:message code="user.form.cellNumber"/> : <span class="required">*</span></td>
 								<td><form:input path="mobileNumber" /></td>

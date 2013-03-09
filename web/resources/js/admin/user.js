@@ -72,7 +72,22 @@ $(function () {
 	/********************************************************************************************************************
 	 *										For Add/Edit User Page 										
 	/********************************************************************************************************************/
+	if($("#inventoryBlock").length > 0)
+		loadInventoryBlock();
 	
+	$("#role").bind('change', function () {
+		loadInventoryBlock();
+	});
+	
+	function loadInventoryBlock(){
+		if($("#role").val() == 'ROLE_INVENTORY_ADMIN' || $("#role").val() == 'ROLE_INVENTORY_OPERATOR'){
+			 $("#inventoryBlock").show();
+		 }else{
+			 $("#inventoryBlock").hide();
+			 $("#inventoryId").val('');
+		 }
+	}
+
 	$("#saveBtn").click(function(){
 		clearErrors();
 		flag = false;
@@ -93,6 +108,8 @@ $(function () {
         }
 		if ($("#role").val() == '') {
             flag = addError("#role", '');
+        }else if(($("#role").val() == 'ROLE_INVENTORY_ADMIN' || $("#role").val() == 'ROLE_INVENTORY_OPERATOR') && $("#inventoryId").val() == ''){
+        	flag = addError("#inventoryId", '');
         }
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');
