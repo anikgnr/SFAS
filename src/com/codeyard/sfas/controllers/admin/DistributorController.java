@@ -1,5 +1,6 @@
 package com.codeyard.sfas.controllers.admin; 
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,13 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.ASM;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Area;
+import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.Distributor;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Constants;
 import com.codeyard.sfas.vo.SearchVo;
 
 
@@ -44,6 +47,7 @@ public class DistributorController {
     	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
     	model.addAttribute("asms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM"));
     	model.addAttribute("tsos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO"));
+    	model.addAttribute("depos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"Depo"));
     	return "admin/distributorList";
 	}    
     
@@ -87,6 +91,19 @@ public class DistributorController {
     	}
     	model.addAttribute("tsos", tsos);    	
 
+    	Map<Long,String> depos = new LinkedHashMap<Long,String>();
+    	depos.put(Constants.companyInventoryId, Constants.companyInventoryName);
+    	searchVo = new SearchVo();
+    	if(distributor.getTso().getAsm().getRsm().getId() == null || distributor.getTso().getAsm().getRsm().getId() == 0)
+    		searchVo.setRsmId(-1);
+    	else
+    		searchVo.setRsmId(distributor.getTso().getAsm().getRsm().getId());    	
+    	for(AbstractBaseEntity entity : adminService.getEnityList(searchVo,"Depo")){
+    		Depo depo = (Depo)entity;
+    		depos.put(depo.getId(), depo.getName());    	
+    	}
+    	model.addAttribute("depos", depos);    	
+
     	return new ModelAndView("admin/distributor", "command", distributor);
 	}    
 
@@ -105,6 +122,22 @@ public class DistributorController {
 		SearchVo searchVo = new SearchVo();
 		searchVo.setAsmAreaId(areaId);
 		map.put("results", adminService.getEnityList(searchVo,"TSO"));
+		return map; 	
+	}
+	
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/admin/depoListByTso.html", method=RequestMethod.GET)
+	public @ResponseBody Map populateDepoResponse(HttpServletRequest request, Map map) {
+		Long tsoId = Long.valueOf(request.getParameter("tso_id"));
+		TSO tso = (TSO)adminService.loadEntityById(tsoId,"TSO");
+		SearchVo searchVo = new SearchVo();
+		searchVo.setRsmId(tso.getAsm().getRsm().getId());
+		List<AbstractBaseEntity> depos = new ArrayList<AbstractBaseEntity>();
+		depos.add(adminService.loadEntityById(Constants.companyInventoryId,"Depo"));
+		List<AbstractBaseEntity> depoList = adminService.getEnityList(searchVo,"Depo");
+		if(depoList != null && depoList.size() > 0)
+			depos.addAll(depoList);
+		map.put("results", depos);
 		return map; 	
 	}
 	

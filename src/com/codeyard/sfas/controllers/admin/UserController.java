@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
-import com.codeyard.sfas.entity.Inventory;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
@@ -38,8 +37,7 @@ public class UserController {
 	public String userPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin user home:::::::::::::::::");
     	model.addAttribute("roles", Role.getAllRoles());
-    	model.addAttribute("inventories", adminService.getEnityList(new SearchVo(), "Inventory"));
-	    return "admin/userList";
+    	return "admin/userList";
 	}    
     
     @SuppressWarnings("unchecked")
@@ -64,14 +62,7 @@ public class UserController {
     		roles.put(role.getValue(), role.getLabel());
     	
     	model.addAttribute("roles", roles);
-    	
-    	Map<Long,String> inventories = new LinkedHashMap<Long,String>();
-    	for(AbstractBaseEntity entity : adminService.getEnityList(new SearchVo(), "Inventory")){
-    		Inventory inventory = (Inventory)entity;
-    		inventories.put(inventory.getId(), inventory.getName());
-    	}
-    	model.addAttribute("inventories", inventories);
-	    
+    	    	
     	return new ModelAndView("admin/user", "command", user);
 	}    
 

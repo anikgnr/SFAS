@@ -90,7 +90,20 @@ $(function () {
 	              $("#tsoId").append("<option value='" + tso.id + "'>" + tso.firstName +" "+tso.lastName+"-("+tso.territory.name +")</option>");
 	          });
 	     });
-         $("#tsoId").removeAttr("disabled");	
+         $("#tsoId").removeAttr("disabled");
+         $("#tsoId").trigger('change');
+	});
+	
+	$("#tsoId").bind('change', function () {	
+		 $("#depoId").attr("disabled", "disabled");
+	     $("#depoId option").remove();
+	     $("#depoId").append("<option value=''></option>");
+	     $.getJSON("./depoListByTso.html?tso_id=" + $(this).val(), function (json) {
+	          $.each(json.results, function (i, depo) {	              
+	              $("#depoId").append("<option value='" + depo.id + "'>" + depo.name +"</option>");
+	          });
+	     });
+        $("#depoId").removeAttr("disabled");	
 	});
 	
 	        
@@ -118,6 +131,9 @@ $(function () {
         }
 		if ($("#tsoId").val() == '') {			
             flag = addError("#tsoId", '');        
+        }
+		if ($("#depoId").val() == '') {			
+            flag = addError("#depoId", '');        
         }
 		
 		if(flag)

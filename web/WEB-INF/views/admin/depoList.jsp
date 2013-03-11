@@ -5,9 +5,9 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/inventory.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/depo.js"></script>
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="inventory.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="depo.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
@@ -15,19 +15,20 @@
 					<table cellspacing="10" cellpadding="0">
 						<tr>
 							<td>
-								<spring:message code="inventory.form.name"/> : <input type="text" id="nm" name="nm" />
+								<spring:message code="depo.form.name"/> : <input type="text" id="nm" name="nm" />
 							</td>
 							<td>
-								<spring:message code="inventory.form.location"/> : <input type="text" id="ad" name="ad" />	
+								<spring:message code="depo.form.location"/> : <input type="text" id="ad" name="ad" />	
 							</td>
 							<td>
-								<spring:message code="user.form.isActive"/> : 
-								<select id="ia" name="ia" style="width: 100px;">
+								<spring:message code="asm.form.rsm"/> : 
+								<select id="rs" name="rs">
 									<option value=""></option>
-									<option value="1">True</option>
-									<option value="0">False</option>
-								</select>							
-							</td>
+									<c:forEach items="${rsms}" var="rsm">
+										<option value="${rsm.id}">${rsm.firstName} ${rsm.lastName}-(${rsm.region.name})</option>
+									</c:forEach>
+								</select>	
+							</td>							
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
@@ -40,9 +41,9 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-inventory-grid"></div><br/>
+				<div id="admin-depo-grid"></div><br/>
 				<center>
-					<input class="button orange" id="createNew" type="button" value='<spring:message code="inventory.form.new"/>'/>
+					<input class="button orange" id="createNew" type="button" value='<spring:message code="depo.form.new"/>'/>
 				</center>		
 			</div>
 		</div>

@@ -34,6 +34,7 @@ public class SearchVo {
 	private long distributorTsoAsmId;
 	private long distributorTsoId;
 	private long distributorId;
+	private long depoId;
 	
 	public SearchVo(){
 		this.firstName = null;
@@ -64,7 +65,7 @@ public class SearchVo {
 		this.distributorTsoAsmId = 0;
 		this.distributorTsoId = 0;
 		this.distributorId = 0;
-
+		this.depoId = 0;
 	}
 	
 	public String getFirstName() {
@@ -278,6 +279,14 @@ public class SearchVo {
 		this.name = name;
 	}
 
+	public long getDepoId() {
+		return depoId;
+	}
+
+	public void setDepoId(long depoId) {
+		this.depoId = depoId;
+	}
+
 	public static SearchVo fetchFromRequest(HttpServletRequest request){
     	SearchVo searchVo = new SearchVo();
     	
@@ -333,7 +342,8 @@ public class SearchVo {
     		searchVo.setRate(Double.parseDouble((String)request.getParameter("rt")));
       	if(request.getParameter("pfm") != null && !Utils.isNullOrEmpty((String)request.getParameter("pfm")))
     		searchVo.setProfitMargin(Double.parseDouble((String)request.getParameter("pfm")));      	
-      	
+      	if(request.getParameter("dp") != null && !Utils.isNullOrEmpty((String)request.getParameter("dp")))
+    		searchVo.setDepoId(Long.parseLong((String)request.getParameter("dp")));            	
     	
     	return searchVo;
     }
@@ -451,6 +461,10 @@ public class SearchVo {
     	}
     	if(this.distributorId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "distributor.id = '"+this.distributorId+"'";
+    		hasClause = true;
+    	}
+    	if(this.depoId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "depo.id = '"+this.depoId+"'";
     		hasClause = true;
     	}
     	return sql;

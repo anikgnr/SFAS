@@ -6,26 +6,43 @@
 <html>
 
 <body>
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/inventory.js"></script>	
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/depo.js"></script>	
 	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
-		<h3 class="maintitle"><spring:message code="user.form.title"/></h3>
+		<h3 class="maintitle"><spring:message code="depo.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
-				<div id="formBlock" style="padding-left:160px" >
-					<form:form method="post" action="./saveInventory.html">
+				<div id="formBlock">
+					<form:form method="post" action="./saveDepo.html">
 						<form:hidden path="id"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
-								<td width="150px;"><spring:message code="inventory.form.name"/> : <span class="required">*</span></td>
+								<td width="150px;"><spring:message code="depo.form.name"/> : <span class="required">*</span></td>
 								<td width="180px;"><form:input path="name" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
-							</tr>
-							<tr>
-								<td><spring:message code="inventory.form.location"/> : <span class="required">*</span></td>
-								<td><form:textarea path="address" rows="5" cols="20" /></td>
+							
+								<td><spring:message code="depo.form.location"/> : <span class="required">*</span></td>
+								<td><form:input path="address" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr>
+								<td><spring:message code="distributor.form.contactName"/> : <span class="required">*</span></td>
+								<td><form:input path="contactName" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+							
+								<td><spring:message code="distributor.form.contactNumber"/> : <span class="required">*</span></td>
+								<td><form:input path="mobileNumber" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
+								<td><spring:message code="asm.form.rsm"/> : <span class="required">*</span></td>
+								<td>
+									<form:select id="rsmId" path="rsm.id">
+									 	<form:option value="" label=""/>
+	    								<form:options items="${rsms}" />
+									</form:select>
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>
+							
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">
@@ -35,13 +52,12 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
+							<tr><td>&nbsp;</td></tr>
 							<tr><td>&nbsp;</td></tr>													 
 							<tr>
-								<td>&nbsp;</td>
-								<td style="text-align: right;">
+								<td colspan="5" style="text-align: center;">
 									<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>' onclick="clearErrors();"/>&nbsp;<input class="button orange" id="saveBtn" name="saveBtn" type="submit" value='<spring:message code="save.button.title"/>'/>
-								</td>
-								<td class="inputerrormsg">&nbsp;</td>
+								</td>							
 							</tr>
 						</table>
 					</form:form>

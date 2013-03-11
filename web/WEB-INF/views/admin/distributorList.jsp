@@ -21,7 +21,13 @@
 								<spring:message code="rsm.form.address"/> : <input type="text" id="ad" name="ad" />	
 							</td>
 							<td>
-								<spring:message code="distributor.form.contactNumber"/> : <input type="text" id="mn" name="mn" />	
+								<spring:message code="distributor.form.depo"/> : 
+								<select id="dp" name="dp">
+									<option value=""></option>
+									<c:forEach items="${depos}" var="depo">
+										<option value="${depo.id}">${depo.fullName}</option>
+									</c:forEach>
+								</select>	
 							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>

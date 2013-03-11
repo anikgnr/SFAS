@@ -31,9 +31,6 @@ public class User extends AbstractBaseEntity{
     @Column(name = "mobile_number")
     private String mobileNumber;
 
-    @Column(name="inventory_id")
-    private Long inventoryId;
-    
     @Transient
     private String confirmPassword;
 
@@ -109,14 +106,6 @@ public class User extends AbstractBaseEntity{
 		return Role.getLabelForValue(role);
 	}
 	
-	public Long getInventoryId() {
-		return inventoryId;
-	}
-
-	public void setInventoryId(Long inventoryId) {
-		this.inventoryId = inventoryId;
-	}
-
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password

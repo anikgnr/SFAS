@@ -7,12 +7,12 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 
 @Entity
-@Table(name="cy_be_distributors")
-public class Distributor extends AbstractBaseEntity{
+@Table(name="cy_be_depos")
+public class Depo extends AbstractBaseEntity{
     
     
-    @Column(name = "point_name")
-    private String pointName;
+    @Column(name = "depo_name")
+    private String name;
     
     @Column(name = "address")
     private String address;
@@ -27,30 +27,23 @@ public class Distributor extends AbstractBaseEntity{
     private boolean active;
     
     @ManyToOne(optional=true)
-    @JoinColumn(name="tso_id")
-    private TSO tso;
-    
-    @ManyToOne(optional=true)
-    @JoinColumn(name="depo_id")
-    private Depo depo;
+    @JoinColumn(name="rsm_id")
+    private RSM rsm;
     
     @Column(name = "current_balance")
-    private Double currentBalance;    
+    private Double currentBalance;
+    
+    //company inventory is also going to be maintained as depo with this flag on
+    @Column(name = "is_company_inventory")
+    private boolean companyInventory;
+    
         
-    public Distributor(){
+    public Depo(){
     	active = true;
-    	tso = new TSO();  
-    	depo = new Depo();
+    	rsm = new RSM();
+    	companyInventory = false;
     }
-
-	public String getPointName() {
-		return pointName;
-	}
-
-	public void setPointName(String pointName) {
-		this.pointName = pointName;
-	}
-
+	
 	public String getAddress() {
 		return address;
 	}
@@ -83,14 +76,6 @@ public class Distributor extends AbstractBaseEntity{
 		this.active = active;
 	}
 
-	public TSO getTso() {
-		return tso;
-	}
-
-	public void setTso(TSO tso) {
-		this.tso = tso;
-	}
-
 	public Double getCurrentBalance() {
 		return currentBalance;
 	}
@@ -99,12 +84,34 @@ public class Distributor extends AbstractBaseEntity{
 		this.currentBalance = currentBalance;
 	}
 
-	public Depo getDepo() {
-		return depo;
+	public String getName() {
+		return name;
 	}
 
-	public void setDepo(Depo depo) {
-		this.depo = depo;
+	public void setName(String name) {
+		this.name = name;
 	}
 
+	public RSM getRsm() {
+		return rsm;
+	}
+
+	public void setRsm(RSM rsm) {
+		this.rsm = rsm;
+	}
+
+	public boolean isCompanyInventory() {
+		return companyInventory;
+	}
+
+	public void setCompanyInventory(boolean companyInventory) {
+		this.companyInventory = companyInventory;
+	}
+		
+	public String getFullName(){
+		if(this.companyInventory)
+			return this.name;
+		else
+			return this.name+" ("+this.rsm.getRegion().getName()+")";
+	}
 }

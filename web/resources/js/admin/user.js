@@ -72,21 +72,6 @@ $(function () {
 	/********************************************************************************************************************
 	 *										For Add/Edit User Page 										
 	/********************************************************************************************************************/
-	if($("#inventoryBlock").length > 0)
-		loadInventoryBlock();
-	
-	$("#role").bind('change', function () {
-		loadInventoryBlock();
-	});
-	
-	function loadInventoryBlock(){
-		if($("#role").val() == 'ROLE_INVENTORY_ADMIN' || $("#role").val() == 'ROLE_INVENTORY_OPERATOR'){
-			 $("#inventoryBlock").show();
-		 }else{
-			 $("#inventoryBlock").hide();
-			 $("#inventoryId").val('');
-		 }
-	}
 
 	$("#saveBtn").click(function(){
 		clearErrors();

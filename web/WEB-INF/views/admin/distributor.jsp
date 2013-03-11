@@ -62,6 +62,16 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							
+								<td><spring:message code="distributor.form.depo"/> : <span class="required">*</span></td>
+								<td>
+									<form:select id="depoId" path="depo.id">
+									 	<form:option value="" label=""/>
+	    								<form:options items="${depos}" />
+									</form:select>
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>							
+							</tr>
+							<tr>								
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">

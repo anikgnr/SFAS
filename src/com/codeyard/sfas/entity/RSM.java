@@ -6,6 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
+import com.codeyard.sfas.util.Utils;
+
 @Entity
 @Table(name="cy_be_rsms")
 public class RSM extends AbstractBaseEntity{
@@ -84,6 +86,8 @@ public class RSM extends AbstractBaseEntity{
 		this.region = region;
 	}
 	public String getName() {
+		if(Utils.isNullOrEmpty(firstName) && Utils.isNullOrEmpty(lastName))
+			return "";
 		return firstName+" "+lastName;
 	}
 	public Double getMonthlyGross() {
