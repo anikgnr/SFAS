@@ -1,4 +1,5 @@
 <%@ page import="java.security.Principal"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <%	
 	final String contextPath = request.getContextPath();
@@ -20,12 +21,12 @@
 </div>
 <div id="branding">
 	<div class="main_width">
+		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
+			<spring:message code="layout.module.admin"/>
+		</div>
 		<div id="logo">
 			<a href="#" title="Go to Home Page" rel="home" accesskey="1"><img src="<%=contextPath%>/resources/images/logo.png" alt="Logo"></a>
-		</div>
-		<!-- <div id="search" class="right">
-		test dialog
-		</div> -->
+		</div>		
 	</div>
 </div>
 <div id="primary_nav" class="clearfix">

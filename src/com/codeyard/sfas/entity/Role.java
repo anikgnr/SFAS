@@ -3,7 +3,7 @@ package com.codeyard.sfas.entity;
 
 public enum Role {
 	 ADMIN("Site Admin", "ROLE_ADMIN"), OPERATOR("Site Operator", "ROLE_OPERATOR"),
-	 INVENTORY_ADMIN("Inventory Admin", "ROLE_INVENTORY_ADMIN"), INVENTORY_OPERATOR("Inventory Operator", "ROLE_INVENTORY_OPERATOR"), 
+	 INVENTORY_ADMIN("Inventory Admin", "ROLE_INVENTORY_ADMIN"),// INVENTORY_OPERATOR("Inventory Operator", "ROLE_INVENTORY_OPERATOR"), 
 	 REPORT_MGR("Report Manager", "ROLE_REPORT_MGR"), REPORT_OPERATOR("Report Operator", "ROLE_REPORT_OPERATOR");
 	 
 	private String label;

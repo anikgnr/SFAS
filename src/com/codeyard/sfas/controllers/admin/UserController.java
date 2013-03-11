@@ -32,7 +32,12 @@ public class UserController {
 	@Autowired(required=true)
 	private AdminService adminService;
 
-		   
+	@RequestMapping(value="/admin/home.html", method=RequestMethod.GET)
+	public String adminHomePanel(HttpServletRequest request,Model model) {
+    	logger.debug(":::::::::: inside admin home:::::::::::::::::");
+    	return "admin/home";
+	}    
+    	   
     @RequestMapping(value="/admin/userList.html", method=RequestMethod.GET)
 	public String userPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin user home:::::::::::::::::");

@@ -31,7 +31,9 @@ public class LoginController {
 	public String forwardOnRole(HttpServletRequest request,Model model) {
 		logger.debug("::  LOGIN SUCCESSFUL :: ");
 		if(Utils.isInRole(Role.ADMIN.getValue())){
-			return "redirect:/admin/userList.html";
+			return "redirect:/admin/home.html";
+		}else if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+			return "redirect:/inventory/home.html";
 		}
 		return "login";
     }

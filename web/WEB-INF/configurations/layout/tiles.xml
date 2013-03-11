@@ -19,6 +19,14 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
     
+    <definition name="inventory.definition"
+        template="/WEB-INF/views/layout/layout.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="header" value="/WEB-INF/views/layout/inventory_header.jsp" />        
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+    
      <definition name="base.definition.withoutheaderfooter"
         template="/WEB-INF/views/layout/layoutWithoutHeaderFooter.jsp">
 		<!-- <put-attribute name="title" value="" /> -->
@@ -28,8 +36,13 @@
     <definition name="login" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
     </definition>
+    
     <definition name="admin/*" extends="admin.definition">
         <put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>
+    
+    <definition name="inventory/*" extends="inventory.definition">
+        <put-attribute name="body" value="/WEB-INF/views/inventory/{1}.jsp" />
     </definition>
     
 </tiles-definitions>
