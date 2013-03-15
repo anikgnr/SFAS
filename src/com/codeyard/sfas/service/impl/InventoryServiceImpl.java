@@ -20,6 +20,7 @@ import com.codeyard.sfas.vo.StockSearchVo;
 
 
 @Service("inventoryService")
+@Transactional(readOnly = true)
 public class InventoryServiceImpl implements InventoryService {
 	private static Logger logger = Logger.getLogger(InventoryServiceImpl.class);
 
@@ -47,6 +48,11 @@ public class InventoryServiceImpl implements InventoryService {
 			}
 		}
 		return stockInList;
+	}
+	
+	@Transactional(readOnly = false)
+	public void deleteStockInById(Long stockInId){
+		inventoryDao.deleteStockInById(stockInId);
 	}
 		
 }

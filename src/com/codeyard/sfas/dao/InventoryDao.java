@@ -14,5 +14,6 @@ public interface InventoryDao {
 	void saveOrUpdateStockIn(StockIn stockIn);
 	List<StockIn> getTodaysStockInList(StockSearchVo searchVo);
 	StockSummary getStockSummaryByProductId(Long productId);
+	void deleteStockInById(Long stockInId);
 }
 

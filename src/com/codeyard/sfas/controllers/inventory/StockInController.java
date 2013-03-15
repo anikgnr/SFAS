@@ -93,5 +93,16 @@ public class StockInController {
 	   	map.put("stockin", stockInList);
 		return map;
 	}
+	
+	 @RequestMapping(value="/inventory/stockinDelete.html", method=RequestMethod.GET)
+	 public String deleteEntity(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside inventory delete stock in form:::::::::::::::::");
+	    	
+	   	if(request.getParameter("id") != null){	   		
+	   		inventoryService.deleteStockInById(Long.parseLong(request.getParameter("id")));
+	   	}
+	    	    	
+	    return "redirect:/inventory/stockinList.html";
+	}        
 	    
 }

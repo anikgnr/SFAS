@@ -17,6 +17,7 @@ import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.entity.User;
+import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
@@ -32,6 +33,9 @@ public class InventoryDaoImpl implements InventoryDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
     	hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
+	
+	@Autowired(required=true)
+	private AdminService adminService;
 	
 	public void saveOrUpdateStockIn(StockIn stockIn){
 		
@@ -49,11 +53,8 @@ public class InventoryDaoImpl implements InventoryDao {
 				stockSummary.setCreatedBy(Utils.getLoggedUser());
 			}
 		}
-		Long currentStockQty = 0L;
-		if(stockSummary.getQuantity() != null)
-			currentStockQty = stockSummary.getQuantity();
 		
-		stockSummary.setQuantity(currentStockQty + stockIn.getQuantity());
+		stockSummary.setQuantity(stockSummary.getQuantity() + stockIn.getQuantity());
 		stockSummary.setLastModified(Utils.today());
 		stockSummary.setLastModifiedBy(Utils.getLoggedUser());
 		hibernateTemplate.saveOrUpdate(stockSummary);
@@ -85,5 +86,18 @@ public class InventoryDaoImpl implements InventoryDao {
     		return (StockSummary) summaryList.get(0);
     	else
     		return null;  
+	}
+	
+	public void deleteStockInById(Long stockInId){
+		
+		StockIn stockIn = (StockIn)adminService.loadEntityById(stockInId,"StockIn");
+		if(stockIn != null){
+			StockSummary stockSummary = getStockSummaryByProductId(stockIn.getProduct().getId());
+			stockSummary.setQuantity(stockSummary.getQuantity() - stockIn.getQuantity());
+			stockSummary.setLastModified(Utils.today());
+			stockSummary.setLastModifiedBy(Utils.getLoggedUser());
+			hibernateTemplate.saveOrUpdate(stockSummary);
+			hibernateTemplate.delete(stockIn);			
+		}
 	}
 }

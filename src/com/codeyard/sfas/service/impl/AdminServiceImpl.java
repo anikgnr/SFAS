@@ -17,6 +17,7 @@ import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Service("adminService")
+@Transactional(readOnly = true)
 public class AdminServiceImpl implements AdminService {
 	private static Logger logger = Logger.getLogger(AdminServiceImpl.class);
 
@@ -24,7 +25,6 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 
 	
-	@Transactional(readOnly=true)
 	public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
 		
 		List<AbstractBaseEntity> entityList = adminDao.getEnityList(searchVo, className);
@@ -37,7 +37,6 @@ public class AdminServiceImpl implements AdminService {
 		return entityList;
 	}
 	
-	@Transactional(readOnly=true)
 	public AbstractBaseEntity loadEntityById(Long id, String className){	
 		return adminDao.loadEntityById(id, className);
 	}
@@ -47,6 +46,7 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.saveOrUpdate(entity);		
 	}
 	
+	@Transactional(readOnly = false)
 	public void deleteEntityById(Long id, String className){
 		adminDao.deleteEntityById(id, className);
 	}
