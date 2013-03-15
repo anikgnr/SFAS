@@ -23,7 +23,7 @@ import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -44,7 +44,7 @@ public class RSMController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeRSMList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> rsmList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM");
+    	List<AbstractBaseEntity> rsmList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM");
     	map.put("rsm", rsmList);
 		return map;
     }

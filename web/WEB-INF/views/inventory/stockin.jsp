@@ -13,7 +13,7 @@
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="formBlock" style="padding-left:160px" >
-					<form:form method="post" action="./saveStockIn.html">
+					<form:form method="post" action="./saveStockin.html">
 						<form:hidden path="id"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
@@ -27,18 +27,26 @@
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr>
+								<td style="text-align: top"><spring:message code="stockin.form.stockInDate"/> : <span class="required">*</span></td>
+								<td>
+									<input size="20" type="text" id="stockInDate" name="stockInDate" value='<fmt:formatDate value="${command.stockInDate}" pattern="MM/dd/yyyy" />'/><br/>									
+									<span style="color: gray;padding-left: 35px;">( MM/DD/YYYY )</span>									
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>								
+							</tr>
+							<tr>
 								<td style="text-align: top"><spring:message code="stockin.form.manufactureDate"/> : <span class="required">*</span></td>
 								<td>
-									<input size="20" type="text" id="manufactureDate" name="manufactureDate" value='<fmt:formatDate value="${command.manufactureDate}" pattern="dd/MM/yyyy" />'/><br/>									
-									<span style="color: gray;padding-left: 35px;">( DD/MM/YYYY )</span>									
+									<input size="20" type="text" id="manufactureDate" name="manufactureDate" value='<fmt:formatDate value="${command.manufactureDate}" pattern="MM/dd/yyyy" />'/><br/>									
+									<span style="color: gray;padding-left: 35px;">( MM/DD/YYYY )</span>									
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>								
 							</tr>
 							<tr>
 								<td style="text-align: top"><spring:message code="stockin.form.expireDate"/> : <span class="required">*</span></td>
 								<td>
-									<input size="20" type="text" id="expireDate" name="expireDate" value='<fmt:formatDate value="${command.expireDate}" pattern="dd/MM/yyyy" />'/><br/>									
-									<span style="color: gray;padding-left: 35px;">( DD/MM/YYYY )</span>									
+									<input size="20" type="text" id="expireDate" name="expireDate" value='<fmt:formatDate value="${command.expireDate}" pattern="MM/dd/yyyy" />'/><br/>									
+									<span style="color: gray;padding-left: 35px;">( MM/DD/YYYY )</span>									
 								</td>																
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>

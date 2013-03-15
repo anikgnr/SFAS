@@ -22,7 +22,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller

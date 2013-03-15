@@ -30,7 +30,7 @@ import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Constants;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -44,17 +44,17 @@ public class DistributorController {
     @RequestMapping(value="/admin/distributorList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin distributor home:::::::::::::::::");
-    	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
-    	model.addAttribute("asms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM"));
-    	model.addAttribute("tsos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO"));
-    	model.addAttribute("depos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"Depo"));
+    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
+    	model.addAttribute("asms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"ASM"));
+    	model.addAttribute("tsos", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"TSO"));
+    	model.addAttribute("depos", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Depo"));
     	return "admin/distributorList";
 	}    
     
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeDistributorList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> disList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"Distributor");
+    	List<AbstractBaseEntity> disList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Distributor");
     	map.put("distributor", disList);
 		return map;
     }
@@ -80,7 +80,7 @@ public class DistributorController {
     	model.addAttribute("areas", areas);    	
 
     	Map<Long,String> tsos = new LinkedHashMap<Long,String>();
-    	SearchVo searchVo = new SearchVo();
+    	AdminSearchVo searchVo = new AdminSearchVo();
     	if(distributor.getTso().getAsm().getArea().getId() == null || distributor.getTso().getAsm().getArea().getId() == 0)
     		searchVo.setAsmAreaId(-1);
     	else
@@ -92,8 +92,8 @@ public class DistributorController {
     	model.addAttribute("tsos", tsos);    	
 
     	Map<Long,String> depos = new LinkedHashMap<Long,String>();
-    	depos.put(Constants.companyInventoryId, Constants.companyInventoryName);
-    	searchVo = new SearchVo();
+    	depos.put(Constants.COMPANY_INVENTORY_ID, Constants.COMPANY_INVENTORY_NAME);
+    	searchVo = new AdminSearchVo();
     	if(distributor.getTso().getAsm().getRsm().getId() == null || distributor.getTso().getAsm().getRsm().getId() == 0)
     		searchVo.setRsmId(-1);
     	else
@@ -119,7 +119,7 @@ public class DistributorController {
 	@RequestMapping(value = "/admin/tsoListByArea.html", method=RequestMethod.GET)
 	public @ResponseBody Map populateASMResponse(HttpServletRequest request, Map map) {
 		Long areaId = Long.valueOf(request.getParameter("area_id"));
-		SearchVo searchVo = new SearchVo();
+		AdminSearchVo searchVo = new AdminSearchVo();
 		searchVo.setAsmAreaId(areaId);
 		map.put("results", adminService.getEnityList(searchVo,"TSO"));
 		return map; 	
@@ -130,10 +130,10 @@ public class DistributorController {
 	public @ResponseBody Map populateDepoResponse(HttpServletRequest request, Map map) {
 		Long tsoId = Long.valueOf(request.getParameter("tso_id"));
 		TSO tso = (TSO)adminService.loadEntityById(tsoId,"TSO");
-		SearchVo searchVo = new SearchVo();
+		AdminSearchVo searchVo = new AdminSearchVo();
 		searchVo.setRsmId(tso.getAsm().getRsm().getId());
 		List<AbstractBaseEntity> depos = new ArrayList<AbstractBaseEntity>();
-		depos.add(adminService.loadEntityById(Constants.companyInventoryId,"Depo"));
+		depos.add(adminService.loadEntityById(Constants.COMPANY_INVENTORY_ID,"Depo"));
 		List<AbstractBaseEntity> depoList = adminService.getEnityList(searchVo,"Depo");
 		if(depoList != null && depoList.size() > 0)
 			depos.addAll(depoList);

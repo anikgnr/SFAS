@@ -82,5 +82,8 @@ public class Product extends AbstractBaseEntity{
 		this.productDescription = productDescription;
 	}
 
+	public String getFullName(){
+		return this.productName+" "+this.bagSize+" pcs";
+	}
     
 }

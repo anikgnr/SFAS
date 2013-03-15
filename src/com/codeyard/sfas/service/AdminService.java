@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 public interface AdminService { 
 	
-	List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className);
+	List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className);
     AbstractBaseEntity loadEntityById(Long id, String className);
     AbstractLookUpEntity loadLookUpEntityById(Long id, String className);
     void saveOrUpdate(AbstractBaseEntity entity);

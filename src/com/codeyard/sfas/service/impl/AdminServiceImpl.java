@@ -13,7 +13,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Service("adminService")
@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
 
 	
 	@Transactional(readOnly=true)
-	public List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className){
+	public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
 		
 		List<AbstractBaseEntity> entityList = adminDao.getEnityList(searchVo, className);
 		if(entityList != null && entityList.size() > 0){

@@ -4,6 +4,7 @@ public interface Constants {
 
 	public static final String GLOBAL_MSG_KEY = "REQUEST_MESSAGE";
 	public static final String MESSAGE_FILE_PATH = "../configurations/messages/messages_en.properties";
-	public static final Long companyInventoryId = 1L;
-	public static final String companyInventoryName = "Company Inventory";
+	public static final Long COMPANY_INVENTORY_ID = 1L;
+	public static final String COMPANY_INVENTORY_NAME = "Company Inventory";
+	public static final String DATE_FORMAT = "MM/dd/yyyy";
 }

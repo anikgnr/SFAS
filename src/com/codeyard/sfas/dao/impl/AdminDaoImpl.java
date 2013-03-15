@@ -12,7 +12,7 @@ import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.util.Utils;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
  
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -26,7 +26,7 @@ public class AdminDaoImpl implements AdminDao {
     }
     	
     @SuppressWarnings("unchecked")
-    public List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className){
+    public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
     	String sql = searchVo.buildFilterQueryClauses("From "+className+" ");
     	logger.debug(sql);
     	return hibernateTemplate.find(sql);

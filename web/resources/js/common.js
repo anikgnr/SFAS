@@ -137,7 +137,7 @@ function isNotAlphaNumeric(an) {
  }
 
  function isValidDate(val){
-		var parsed = Date.parse(val,"dd/MM/yyyy");
+		var parsed = Date.parse(val,"MM/dd/yyyy");
 		
 		if(isNaN(parsed))
 			return false;

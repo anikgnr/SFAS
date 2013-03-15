@@ -24,7 +24,7 @@ import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Area;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -38,7 +38,7 @@ public class ASMController {
     @RequestMapping(value="/admin/asmList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin asm home:::::::::::::::::");
-    	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
+    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
     	model.addAttribute("areas", adminService.getAllLookUpEntity("Area"));
 	    return "admin/asmList";
 	}    
@@ -46,7 +46,7 @@ public class ASMController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeASMList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> asmList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM");
+    	List<AbstractBaseEntity> asmList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"ASM");
     	map.put("asm", asmList);
 		return map;
     }
@@ -61,7 +61,7 @@ public class ASMController {
     		asm = new ASM();
     	
     	Map<Long,String> rsms = new LinkedHashMap<Long,String>();
-    	for(AbstractBaseEntity entity : adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM")){
+    	for(AbstractBaseEntity entity : adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM")){
     		RSM rsm = (RSM)entity;
     		rsms.put(rsm.getId(), rsm.getFirstName()+" "+rsm.getLastName()+"-("+rsm.getRegion().getName()+")");    	
     	}

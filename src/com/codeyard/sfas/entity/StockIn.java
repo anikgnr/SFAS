@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="cy_re_stocks_in")
@@ -18,6 +19,10 @@ public class StockIn extends AbstractBaseEntity{
     @ManyToOne(optional=true)
     @JoinColumn(name="product_id")
     private Product product;
+    
+    @Column(name = "stock_in_date")
+    @Temporal(TemporalType.DATE)
+    private  Date stockInDate;
     
     @Column(name = "manufacture_date")
     @Temporal(TemporalType.DATE)
@@ -42,8 +47,12 @@ public class StockIn extends AbstractBaseEntity{
     @Column(name = "damage_reason")
     private  String damageReason;    
     
+    @Transient
+    private Long previousQuantity;
+    
     public StockIn(){
     	quantity = 0L;
+    	previousQuantity = 0L;
     	product = new Product();
     	damaged = false;
     }
@@ -54,6 +63,14 @@ public class StockIn extends AbstractBaseEntity{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Date getStockInDate() {
+		return stockInDate;
+	}
+
+	public void setStockInDate(Date stockInDate) {
+		this.stockInDate = stockInDate;
 	}
 
 	public Date getExpireDate() {
@@ -111,6 +128,22 @@ public class StockIn extends AbstractBaseEntity{
 	public void setDamageReason(String damageReason) {
 		this.damageReason = damageReason;
 	}
-    
+ 
+	public Long getPreviousQuantity() {
+		return previousQuantity;
+	}
+
+	public void setPreviousQuantity(Long previousQuantity) {
+		this.previousQuantity = previousQuantity;
+	}
+
+	public void merge(StockIn stockIn){
+		this.product = stockIn.getProduct();
+		this.stockInDate = stockIn.getStockInDate();
+		this.manufactureDate = stockIn.getManufactureDate();
+		this.expireDate = stockIn.getExpireDate();
+		this.quantity = stockIn.getQuantity();
+		this.comment = stockIn.getComment();
+	}
 
 }

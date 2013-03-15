@@ -22,7 +22,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -48,7 +48,7 @@ public class UserController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeUserList.html", method=RequestMethod.GET)
 	public @ResponseBody Map userList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> userList = adminService.getEnityList(SearchVo.fetchFromRequest(request), "User");
+    	List<AbstractBaseEntity> userList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request), "User");
     	map.put("user", userList);
 		return map;
     }

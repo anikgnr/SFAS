@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 public class Utils {
 	private static Logger logger = Logger.getLogger(Utils.class);

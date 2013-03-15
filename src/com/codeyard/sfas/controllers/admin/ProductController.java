@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -40,7 +40,7 @@ public class ProductController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeProductList.html", method=RequestMethod.GET)
 	public @ResponseBody Map productList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> productList = adminService.getEnityList(SearchVo.fetchFromRequest(request), "Product");
+    	List<AbstractBaseEntity> productList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request), "Product");
     	map.put("product", productList);
 		return map;
     }

@@ -28,7 +28,7 @@ import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -42,17 +42,17 @@ public class OutletController {
     @RequestMapping(value="/admin/outletList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin outlet home:::::::::::::::::");
-    	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
-    	model.addAttribute("asms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM"));
-    	model.addAttribute("tsos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO"));
-      	model.addAttribute("distributors", adminService.getEnityList(SearchVo.fetchFromRequest(request),"Distributor"));
+    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
+    	model.addAttribute("asms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"ASM"));
+    	model.addAttribute("tsos", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"TSO"));
+      	model.addAttribute("distributors", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Distributor"));
         return "admin/outletList";
 	}    
     
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeOutletList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> outletList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"Outlet");
+    	List<AbstractBaseEntity> outletList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Outlet");
     	map.put("outlet", outletList);
 		return map;
     }
@@ -85,7 +85,7 @@ public class OutletController {
 
     	
     	Map<Long,String> distributors = new LinkedHashMap<Long,String>();
-    	SearchVo searchVo = new SearchVo();
+    	AdminSearchVo searchVo = new AdminSearchVo();
     	if(outlet.getDistributor().getTso().getTerritory().getId() == null || outlet.getDistributor().getTso().getTerritory().getId() == 0)
     		searchVo.setTsoTerritoryId(-1);
     	else
@@ -119,7 +119,7 @@ public class OutletController {
 	@RequestMapping(value = "/admin/distributorListByTerritory.html", method=RequestMethod.GET)
 	public @ResponseBody Map populateASMResponse(HttpServletRequest request, Map map) {
 		Long territoryId = Long.valueOf(request.getParameter("territory_id"));
-		SearchVo searchVo = new SearchVo();
+		AdminSearchVo searchVo = new AdminSearchVo();
 		searchVo.setTsoTerritoryId(territoryId);
 		map.put("results", adminService.getEnityList(searchVo,"Distributor"));
 		return map; 	

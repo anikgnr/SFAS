@@ -27,7 +27,7 @@ import com.codeyard.sfas.entity.SR;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -41,16 +41,16 @@ public class SRController {
     @RequestMapping(value="/admin/srList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin sr home:::::::::::::::::");
-    	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
-    	model.addAttribute("asms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"ASM"));
-    	model.addAttribute("tsos", adminService.getEnityList(SearchVo.fetchFromRequest(request),"TSO"));    	
+    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
+    	model.addAttribute("asms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"ASM"));
+    	model.addAttribute("tsos", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"TSO"));    	
 	    return "admin/srList";
 	}    
     
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeSRList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> srList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"SR");
+    	List<AbstractBaseEntity> srList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"SR");
     	map.put("sr", srList);
 		return map;
     }
@@ -65,14 +65,14 @@ public class SRController {
     		sr = new SR();
     	
     	Map<Long,String> rsms = new LinkedHashMap<Long,String>();
-    	for(AbstractBaseEntity entity : adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM")){
+    	for(AbstractBaseEntity entity : adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM")){
     		RSM rsm = (RSM)entity;
     		rsms.put(rsm.getId(), rsm.getFirstName()+" "+rsm.getLastName()+"-("+rsm.getRegion().getName()+")");    	
     	}
     	model.addAttribute("rsms", rsms);    	
 
     	Map<Long,String> asms = new LinkedHashMap<Long,String>();
-    	SearchVo searchVo = new SearchVo();
+    	AdminSearchVo searchVo = new AdminSearchVo();
     	if(sr.getTso().getAsm().getRsm().getId() == null || sr.getTso().getAsm().getRsm().getId() == 0)
     		searchVo.setRsmId(-1);
     	else
@@ -84,7 +84,7 @@ public class SRController {
     	model.addAttribute("asms", asms);    	
 
     	Map<Long,String> tsos = new LinkedHashMap<Long,String>();
-    	searchVo = new SearchVo();
+    	searchVo = new AdminSearchVo();
     	if(sr.getTso().getAsm().getId() == null || sr.getTso().getAsm().getId() == 0)
     		searchVo.setAsmId(-1);
     	else
@@ -112,7 +112,7 @@ public class SRController {
 	@RequestMapping(value = "/admin/tsoListByASM.html", method=RequestMethod.GET)
 	public @ResponseBody Map populateTSOResponse(HttpServletRequest request, Map map) {
 		Long asmId = Long.valueOf(request.getParameter("asm_id"));
-		SearchVo searchVo = new SearchVo();
+		AdminSearchVo searchVo = new AdminSearchVo();
 		searchVo.setAsmId(asmId);
 		map.put("results", adminService.getEnityList(searchVo,"TSO"));
 		return map; 	

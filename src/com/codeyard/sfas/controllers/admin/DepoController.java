@@ -22,7 +22,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.service.AdminService;
-import com.codeyard.sfas.vo.SearchVo;
+import com.codeyard.sfas.vo.AdminSearchVo;
 
 
 @Controller
@@ -36,14 +36,14 @@ public class DepoController {
     @RequestMapping(value="/admin/depoList.html", method=RequestMethod.GET)
 	public String entityPanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin depo home:::::::::::::::::");
-    	model.addAttribute("rsms", adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM"));
+    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
     	return "admin/depoList";
 	}    
     
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin/completeDepoList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-    	List<AbstractBaseEntity> depoList = adminService.getEnityList(SearchVo.fetchFromRequest(request),"Depo");
+    	List<AbstractBaseEntity> depoList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Depo");
     	for(AbstractBaseEntity entity : depoList){
     		Depo depo = (Depo)entity;
     		if(depo.isCompanyInventory()){
@@ -67,7 +67,7 @@ public class DepoController {
     		depo = new Depo();
     	
     	Map<Long,String> rsms = new LinkedHashMap<Long,String>();
-    	for(AbstractBaseEntity entity : adminService.getEnityList(SearchVo.fetchFromRequest(request),"RSM")){
+    	for(AbstractBaseEntity entity : adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM")){
     		RSM rsm = (RSM)entity;
     		rsms.put(rsm.getId(), rsm.getName()+"-("+rsm.getRegion().getName()+")");
     	}    		
