@@ -11,12 +11,9 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
-import com.codeyard.sfas.entity.Region;
-import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.SearchVo;
  
-
 @Repository
 public class AdminDaoImpl implements AdminDao {
 	private static Logger logger = Logger.getLogger(AdminDaoImpl.class);
@@ -27,9 +24,7 @@ public class AdminDaoImpl implements AdminDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
     	hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
-    
-	
-	
+    	
     @SuppressWarnings("unchecked")
     public List<AbstractBaseEntity> getEnityList(SearchVo searchVo, String className){
     	String sql = searchVo.buildFilterQueryClauses("From "+className+" ");
@@ -44,7 +39,7 @@ public class AdminDaoImpl implements AdminDao {
 			return entityList.get(0);
 		return null;
     }
-    
+        
     public void saveOrUpdate(AbstractBaseEntity entity){
     	if(entity.getId() == null || entity.getId() == 0){
     		entity.setCreatedBy(Utils.getLoggedUser());
@@ -52,7 +47,7 @@ public class AdminDaoImpl implements AdminDao {
     	}
     	entity.setLastModifiedBy(Utils.getLoggedUser());
     	entity.setLastModified(Utils.today());
-		hibernateTemplate.saveOrUpdate(entity);
+		hibernateTemplate.saveOrUpdate(entity);		
 	}
     
 	public void deleteEntityById(Long id, String className){

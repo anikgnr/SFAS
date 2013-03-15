@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codeyard.sfas.dao.AdminDao;
@@ -41,8 +42,9 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.loadEntityById(id, className);
 	}
 	
+	@Transactional(readOnly = false)
 	public void saveOrUpdate(AbstractBaseEntity entity){
-		adminDao.saveOrUpdate(entity);
+		adminDao.saveOrUpdate(entity);		
 	}
 	
 	public void deleteEntityById(Long id, String className){

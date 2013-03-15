@@ -21,12 +21,14 @@
         </property>
     </bean>
     
+    <context:annotation-config />
 	<!-- Scans the classpath of this application for @Components to deploy as beans -->
-	<context:component-scan base-package="com.codeyard.sfas" />
+	<context:component-scan base-package="com.codeyard.sfas" use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+	</context:component-scan>	
 
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven />
-
 
 	<!-- Configures Handler Interceptors -->	
 	<mvc:interceptors>

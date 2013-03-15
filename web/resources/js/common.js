@@ -135,3 +135,12 @@ function isNotAlphaNumeric(an) {
 	$("input, select").removeClass('errorinput');
     $(".inputerrormsg").html('');       		
  }
+
+ function isValidDate(val){
+		var parsed = Date.parse(val,"dd/MM/yyyy");
+		
+		if(isNaN(parsed))
+			return false;
+		
+		return true;
+}
