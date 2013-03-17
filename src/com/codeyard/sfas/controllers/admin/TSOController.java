@@ -26,6 +26,7 @@ import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -111,15 +112,17 @@ public class TSOController {
 	}
 	
     @RequestMapping(value="/admin/saveTSO.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("tso") TSO tso, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("tso") TSO tso, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit tso:::::::::::::::::");
     	
     	try{    		
-    		tso.setAsm((ASM)adminService.loadEntityById(tso.getAsm().getId(),"ASM"));
-    		tso.setTerritory((Territory)adminService.loadLookUpEntityById(tso.getTerritory().getId(), "Territory"));
+    		//tso.setAsm((ASM)adminService.loadEntityById(tso.getAsm().getId(),"ASM"));
+    		//tso.setTerritory((Territory)adminService.loadLookUpEntityById(tso.getTerritory().getId(), "Territory"));
     		adminService.saveOrUpdate(tso);
+    		Utils.setSuccessMessage(request, "TSO successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating tso :: "+ex);
+    		Utils.setErrorMessage(request, "TSO can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/tsoList.html";
@@ -129,9 +132,15 @@ public class TSOController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete tso form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"TSO");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"TSO");  
+    	    	Utils.setSuccessMessage(request, "TSO successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete tso :: "+ex);
+    		Utils.setErrorMessage(request, "TSO already in use. Please remove associated entries first.");
+    	}           	
 	    return "redirect:/admin/tsoList.html";
 	}        
 }

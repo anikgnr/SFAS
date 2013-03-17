@@ -40,7 +40,7 @@
 							<a id="menu2" href="<%= contextPath %>/inventory/damageList.html" title="">Damage Stock List</a>
 						</li>
 						<li id="nav_menu_3" class="left  ">
-							<a id="menu3" href="<%= contextPath %>/inventory/stockinList.html" title="">Today's Stock In List</a>							
+							<a id="menu3" href="<%= contextPath %>/inventory/stockinList.html" title="">Today's Stock In Entry List</a>							
 						</li>																												
 						<li id="nav_menu_4" class="left  ">
 							<a id="menu4" href="<%= contextPath %>/inventory/stockin.html" title="">Stock In Entry</a>

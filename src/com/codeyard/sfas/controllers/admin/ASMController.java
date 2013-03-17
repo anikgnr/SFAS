@@ -24,6 +24,7 @@ import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Area;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -86,15 +87,17 @@ public class ASMController {
 	}
 	
     @RequestMapping(value="/admin/saveASM.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("asm") ASM asm, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("asm") ASM asm, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit asm:::::::::::::::::");
     	
     	try{    		
-    		asm.setRsm((RSM)adminService.loadEntityById(asm.getRsm().getId(),"RSM"));
-    		asm.setArea((Area)adminService.loadLookUpEntityById(asm.getArea().getId(), "Area"));
+    		//asm.setRsm((RSM)adminService.loadEntityById(asm.getRsm().getId(),"RSM"));
+    		//asm.setArea((Area)adminService.loadLookUpEntityById(asm.getArea().getId(), "Area"));
     		adminService.saveOrUpdate(asm);
+    		Utils.setSuccessMessage(request, "ASM successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating asm :: "+ex);
+    		Utils.setErrorMessage(request, "ASM can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/asmList.html";
@@ -104,9 +107,15 @@ public class ASMController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete asm form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"ASM");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"ASM");  
+    	    	Utils.setSuccessMessage(request, "ASM successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete asm :: "+ex);
+    		Utils.setErrorMessage(request, "ASM already in use. Please remove associated entries first.");
+    	}       
 	    return "redirect:/admin/asmList.html";
 	}        
     

@@ -23,6 +23,7 @@ import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -67,14 +68,16 @@ public class RSMController {
 	}    
 
     @RequestMapping(value="/admin/saveRSM.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("rsm") RSM rsm, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("rsm") RSM rsm, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit rsm:::::::::::::::::");
     	
     	try{    		
-    		rsm.setRegion((Region)adminService.loadLookUpEntityById(rsm.getRegion().getId(), "Region"));
+    		//rsm.setRegion((Region)adminService.loadLookUpEntityById(rsm.getRegion().getId(), "Region"));
     		adminService.saveOrUpdate(rsm);
+    		Utils.setSuccessMessage(request, "RSM successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating rsm :: "+ex);
+    		Utils.setErrorMessage(request, "RSM can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/rsmList.html";
@@ -83,10 +86,15 @@ public class RSMController {
     @RequestMapping(value="/admin/rsmDelete.html", method=RequestMethod.GET)
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete rsm form:::::::::::::::::");
-    	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"RSM");    		
-    	    	
+    	try{ 	    
+	    	if(request.getParameter("id") != null){
+	    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"RSM"); 
+	    		Utils.setSuccessMessage(request, "RSM successfully deleted.");
+	    	}
+	    }catch(Exception ex){
+    		logger.debug("Error while delete rsm :: "+ex);
+    		Utils.setErrorMessage(request, "RSM already in use. Please remove associated entries first.");
+    	}    	
 	    return "redirect:/admin/rsmList.html";
 	}        
     

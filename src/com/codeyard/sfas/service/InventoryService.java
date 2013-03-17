@@ -13,4 +13,5 @@ public interface InventoryService {
 	void saveOrUpdateStockIn(StockIn stockIn);
 	List<StockIn> getTodaysStockInList(StockSearchVo searchVo);
 	void deleteStockInById(Long stockInId);
+	boolean isStockInAlreadyUsedById(Long stockInId);
 }

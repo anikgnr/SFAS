@@ -22,6 +22,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -72,13 +73,15 @@ public class UserController {
 	}    
 
     @RequestMapping(value="/admin/saveUser.html", method=RequestMethod.POST)	
-    public String saveUpdateUser(@ModelAttribute("user") User user, BindingResult result) {
+    public String saveUpdateUser(@ModelAttribute("user") User user, BindingResult result,HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit user:::::::::::::::::");
     	
     	try{
     		adminService.saveOrUpdate(user);
+    		Utils.setSuccessMessage(request, "User successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating user :: "+ex);
+    		Utils.setErrorMessage(request, "User can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/userList.html";
@@ -88,9 +91,16 @@ public class UserController {
     public String deleteUser(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete user form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"User");    		
-    	    	
+    	try{
+	    	if(request.getParameter("id") != null){
+	    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"User");    		
+	    		Utils.setSuccessMessage(request, "User successfully deleted.");
+	    	}
+    	}catch(Exception ex){
+    		logger.debug("Error while delete user :: "+ex);
+    		Utils.setErrorMessage(request, "User can't be deleted. Please contact with System Admin.");
+    	}
+    	
 	    return "redirect:/admin/userList.html";
 	}
     

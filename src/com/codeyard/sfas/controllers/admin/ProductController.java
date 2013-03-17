@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -58,13 +59,15 @@ public class ProductController {
 	}    
 
     @RequestMapping(value="/admin/saveProduct.html", method=RequestMethod.POST)	
-    public String saveUpdateProduct(@ModelAttribute("product") Product product, BindingResult result) {
+    public String saveUpdateProduct(@ModelAttribute("product") Product product, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit product:::::::::::::::::");
     	
     	try{
     		adminService.saveOrUpdate(product);
+    		Utils.setSuccessMessage(request, "Product successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating product :: "+ex);
+    		Utils.setErrorMessage(request, "Product can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/productList.html";
@@ -74,9 +77,15 @@ public class ProductController {
     public String deleteProduct(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete product form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Product");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Product");  
+    	    	Utils.setSuccessMessage(request, "Product successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete Product :: "+ex);
+    		Utils.setErrorMessage(request, "Product already in use. Please remove associated entries first.");
+    	}      	    	
 	    return "redirect:/admin/productList.html";
 	}
     

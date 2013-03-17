@@ -104,6 +104,16 @@ $(function () {
 	          });
 	     });
         $("#distributorId").removeAttr("disabled");
+        
+        $("#routeId").attr("disabled", "disabled");
+	     $("#routeId option").remove();
+	     $("#routeId").append("<option value=''></option>");
+	     $.getJSON("./routeListByTerritory.html?territory_id=" + $(this).val(), function (json) {
+	          $.each(json.results, function (i, route) {	              
+	              $("#routeId").append("<option value='" + route.id + "'>" + route.name +"</option>");
+	          });
+	     });
+       $("#routeId").removeAttr("disabled");
 	});
 	
 	        
@@ -125,6 +135,9 @@ $(function () {
         }
 		if ($("#territoryId").val() == '') {			
             flag = addError("#territoryId", '');        
+        }
+		if ($("#routeId").val() == '') {			
+            flag = addError("#routeId", '');        
         }
 		if ($("#distributorId").val() == '') {			
             flag = addError("#distributorId", '');        

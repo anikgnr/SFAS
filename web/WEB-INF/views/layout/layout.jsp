@@ -4,7 +4,8 @@
 
 <%
 	final String contextPath = request.getContextPath();
-	pageContext.setAttribute("SFASMessage", Utils.getMessage(request));	
+	pageContext.setAttribute("SFASErrorMessage", Utils.getErrorMessage(request));
+	pageContext.setAttribute("SFASSuccessMessage", Utils.getSuccessMessage(request));
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -27,8 +28,11 @@
   <div id="ipbwrapper">
 		<tiles:insertAttribute name="header" />
 			
-		<c:if test="${SFASMessage != ''}">
-			<div id="inlineMsgDiv">${SFASMessage}</div>
+		<c:if test="${SFASErrorMessage != ''}">
+			<div id="errorMsgDiv">${SFASErrorMessage}</div>
+		</c:if>
+		<c:if test="${SFASSuccessMessage != ''}">
+			<div id="successMsgDiv">${SFASSuccessMessage}</div>
 		</c:if>
 		<div id="content" class="clearfix" style="min-height: 600px;">
 			<br/><br/>

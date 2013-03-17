@@ -25,6 +25,10 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 
 	
+	public 	boolean hasUserByUserName(String userName){
+		return adminDao.hasUserByUserName(userName);
+	}
+	
 	public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
 		
 		List<AbstractBaseEntity> entityList = adminDao.getEnityList(searchVo, className);

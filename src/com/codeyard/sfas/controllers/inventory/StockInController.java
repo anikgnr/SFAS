@@ -25,6 +25,7 @@ import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
 
@@ -43,9 +44,9 @@ public class StockInController {
     public ModelAndView addEditStockIn(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside inventory add/edit stock in form:::::::::::::::::");
     	StockIn stockIn=null;
-    	if(request.getParameter("id") != null)
-    		stockIn = (StockIn)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"StockIn");    		
-    	else
+    	if(request.getParameter("id") != null){
+    		stockIn = (StockIn)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"StockIn");   		
+    	}else
     		stockIn = new StockIn();
     	
     	Map<Long,String> products = new LinkedHashMap<Long,String>();
@@ -60,19 +61,26 @@ public class StockInController {
 	}    
 	
 	@RequestMapping(value="/inventory/saveStockin.html", method=RequestMethod.POST)	
-	public String saveUpdateStockIn(@ModelAttribute("stockIn") StockIn stockIn, BindingResult result) {
+	public String saveUpdateStockIn(@ModelAttribute("stockIn") StockIn stockIn, BindingResult result,HttpServletRequest request) {
 	  	logger.debug(":::::::::: inside inventory save or edit stockIn:::::::::::::::::");
 	    	
 	   	try{
 	   		if(stockIn.getId() != null && stockIn.getId() > 0){
+	   			if(inventoryService.isStockInAlreadyUsedById(stockIn.getId())){
+	   				Utils.setErrorMessage(request, Utils.getMessageBundlePropertyValue("error.stockin.used"));
+	   				logger.debug("stock In already in use");
+	   			    return "redirect:/inventory/stockinList.html";	    			
+	    		}
 	   			StockIn mainStockIn = (StockIn)adminService.loadEntityById(stockIn.getId(),"StockIn");
 	   			mainStockIn.setPreviousQuantity(mainStockIn.getQuantity());
 	   			mainStockIn.merge(stockIn);
 	   			inventoryService.saveOrUpdateStockIn(mainStockIn);
 	   		}else
 	   			inventoryService.saveOrUpdateStockIn(stockIn);
+	   		Utils.setSuccessMessage(request, "Stock In Entry successfully saved/updated.");
 	   	}catch(Exception ex){
 	   		logger.debug("Error while saving/updating stockIn :: "+ex);
+	   		Utils.setErrorMessage(request, "Stock In Entry can't be saved/updated. Please contact with System Admin.");
 	   	}
 	   	
 	    return "redirect:/inventory/stockinList.html";
@@ -97,11 +105,15 @@ public class StockInController {
 	 @RequestMapping(value="/inventory/stockinDelete.html", method=RequestMethod.GET)
 	 public String deleteEntity(HttpServletRequest request,Model model) {
 	   	logger.debug(":::::::::: inside inventory delete stock in form:::::::::::::::::");
-	    	
-	   	if(request.getParameter("id") != null){	   		
-	   		inventoryService.deleteStockInById(Long.parseLong(request.getParameter("id")));
-	   	}
-	    	    	
+	    try{	
+		   	if(request.getParameter("id") != null){	   		
+		   		inventoryService.deleteStockInById(Long.parseLong(request.getParameter("id")));
+		   		Utils.setSuccessMessage(request, "Stock In Entry successfully deleted.");
+		   	}
+	    }catch(Exception ex){
+	    	logger.debug("stock in delete error "+ex);
+			Utils.setErrorMessage(request, Utils.getMessageBundlePropertyValue("error.stockin.used"));
+	    }	    	    	
 	    return "redirect:/inventory/stockinList.html";
 	}        
 	    

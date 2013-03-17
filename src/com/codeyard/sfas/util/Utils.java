@@ -71,15 +71,29 @@ public class Utils {
 	}
 	
 	
-	public static void setMessage(HttpServletRequest request, String message){
+	public static void setErrorMessage(HttpServletRequest request, String message){
 		
-		request.getSession().setAttribute(Constants.GLOBAL_MSG_KEY, message);
+		request.getSession().setAttribute(Constants.GLOBAL_ERROR_MSG_KEY, message);
 	}
 	
-	public static String getMessage(HttpServletRequest request){
-		if(request.getSession().getAttribute(Constants.GLOBAL_MSG_KEY) != null){
-			String message = (String)request.getSession().getAttribute(Constants.GLOBAL_MSG_KEY);
-			request.getSession().removeAttribute(Constants.GLOBAL_MSG_KEY);
+	public static String getErrorMessage(HttpServletRequest request){
+		if(request.getSession().getAttribute(Constants.GLOBAL_ERROR_MSG_KEY) != null){
+			String message = (String)request.getSession().getAttribute(Constants.GLOBAL_ERROR_MSG_KEY);
+			request.getSession().removeAttribute(Constants.GLOBAL_ERROR_MSG_KEY);
+			return message;
+		}
+		return "";
+	}
+	
+	public static void setSuccessMessage(HttpServletRequest request, String message){
+		
+		request.getSession().setAttribute(Constants.GLOBAL_SUCCESS_MSG_KEY, message);
+	}
+	
+	public static String getSuccessMessage(HttpServletRequest request){
+		if(request.getSession().getAttribute(Constants.GLOBAL_SUCCESS_MSG_KEY) != null){
+			String message = (String)request.getSession().getAttribute(Constants.GLOBAL_SUCCESS_MSG_KEY);
+			request.getSession().removeAttribute(Constants.GLOBAL_SUCCESS_MSG_KEY);
 			return message;
 		}
 		return "";

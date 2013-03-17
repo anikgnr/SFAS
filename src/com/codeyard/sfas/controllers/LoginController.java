@@ -32,7 +32,7 @@ public class LoginController {
 		logger.debug("::  LOGIN SUCCESSFUL :: ");
 		if(Utils.isInRole(Role.ADMIN.getValue())){
 			return "redirect:/admin/home.html";
-		}else if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+		}else if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue()) || Utils.isInRole(Role.INVENTORY_OPERATOR.getValue())){
 			return "redirect:/inventory/home.html";
 		}
 		return "login";

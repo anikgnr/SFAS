@@ -1,0 +1,25 @@
+package com.codeyard.sfas.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="cy_be_routes")
+public class Route extends AbstractLookUpEntity{
+ 
+	@ManyToOne(optional=true)
+    @JoinColumn(name="territory_id")
+    private Territory territory;
+
+	public Territory getTerritory() {
+		return territory;
+	}
+
+	public void setTerritory(Territory territory) {
+		this.territory = territory;
+	}
+
+	
+}

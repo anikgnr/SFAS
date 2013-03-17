@@ -30,6 +30,7 @@ import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Constants;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -143,14 +144,16 @@ public class DistributorController {
 	
     
     @RequestMapping(value="/admin/saveDistributor.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("distributor") Distributor distributor, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("distributor") Distributor distributor, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit distributor:::::::::::::::::");
     	
     	try{    		
-    		distributor.setTso((TSO)adminService.loadEntityById(distributor.getTso().getId(),"TSO"));    		
+    	//	distributor.setTso((TSO)adminService.loadEntityById(distributor.getTso().getId(),"TSO"));    		
     		adminService.saveOrUpdate(distributor);
+    		Utils.setSuccessMessage(request, "Distributor successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating distributor :: "+ex);
+    		Utils.setErrorMessage(request, "Distributor can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/distributorList.html";
@@ -160,9 +163,15 @@ public class DistributorController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete distributor form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Distributor");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Distributor");  
+    	    	Utils.setSuccessMessage(request, "Distributor successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete Distributor :: "+ex);
+    		Utils.setErrorMessage(request, "Distributor already in use. Please remove associated entries first.");
+    	}       	
 	    return "redirect:/admin/distributorList.html";
 	}
         

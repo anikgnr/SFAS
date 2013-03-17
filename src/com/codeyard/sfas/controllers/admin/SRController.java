@@ -27,6 +27,7 @@ import com.codeyard.sfas.entity.SR;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -120,14 +121,16 @@ public class SRController {
 	
     
     @RequestMapping(value="/admin/saveSR.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("sr") SR sr, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("sr") SR sr, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit sr:::::::::::::::::");
     	
     	try{    		
-    		sr.setTso((TSO)adminService.loadEntityById(sr.getTso().getId(),"TSO"));    		
+    		//sr.setTso((TSO)adminService.loadEntityById(sr.getTso().getId(),"TSO"));    		
     		adminService.saveOrUpdate(sr);
+    		Utils.setSuccessMessage(request, "SR successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating sr :: "+ex);
+    		Utils.setErrorMessage(request, "SR can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/srList.html";
@@ -137,9 +140,15 @@ public class SRController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete sr form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"SR");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"SR");  
+    	    	Utils.setSuccessMessage(request, "SR successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete SR :: "+ex);
+    		Utils.setErrorMessage(request, "SR already in use. Please remove associated entries first.");
+    	}            	
 	    return "redirect:/admin/srList.html";
 	}        
 }

@@ -7,7 +7,7 @@
 
 <body>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/outlet.js"></script>	
-	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
+	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 100px;">
 		<h3 class="maintitle"><spring:message code="outlet.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
@@ -71,6 +71,16 @@
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
 							
+								<td><spring:message code="outlet.form.route"/> : <span class="required">*</span></td>
+								<td>
+									<form:select id="routeId" path="route.id">
+									 	<form:option value="" label=""/>
+	    								<form:options items="${routes}" />
+									</form:select>
+								</td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
 								<td><spring:message code="outlet.form.distributor"/> : <span class="required">*</span></td>
 								<td>
 									<form:select id="distributorId" path="distributor.id">
@@ -79,8 +89,7 @@
 									</form:select>
 								</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
+								
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">

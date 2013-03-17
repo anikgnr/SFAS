@@ -22,6 +22,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -77,14 +78,16 @@ public class DepoController {
 	}    
         
     @RequestMapping(value="/admin/saveDepo.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("depo") Depo depo, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("depo") Depo depo, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit depo:::::::::::::::::");
     	
     	try{    		
-    		depo.setRsm((RSM)adminService.loadEntityById(depo.getRsm().getId(),"RSM"));    		
+    		//depo.setRsm((RSM)adminService.loadEntityById(depo.getRsm().getId(),"RSM"));    		
     		adminService.saveOrUpdate(depo);
+    		Utils.setSuccessMessage(request, "Depo successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating depo :: "+ex);
+    		Utils.setErrorMessage(request, "Depo can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/depoList.html";
@@ -94,9 +97,16 @@ public class DepoController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete depo form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Depo");    		
-    	    	
+      	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Depo");  
+    	    	Utils.setSuccessMessage(request, "Depo successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete Depo :: "+ex);
+    		Utils.setErrorMessage(request, "Depo already in use. Please remove associated entries first.");
+    	}      	
+    	
 	    return "redirect:/admin/depoList.html";
 	}
         

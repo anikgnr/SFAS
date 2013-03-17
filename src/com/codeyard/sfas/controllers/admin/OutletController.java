@@ -28,6 +28,7 @@ import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.TSO;
 import com.codeyard.sfas.entity.Territory;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 
@@ -46,7 +47,7 @@ public class OutletController {
     	model.addAttribute("asms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"ASM"));
     	model.addAttribute("tsos", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"TSO"));
       	model.addAttribute("distributors", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"Distributor"));
-        return "admin/outletList";
+      	return "admin/outletList";
 	}    
     
     @SuppressWarnings("unchecked")
@@ -82,6 +83,12 @@ public class OutletController {
     		territories.put(entity.getId(), entity.getName());
     	}
     	model.addAttribute("territories", territories);    	
+    	
+    	Map<Long,String> routes = new LinkedHashMap<Long,String>();
+    	for(AbstractLookUpEntity entity : adminService.getLookUpEntityList("Route","territory.id",outlet.getDistributor().getTso().getTerritory().getId())){
+    		routes.put(entity.getId(), entity.getName());
+    	}
+    	model.addAttribute("routes", routes);   
 
     	
     	Map<Long,String> distributors = new LinkedHashMap<Long,String>();
@@ -125,16 +132,25 @@ public class OutletController {
 		return map; 	
 	}
 	
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/admin/routeListByTerritory.html", method=RequestMethod.GET)
+	public @ResponseBody Map populateRouteResponse(HttpServletRequest request, Map map) {
+		Long territoryId = Long.valueOf(request.getParameter("territory_id"));	
+		map.put("results", adminService.getLookUpEntityList("Route","territory.id",territoryId));
+		return map; 	
+	}
     
     @RequestMapping(value="/admin/saveOutlet.html", method=RequestMethod.POST)	
-    public String saveUpdateEntity(@ModelAttribute("outlet") Outlet outlet, BindingResult result) {
+    public String saveUpdateEntity(@ModelAttribute("outlet") Outlet outlet, BindingResult result, HttpServletRequest request) {
     	logger.debug(":::::::::: inside admin save or edit outlet:::::::::::::::::");
     	
     	try{    		
-    		outlet.setDistributor((Distributor)adminService.loadEntityById(outlet.getDistributor().getId(),"Distributor"));    		
+    		//outlet.setDistributor((Distributor)adminService.loadEntityById(outlet.getDistributor().getId(),"Distributor"));    		
     		adminService.saveOrUpdate(outlet);
+    		Utils.setSuccessMessage(request, "Outlet successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating outlet :: "+ex);
+    		Utils.setErrorMessage(request, "Outlet can't be saved/updated. Please contact with System Admin.");
     	}
     	
 	    return "redirect:/admin/outletList.html";
@@ -144,9 +160,15 @@ public class OutletController {
     public String deleteEntity(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin delete outlet form:::::::::::::::::");
     	
-    	if(request.getParameter("id") != null)
-    		adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Outlet");    		
-    	    	
+    	try{ 	    
+    	    if(request.getParameter("id") != null){
+    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"Outlet");  
+    	    	Utils.setSuccessMessage(request, "Outlet successfully deleted.");
+    	    }
+    	}catch(Exception ex){
+    		logger.debug("Error while delete Outlet :: "+ex);
+    		Utils.setErrorMessage(request, "Outlet already in use. Please remove associated entries first.");
+    	}      	
 	    return "redirect:/admin/outletList.html";
 	}
         

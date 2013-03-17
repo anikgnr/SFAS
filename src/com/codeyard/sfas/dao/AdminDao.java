@@ -8,6 +8,7 @@ import com.codeyard.sfas.vo.AdminSearchVo;
 
 public interface AdminDao { 
 	
+	boolean hasUserByUserName(String userName);
 	List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className);
     AbstractBaseEntity loadEntityById(Long id, String className);
     AbstractLookUpEntity loadLookUpEntityById(Long id, String className);

@@ -57,3 +57,17 @@
 select{
 	width: 170px;
 }
+#errorMsgDiv{
+	padding: 10px 10px;
+	background: red;
+	color: white;
+	text-align: center;
+	margin: 0 88px;
+}
+#successMsgDiv{
+	padding: 10px 10px;
+	background: #099;
+	color: white;
+	text-align: center;
+	margin: 0 88px;
+}

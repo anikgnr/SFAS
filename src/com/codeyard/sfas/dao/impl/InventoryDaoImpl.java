@@ -15,6 +15,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.entity.StockIn;
+import com.codeyard.sfas.entity.StockOut;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;

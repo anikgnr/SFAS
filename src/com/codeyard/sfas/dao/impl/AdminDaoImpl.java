@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
  
@@ -25,6 +26,14 @@ public class AdminDaoImpl implements AdminDao {
     	hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
     	
+	@SuppressWarnings("unchecked")
+	public 	boolean hasUserByUserName(String userName){
+		List<User> userList = hibernateTemplate.find("From User where userName = ?", userName);
+		if(userList != null && userList.size() > 0)
+			return true;
+		return false;
+	}
+	
     @SuppressWarnings("unchecked")
     public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
     	String sql = searchVo.buildFilterQueryClauses("From "+className+" ");

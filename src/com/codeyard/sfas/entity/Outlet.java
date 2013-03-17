@@ -35,10 +35,15 @@ public class Outlet extends AbstractBaseEntity{
     @ManyToOne(optional=true)
     @JoinColumn(name="distributor_id")
     private Distributor distributor;
-        
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name="route_id")
+    private Route route;
+    
     public Outlet(){
     	active = true;
-    	distributor = new Distributor();    	
+    	distributor = new Distributor();  
+    	route = new Route();
     }
 
 	public String getPointName() {
@@ -103,6 +108,14 @@ public class Outlet extends AbstractBaseEntity{
 
 	public void setDistributor(Distributor distributor) {
 		this.distributor = distributor;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 
 }

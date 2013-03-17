@@ -7,7 +7,7 @@
 
 <body>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/rsm.js"></script>	
-	<div class="category_block block_wrap" style="width: 1000px;padding-top:20px;padding-left: 80px;">
+	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 100px;">
 		<h3 class="maintitle"><spring:message code="rsm.form.title"/></h3>
 		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		

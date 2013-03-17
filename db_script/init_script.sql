@@ -13,4 +13,6 @@ VALUES ('1',  'Mirpur',  '1'), ('2',  'Banani',  '1'), ('3',  'Agrabad',  '2');
 INSERT INTO  `sfasdb`.`cy_be_territories` (`id` ,`name` ,`area_id`)
 VALUES ('1',  'Territory 1',  '1'), ('2',  'Territory 2',  '1');
 
+INSERT INTO  `sfasdb`.`cy_be_routes` (`id` ,`name` ,`territory_id`)
+VALUES ('1',  'Route 1',  '1'), ('2',  'Route 2',  '1');
 
