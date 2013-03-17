@@ -123,4 +123,56 @@ $(function () {
 		if(flag)
 			return false;
 	});
+	
+	/********************************************************************************************************************
+	 *										For Current Stock List Page 										
+	/********************************************************************************************************************/
+
+	if($("#admin-stock-grid").length > 0)
+		loadStockGrid();
+
+	function loadStockGrid() {
+		if ($("#admin-stock-grid").html() == "") {
+        	fields = ['product.fullName', 'quantity', 'lastStockInDate', 'lastStockOutDate'];
+            columns = [
+                   {
+                       text: '',
+                       width: 25,
+                       dataIndex: ''
+                   },
+                   {
+                       text: 'Product',
+                       width: 220,
+                       dataIndex: 'product.fullName'                       
+                   },
+                   {
+                       text: 'Current Stock Quantity',
+                       width: 150,
+                       dataIndex: 'quantity'
+                   },                   
+                   {
+                       text: 'Last Stock In Date',
+                       width: 150,
+                       dataIndex: 'lastStockInDate',
+                       renderer: Ext.util.Format.dateRenderer('m/d/Y')
+                   },                   
+                   {
+                       text: 'Last Stock Out Date',
+                       width: 150,
+                       dataIndex: 'lastStockOutDate',
+                       renderer: Ext.util.Format.dateRenderer('m/d/Y')
+                   }                  
+               ];
+            loadGrid(fields, './currentStockList.html?'+$("#searchForm").serialize(), 'stock',
+				columns, 440, 720, 'admin-stock-grid');
+
+        }
+
+    }
+		
+	$("#stockSearchBtn").click(function(){
+		$("#admin-stock-grid").html('');
+		loadStockGrid();
+	});
+
 });

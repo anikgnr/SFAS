@@ -58,6 +58,9 @@ public class InventoryDaoImpl implements InventoryDao {
 		stockSummary.setQuantity(stockSummary.getQuantity() + stockIn.getQuantity());
 		stockSummary.setLastModified(Utils.today());
 		stockSummary.setLastModifiedBy(Utils.getLoggedUser());
+		if(stockIn.getId() == null || stockIn.getId() == 0){
+			stockSummary.setLastStockInDate(stockIn.getStockInDate());
+		}
 		hibernateTemplate.saveOrUpdate(stockSummary);
 		
 		if(stockIn.getId() == null || stockIn.getId() == 0){
@@ -100,5 +103,11 @@ public class InventoryDaoImpl implements InventoryDao {
 			hibernateTemplate.saveOrUpdate(stockSummary);
 			hibernateTemplate.delete(stockIn);			
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<StockSummary> getCurrentStockList(StockSearchVo searchVo){
+		searchVo.buildFilterQueryClauses("FROM StockSummary ",new ArrayList<Object>(),false);
+		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
 	}
 }

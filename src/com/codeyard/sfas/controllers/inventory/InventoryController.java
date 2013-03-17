@@ -20,9 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
+import com.codeyard.sfas.entity.StockIn;
+import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.vo.AdminSearchVo;
+import com.codeyard.sfas.vo.StockSearchVo;
 
 
 @Controller
@@ -30,12 +34,26 @@ public class InventoryController {
 	private static Logger logger = Logger.getLogger(InventoryController.class);
 	
 	@Autowired(required=true)
-	private AdminService adminService;
+	private InventoryService inventoryService;
 
 	@RequestMapping(value="/inventory/home.html", method=RequestMethod.GET)
 	public String adminHomePanel(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside inventory home:::::::::::::::::");
     	return "inventory/home";
-	}    
+	}   
+	
+	@RequestMapping(value="/inventory/stockList.html", method=RequestMethod.GET)
+	public String entityPanel(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside inventory stock List:::::::::::::::::");
+	   	return "inventory/stockList";
+	}   	
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/inventory/currentStockList.html", method=RequestMethod.GET)
+	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
+	   	List<StockSummary> stockList = inventoryService.getCurrentStockList(StockSearchVo.fetchFromRequest(request));
+	   	map.put("stock", stockList);
+		return map;
+	}
     	   
 }

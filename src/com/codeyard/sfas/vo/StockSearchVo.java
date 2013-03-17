@@ -16,6 +16,8 @@ public class StockSearchVo extends SearchVo{
 	private Long quantity;
 	private Date stockInFromDate;
 	private Date stockInToDate;
+	private String productName;
+	private String bagSize;
 	
 	public StockSearchVo(){
 		this.productId = 0L;
@@ -23,6 +25,8 @@ public class StockSearchVo extends SearchVo{
 		this.quantity = 0L;
 		this.stockInFromDate = null;
 		this.stockInToDate = null;
+		this.productName = null;
+		this.bagSize = null;
 	}
 	
 	
@@ -75,6 +79,27 @@ public class StockSearchVo extends SearchVo{
 		this.stockInToDate = stockInToDate;
 	}
 
+	
+
+	public String getProductName() {
+		return productName;
+	}
+
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+
+	public String getBagSize() {
+		return bagSize;
+	}
+
+
+	public void setBagSize(String bagSize) {
+		this.bagSize = bagSize;
+	}
+
 
 	public static StockSearchVo fetchFromRequest(HttpServletRequest request){
     	StockSearchVo searchVo = new StockSearchVo();
@@ -89,7 +114,11 @@ public class StockSearchVo extends SearchVo{
     		searchVo.setStockInFromDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("stockInFromDate")));
     	if(request.getParameter("stockInToDate") != null && !Utils.isNullOrEmpty((String)request.getParameter("stockInToDate")))
     		searchVo.setStockInToDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("stockInToDate")));
-
+    	if(request.getParameter("productName") != null && !Utils.isNullOrEmpty((String)request.getParameter("productName")))
+    		searchVo.setProductName((String)request.getParameter("productName"));
+    	if(request.getParameter("bagSize") != null && !Utils.isNullOrEmpty((String)request.getParameter("bagSize")))
+    		searchVo.setBagSize((String)request.getParameter("bagSize"));
+    	
     	return searchVo;
     }
 	
@@ -118,6 +147,15 @@ public class StockSearchVo extends SearchVo{
 		if(this.stockInToDate != null){
     		sql += (hasClause ? "AND ":"WHERE ") + "stockInDate < ? ";
     		paramList.add(Utils.nextDay(this.stockInToDate));
+    		hasClause = true;
+    	}
+		if(!Utils.isNullOrEmpty(this.productName)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "product.productName LIKE '%"+this.productName+"%' ";    		
+    		hasClause = true;
+    	}
+		if(!Utils.isNullOrEmpty(this.bagSize)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "product.bagSize = ? ";
+    		paramList.add(this.bagSize);
     		hasClause = true;
     	}
 		

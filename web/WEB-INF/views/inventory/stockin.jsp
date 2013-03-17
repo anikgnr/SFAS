@@ -7,7 +7,7 @@
 <html>
 
 <body>
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/inventory/stockIn.js"></script>	
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/inventory/stock.js"></script>	
 	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 100px;">
 		<h3 class="maintitle"><spring:message code="stockin.form.title"/></h3>
 		<div class="ipsBox table_wrap">

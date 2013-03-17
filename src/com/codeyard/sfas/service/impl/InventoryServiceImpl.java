@@ -14,6 +14,7 @@ import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.StockIn;
+import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
@@ -61,6 +62,10 @@ public class InventoryServiceImpl implements InventoryService {
 	
 	public boolean isStockInAlreadyUsedById(Long stockInId){
 		return jdbcDao.isStockInAlreadyUsedById(stockInId);
+	}
+	
+	public List<StockSummary> getCurrentStockList(StockSearchVo searchVo){
+		return inventoryDao.getCurrentStockList(searchVo);
 	}
 		
 }
