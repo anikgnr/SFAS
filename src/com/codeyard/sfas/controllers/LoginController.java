@@ -34,6 +34,10 @@ public class LoginController {
 			return "redirect:/admin/home.html";
 		}else if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue()) || Utils.isInRole(Role.INVENTORY_OPERATOR.getValue())){
 			return "redirect:/inventory/home.html";
+		}else if(Utils.isInRole(Role.OPERATOR.getValue())){
+			return "redirect:/operator/home.html";
+		}else if(Utils.isInRole(Role.REPORT_MGR.getValue()) || Utils.isInRole(Role.REPORT_OPERATOR.getValue())){
+			return "redirect:/report/home.html";
 		}
 		return "login";
     }

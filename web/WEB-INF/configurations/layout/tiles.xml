@@ -27,6 +27,22 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
     
+    <definition name="operator.definition"
+        template="/WEB-INF/views/layout/layout.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="header" value="/WEB-INF/views/layout/operator_header.jsp" />        
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+    
+    <definition name="report.definition"
+        template="/WEB-INF/views/layout/layout.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="header" value="/WEB-INF/views/layout/report_header.jsp" />        
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+    
      <definition name="base.definition.withoutheaderfooter"
         template="/WEB-INF/views/layout/layoutWithoutHeaderFooter.jsp">
 		<!-- <put-attribute name="title" value="" /> -->
@@ -44,5 +60,13 @@
     <definition name="inventory/*" extends="inventory.definition">
         <put-attribute name="body" value="/WEB-INF/views/inventory/{1}.jsp" />
     </definition>
+
+    <definition name="operator/*" extends="operator.definition">
+        <put-attribute name="body" value="/WEB-INF/views/operator/{1}.jsp" />
+    </definition>
     
+    <definition name="report/*" extends="report.definition">
+        <put-attribute name="body" value="/WEB-INF/views/report/{1}.jsp" />
+    </definition>
+        
 </tiles-definitions>

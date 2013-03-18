@@ -1,29 +1,59 @@
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ page import="com.codeyard.sfas.util.Utils"%>
+
+<%
+	final String contextPath = request.getContextPath();	
+%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 						"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<%-- <title><tiles:insertAttribute name="title" ignore="true"/></title> --%>
-	<link type="text/css" href="resources/styles/base.css" rel="stylesheet" />   
-	<title>ddd :&nbsp; dddd </title>
+	<link type="text/css" href="<%= contextPath %>/resources/styles/base.css" rel="stylesheet" />   
+	<link type="text/css" href="<%= contextPath %>/resources/styles/ipb_styles.css" rel="stylesheet" />	
+	<title>Access Denied</title>
 </head>
-<body>
-	<div id="header">
-    	<div id="logo"><img src="resources/images/wkfs-logo.jpg" /></div>
-    	<div id="pageheader">ttt</div>
-	</div>
-    <div id="formblock" style="height: 400px; padding-top: 50px;">
-        <div style="padding-left:20px;">
-        	<h2>ddd</h2>
-        	<p>
-        		dddddddddddddddddddddddddddddddd <a href="${url}">Click here</a>    	       	
-        	</p>
-        </div>
-	</div>
- 
-    <div id="footer">
-    	<div id="copyright"><spring:message code="layout.footer.label"/></div>
-	</div>
+<body id="ipboard_body">
+
+		  <div id="ipbwrapper">
+				<div id="header_bar" class="clearfix">
+			<div class="main_width">
+				<div id="user_navigation" class="not_logged_in">
+					<ul class="ipsList_inline right">				
+						<li>
+							<a href="<%= contextPath %>/login.html" title="Sign In" class="register_link">Sign In</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="branding">
+			<div class="main_width">
+				<div id="logo">
+					<a href="#" title="Go to Home Page" rel="home" accesskey="1"><img src="<%=contextPath%>/resources/images/logo.png" alt="Logo"></a>
+				</div>
+				<!-- <div id="search" class="right">
+				test dialog
+				</div> -->
+			</div>
+		</div>
+		<div id="primary_nav" class="clearfix"><div class="main_width" style="padding-bottom: 10px;">&nbsp;</div></div>
+	
+		<div id="content" class="clearfix" style="min-height: 600px;">
+			<br/><br/>
+	    	<div style="padding: 160px 0 0 0; text-align: center;">
+				<div style="font-size: 16px;color: #2c5687;font-weight: bold;">Access Denied for your request</div>
+				<div style="color: #da7c0c; padding-top:5px;font-weight: bold;">Please try again with proper privilege <a href="<%=contextPath%>/login.html">click here</a> </div>
+			</div>	
+	 	</div>
+	    <div id="primary_nav" class="clearfix">
+		<div class="main_width" style="padding-bottom: 10px;">
+			<div id="copyright" style="text-align: center;"><spring:message code="layout.footer.label"/></div>
+		</div>
+</div>
+  </div> 
 </body>
 </html>
