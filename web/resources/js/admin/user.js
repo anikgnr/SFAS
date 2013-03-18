@@ -10,7 +10,7 @@ $(function () {
 	function loadUserGrid() {
 
         if ($("#admin-user-grid").html() == "") {
-        	fields = ['firstName', 'lastName', 'roleName', 'mobileNumber', 'active', 'editLink', 'deleteLink'];
+        	fields = ['fullName', 'userName', 'roleName', 'mobileNumber', 'active', 'editLink', 'deleteLink'];
             columns = [
                    {
                        text: '',
@@ -18,14 +18,14 @@ $(function () {
                        dataIndex: ''
                    },
                    {
-                       text: 'First Name',
-                       width: 170,
-                       dataIndex: 'firstName'                       
+                       text: 'Full Name',
+                       width: 210,
+                       dataIndex: 'fullName'                       
                    },                   
                    {
-                       text: 'Last Name',
-                       width: 170,
-                       dataIndex: 'lastName'
+                       text: 'User Name',
+                       width: 130,
+                       dataIndex: 'userName'
                    },                   
                   {
                       text: 'Role',

@@ -106,6 +106,10 @@ public class User extends AbstractBaseEntity{
 		return Role.getLabelForValue(role);
 	}
 	
+	public String getFullName(){
+		return this.firstName+" "+this.lastName;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password

@@ -10,7 +10,7 @@ $(function () {
 	function loadEntityGrid() {
 
         if ($("#admin-tso-grid").html() == "") {
-        	fields = ['firstName', 'lastName', 'mobileNumber', 'territory.name', 'active', 'editLink', 'deleteLink'];
+        	fields = ['name', 'asm.name', 'mobileNumber', 'territory.name', 'active', 'editLink', 'deleteLink'];
             columns = [
                    {
                        text: '',
@@ -18,14 +18,9 @@ $(function () {
                        dataIndex: ''
                    },
                    {
-                       text: 'First Name',
+                       text: 'Full Name',
                        width: 170,
-                       dataIndex: 'firstName'                       
-                   },                   
-                   {
-                       text: 'Last Name',
-                       width: 170,
-                       dataIndex: 'lastName'
+                       dataIndex: 'name'                       
                    },                   
                    {
                        text: 'Cell Number',
@@ -33,10 +28,15 @@ $(function () {
                        dataIndex: 'mobileNumber'
                    },
                    {
-                      text: 'Territory',
-                      width: 160,
-                      dataIndex: 'territory.name'
-                  },
+                       text: 'Territory',
+                       width: 160,
+                       dataIndex: 'territory.name'
+                   },                   
+                   {
+                       text: 'ASM',
+                       width: 170,
+                       dataIndex: 'asm.name'
+                   },
                   {
                       text: 'Is Active',
                       width: 60,

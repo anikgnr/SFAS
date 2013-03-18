@@ -10,7 +10,7 @@ $(function () {
 	function loadASMGrid() {
 
         if ($("#admin-asm-grid").html() == "") {
-        	fields = ['firstName', 'lastName', 'area.name', 'mobileNumber', 'active', 'editLink', 'deleteLink'];
+        	fields = ['name', 'rsm.name', 'area.name', 'mobileNumber', 'active', 'editLink', 'deleteLink'];
             columns = [
                    {
                        text: '',
@@ -18,23 +18,23 @@ $(function () {
                        dataIndex: ''
                    },
                    {
-                       text: 'First Name',
-                       width: 170,
-                       dataIndex: 'firstName'                       
+                       text: 'Full Name',
+                       width: 190,
+                       dataIndex: 'name'                       
                    },                   
                    {
-                       text: 'Last Name',
-                       width: 170,
-                       dataIndex: 'lastName'
+                       text: 'Area',
+                       width: 160,
+                       dataIndex: 'area.name'
                    },                   
-                  {
-                      text: 'Area',
-                      width: 160,
-                      dataIndex: 'area.name'
-                  },
+                   {
+                       text: 'RSM',
+                       width: 170,
+                       dataIndex: 'rsm.name'
+                   },
                   {
                       text: 'Cell Number',
-                      width: 130,
+                      width: 110,
                       dataIndex: 'mobileNumber'
                   },
                   {
