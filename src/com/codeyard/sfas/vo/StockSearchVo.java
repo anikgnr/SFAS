@@ -18,6 +18,7 @@ public class StockSearchVo extends SearchVo{
 	private Date stockInToDate;
 	private String productName;
 	private String bagSize;
+	private String damageType;
 	
 	public StockSearchVo(){
 		this.productId = 0L;
@@ -27,6 +28,7 @@ public class StockSearchVo extends SearchVo{
 		this.stockInToDate = null;
 		this.productName = null;
 		this.bagSize = null;
+		this.damageType = null;
 	}
 	
 	
@@ -101,6 +103,16 @@ public class StockSearchVo extends SearchVo{
 	}
 
 
+	public String getDamageType() {
+		return damageType;
+	}
+
+
+	public void setDamageType(String damageType) {
+		this.damageType = damageType;
+	}
+
+
 	public static StockSearchVo fetchFromRequest(HttpServletRequest request){
     	StockSearchVo searchVo = new StockSearchVo();
 
@@ -118,6 +130,8 @@ public class StockSearchVo extends SearchVo{
     		searchVo.setProductName((String)request.getParameter("productName"));
     	if(request.getParameter("bagSize") != null && !Utils.isNullOrEmpty((String)request.getParameter("bagSize")))
     		searchVo.setBagSize((String)request.getParameter("bagSize"));
+    	if(request.getParameter("damageType") != null && !Utils.isNullOrEmpty((String)request.getParameter("damageType")))
+    		searchVo.setDamageType((String)request.getParameter("damageType"));
     	
     	return searchVo;
     }
@@ -156,6 +170,11 @@ public class StockSearchVo extends SearchVo{
 		if(!Utils.isNullOrEmpty(this.bagSize)){
     		sql += (hasClause ? "AND ":"WHERE ") + "product.bagSize = ? ";
     		paramList.add(this.bagSize);
+    		hasClause = true;
+    	}
+		if(!Utils.isNullOrEmpty(this.damageType)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "damageType = ? ";
+    		paramList.add(this.damageType);
     		hasClause = true;
     	}
 		

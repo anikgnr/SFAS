@@ -175,4 +175,55 @@ $(function () {
 		loadStockGrid();
 	});
 
+	/********************************************************************************************************************
+	 *										For Damage Stock List Page 										
+	/********************************************************************************************************************/
+
+	if($("#admin-damage-grid").length > 0)
+		loadDamageGrid();
+
+	function loadDamageGrid() {
+		if ($("#admin-damage-grid").html() == "") {
+        	fields = ['product.productName', 'product.bagSize', 'damageType', 'quantity'];
+            columns = [
+                   {
+                       text: '',
+                       width: 25,
+                       dataIndex: ''
+                   },
+                   {
+                       text: 'Product Name',
+                       width: 220,
+                       dataIndex: 'product.productName'                       
+                   },
+                   {
+                       text: 'Product Bag Size',
+                       width: 130,
+                       dataIndex: 'product.bagSize',
+                       align: 'center',
+                       renderer: function (value) { return value+" pcs"; }
+                   },                   
+                   {
+                       text: 'Damage Type',
+                       width: 190,
+                       dataIndex: 'damageType'
+                   },                   
+                   {
+                       text: 'Quantity',
+                       width: 130,
+                       dataIndex: 'quantity'
+                   }                  
+               ];
+            loadGrid(fields, './currentDamageList.html?'+$("#searchForm").serialize(), 'damage',
+				columns, 440, 720, 'admin-damage-grid');
+
+        }
+
+    }
+		
+	$("#damageSearchBtn").click(function(){
+		$("#admin-damage-grid").html('');
+		loadDamageGrid();
+	});
+
 });

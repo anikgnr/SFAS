@@ -38,15 +38,9 @@ public class StockIn extends AbstractBaseEntity{
     @Column(name = "stock_description")
     private  String comment;
     
-    @Column(name = "is_damaged")
-    private  boolean damaged;
-    
-    @Column(name = "damage_type")
-    private  String damageType;    
-    
-    @Column(name = "damage_reason")
-    private  String damageReason;    
-    
+    @Column(name = "is_used")
+    private  boolean used;
+        
     @Transient
     private Long previousQuantity;
     
@@ -54,7 +48,7 @@ public class StockIn extends AbstractBaseEntity{
     	quantity = 0L;
     	previousQuantity = 0L;
     	product = new Product();
-    	damaged = false;
+    	used = false;
     }
 
 	public Product getProduct() {
@@ -104,30 +98,6 @@ public class StockIn extends AbstractBaseEntity{
 	public void setManufactureDate(Date manufactureDate) {
 		this.manufactureDate = manufactureDate;
 	}
-
-	public boolean isDamaged() {
-		return damaged;
-	}
-
-	public void setDamaged(boolean damaged) {
-		this.damaged = damaged;
-	}
-
-	public String getDamageType() {
-		return damageType;
-	}
-
-	public void setDamageType(String damageType) {
-		this.damageType = damageType;
-	}
-
-	public String getDamageReason() {
-		return damageReason;
-	}
-
-	public void setDamageReason(String damageReason) {
-		this.damageReason = damageReason;
-	}
  
 	public Long getPreviousQuantity() {
 		return previousQuantity;
@@ -135,6 +105,15 @@ public class StockIn extends AbstractBaseEntity{
 
 	public void setPreviousQuantity(Long previousQuantity) {
 		this.previousQuantity = previousQuantity;
+	}
+
+	
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 
 	public void merge(StockIn stockIn){

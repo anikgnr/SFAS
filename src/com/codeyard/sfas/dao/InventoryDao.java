@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.DamageSummary;
 import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.vo.AdminSearchVo;
@@ -16,5 +17,6 @@ public interface InventoryDao {
 	List<StockSummary> getCurrentStockList(StockSearchVo searchVo);
 	StockSummary getStockSummaryByProductId(Long productId);
 	void deleteStockInById(Long stockInId);
+	List<DamageSummary> getDamageStockList(StockSearchVo searchVo);
 }
 

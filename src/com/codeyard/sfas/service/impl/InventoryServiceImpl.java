@@ -12,6 +12,7 @@ import com.codeyard.sfas.dao.InventoryDao;
 import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.DamageSummary;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.StockSummary;
@@ -66,6 +67,10 @@ public class InventoryServiceImpl implements InventoryService {
 	
 	public List<StockSummary> getCurrentStockList(StockSearchVo searchVo){
 		return inventoryDao.getCurrentStockList(searchVo);
+	}
+	
+	public List<DamageSummary> getDamageStockList(StockSearchVo searchVo){
+		return inventoryDao.getDamageStockList(searchVo);
 	}
 		
 }

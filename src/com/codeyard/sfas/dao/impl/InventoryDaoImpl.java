@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.InventoryDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.DamageSummary;
 import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.StockOut;
@@ -108,6 +109,12 @@ public class InventoryDaoImpl implements InventoryDao {
 	@SuppressWarnings("unchecked")
 	public List<StockSummary> getCurrentStockList(StockSearchVo searchVo){
 		searchVo.buildFilterQueryClauses("FROM StockSummary ",new ArrayList<Object>(),false);
+		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DamageSummary> getDamageStockList(StockSearchVo searchVo){
+		searchVo.buildFilterQueryClauses("FROM DamageSummary ",new ArrayList<Object>(),false);
 		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
 	}
 }
