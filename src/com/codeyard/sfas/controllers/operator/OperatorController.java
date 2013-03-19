@@ -33,4 +33,10 @@ public class OperatorController {
     	return "operator/home";
 	}   
 	
+	 @RequestMapping(value="/operator/depoList.html", method=RequestMethod.GET)
+		public String entityPanel(HttpServletRequest request,Model model) {
+	    	logger.debug(":::::::::: inside operator depo home:::::::::::::::::");
+	    	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
+	    	return "operator/depoList";
+		}    
 }

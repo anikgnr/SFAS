@@ -9,6 +9,10 @@
 <div id="header_bar" class="clearfix">
 	<div class="main_width">
 		<div id="user_navigation" class="not_logged_in">
+			<div style="float:left;">
+				<img src="<%= contextPath %>/resources/images/smalllogo.png"/>
+				<span style="color: green;font-size: 13px; padding-left:5px;">Mabco Group : Serving Fibre, Food, Feed &amp; Fertilizer</span>
+			</div>						
 			<ul class="ipsList_inline right">			
 				<li>
 					Welcome <%=loggedUser.getName()%>&nbsp;&nbsp; 
@@ -25,17 +29,24 @@
 		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
 			<spring:message code="layout.module.operator"/>
 		</div>
-		<div id="logo">
-			<a href="#" title="Go to Home Page" rel="home" accesskey="1"><img src="<%=contextPath%>/resources/images/logo.png" alt="Logo"></a>
-		</div>		 
+		<div id="logo" style="color: white;font-size: 20px;font-family: cursive;font-style: italic;">
+			<br/>		
+			Sales Forced Automation System
+		</div>			 
 	</div>
 </div>
 <div id="primary_nav" class="clearfix">
-				<div class="main_width">
-					<ul class="ipsList_inline" id="community_app_menu">					
-						<li id="nav_menu_1" class="left  ">
-							<a id="menu1" href="<%= contextPath %>/operator/stockList.html" title="">Current Stock List</a>
-						</li>												
-					</ul>
-				</div>
+	<div class="main_width">
+		<ul class="ipsList_inline" id="community_app_menu">					
+			<li id="nav_menu_1" class="left  ">
+				<a id="menu1" href="<%= contextPath %>/operator/depoList.html" title="">DEPO Module</a>
+			</li>												
+			<li id="nav_menu_2" class="left  ">
+				<a id="menu2" href="<%= contextPath %>/operator/distributorList.html" title="">Distributor Module</a>
+			</li>
+			<li id="nav_menu_3" class="left  ">
+				<a id="menu3" href="<%= contextPath %>/operator/outletList.html" title="">Outlet Module</a>
+			</li>
+		</ul>
+	</div>
  </div>

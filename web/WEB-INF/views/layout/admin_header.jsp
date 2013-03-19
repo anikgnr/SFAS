@@ -8,6 +8,11 @@
 <div id="header_bar" class="clearfix">
 	<div class="main_width">
 		<div id="user_navigation" class="not_logged_in">
+			<div style="float:left;">
+				<img src="<%= contextPath %>/resources/images/smalllogo.png"/>
+				<span style="color: green;font-size: 13px; padding-left:5px;">Mabco Group : Serving Fibre, Food, Feed &amp; Fertilizer</span>
+			</div>			
+			
 			<ul class="ipsList_inline right">			
 				<li>
 					Welcome <%=loggedUser.getName()%>&nbsp;&nbsp; 
@@ -24,9 +29,10 @@
 		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
 			<spring:message code="layout.module.admin"/>
 		</div>
-		<div id="logo">
-			<a href="#" title="Go to Home Page" rel="home" accesskey="1"><img src="<%=contextPath%>/resources/images/logo.png" alt="Logo"></a>
-		</div>		
+		<div id="logo" style="color: white;font-size: 20px;font-family: cursive;font-style: italic;">
+			<br/>		
+			Sales Forced Automation System
+		</div>				
 	</div>
 </div>
 <div id="primary_nav" class="clearfix">
