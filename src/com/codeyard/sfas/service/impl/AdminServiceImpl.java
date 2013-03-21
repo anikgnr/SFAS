@@ -41,6 +41,10 @@ public class AdminServiceImpl implements AdminService {
 		return entityList;
 	}
 	
+	public List<AbstractBaseEntity> getActiveEnityList(AdminSearchVo searchVo, String className){
+		return adminDao.getActiveEnityList(searchVo, className);
+	}
+	
 	public AbstractBaseEntity loadEntityById(Long id, String className){	
 		return adminDao.loadEntityById(id, className);
 	}

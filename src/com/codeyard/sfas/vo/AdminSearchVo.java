@@ -348,8 +348,7 @@ public class AdminSearchVo {
     	return searchVo;
     }
 	
-	public String buildFilterQueryClauses(String sql){
-		boolean hasClause = false;
+	public String buildFilterQueryClauses(String sql, boolean hasClause){		 
     	
     	if(!Utils.isNullOrEmpty(this.firstName)){
     		sql += (hasClause ? "AND ":"WHERE ") + "firstName LIKE '%"+this.firstName+"%'";

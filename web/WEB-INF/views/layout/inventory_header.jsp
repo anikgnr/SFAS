@@ -29,8 +29,7 @@
 		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
 			<spring:message code="layout.module.inventory"/>
 		</div>
-		<div id="logo" style="color: white;font-size: 20px;font-family: cursive;font-style: italic;">
-			<br/>		
+		<div style="color: white;font-size: 20px;font-family: cursive;font-style: italic;padding-top: 17px;">			
 			Sales Forced Automation System
 		</div>		 
 	</div>
@@ -39,10 +38,10 @@
 				<div class="main_width">
 					<ul class="ipsList_inline" id="community_app_menu">					
 						<li id="nav_menu_1" class="left  ">
-							<a id="menu1" href="<%= contextPath %>/inventory/stockList.html" title="">Current Stock List</a>
+							<a id="menu1" href="<%= contextPath %>/inventory/stockList.html" title="">Current Stock Summary</a>
 						</li>
 						<li id="nav_menu_2" class="left  ">
-							<a id="menu2" href="<%= contextPath %>/inventory/damageStockList.html" title="">Damage Stock List</a>
+							<a id="menu2" href="<%= contextPath %>/inventory/damageStockList.html" title="">Damage Summary</a>
 						</li>
 						<li id="nav_menu_3" class="left  ">
 							<a id="menu3" href="<%= contextPath %>/inventory/stockinList.html" title="">Today's Stock In Entry List</a>							

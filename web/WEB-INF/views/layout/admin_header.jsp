@@ -29,8 +29,7 @@
 		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
 			<spring:message code="layout.module.admin"/>
 		</div>
-		<div id="logo" style="color: white;font-size: 20px;font-family: cursive;font-style: italic;">
-			<br/>		
+		<div style="color: white;font-size: 20px;font-family: cursive;font-style: italic;padding-top: 17px;">					
 			Sales Forced Automation System
 		</div>				
 	</div>

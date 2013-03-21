@@ -36,7 +36,14 @@ public class AdminDaoImpl implements AdminDao {
 	
     @SuppressWarnings("unchecked")
     public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
-    	String sql = searchVo.buildFilterQueryClauses("From "+className+" ");
+    	String sql = searchVo.buildFilterQueryClauses("From "+className+" ", false);
+    	logger.debug(sql);
+    	return hibernateTemplate.find(sql);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<AbstractBaseEntity> getActiveEnityList(AdminSearchVo searchVo, String className){
+    	String sql = searchVo.buildFilterQueryClauses("From "+className+" WHERE active=true ", true);
     	logger.debug(sql);
     	return hibernateTemplate.find(sql);
     }

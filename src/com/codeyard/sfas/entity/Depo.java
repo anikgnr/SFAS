@@ -5,6 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="cy_be_depos")
@@ -37,7 +38,7 @@ public class Depo extends AbstractBaseEntity{
     @Column(name = "is_company_inventory")
     private boolean companyInventory;
     
-        
+    
     public Depo(){
     	active = true;
     	rsm = new RSM();
@@ -113,5 +114,18 @@ public class Depo extends AbstractBaseEntity{
 			return this.name;
 		else
 			return this.name+" ("+this.rsm.getRegion().getName()+")";
+	}
+	
+	public String getOrdersLink(){
+		return "<a href=''>Orders</a>";
+	}	
+	public String getOrderLink(){
+		return "<a href=''>Place Order</a>";
+	}
+	public String getDamageLink(){
+		return "<a href=''>Damages</a>";
+	}
+	public String getPlanLink(){
+		return "<a href=''>Product Plan</a>";
 	}
 }

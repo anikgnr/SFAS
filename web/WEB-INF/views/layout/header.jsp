@@ -17,8 +17,7 @@
 </div>
 <div id="branding">
 	<div class="main_width">
-		<div id="logo" style="color: white;font-size: 20px;font-family: cursive;font-style: italic;">
-			<br/>		
+		<div style="color: white;font-size: 20px;font-family: cursive;font-style: italic;padding-top: 17px;">					
 			Sales Forced Automation System
 		</div>		
 	</div>

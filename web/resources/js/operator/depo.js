@@ -10,21 +10,21 @@ $(function () {
 	function loadDEPOGrid() {
 
         if ($("#admin-depo-grid").html() == "") {
-        	fields = ['name', 'address', 'rsm.region.name', 'rsm.name', 'active', 'editLink', 'deleteLink'];
+        	fields = ['name', 'address', 'rsm.region.name', 'rsm.name', 'ordersLink', 'orderLink', 'damageLink', 'planLink'];
             columns = [
                    {
                        text: '',
-                       width: 25,
+                       width: 15,
                        dataIndex: ''
                    },
                    {
                        text: 'DEPO Name',
-                       width: 170,
+                       width: 130,
                        dataIndex: 'name'                       
                    },                   
                    {
                        text: 'DEPO Location',
-                       width: 170,
+                       width: 150,
                        dataIndex: 'address'
                    },                   
                   {
@@ -34,27 +34,32 @@ $(function () {
                   },
                   {
                       text: 'RSM',
-                      width: 170,
+                      width: 120,
                       dataIndex: 'rsm.name'
                   },
                   {
-                      text: 'Is Active',
+                      text: '',
                       width: 60,
-                      dataIndex: 'active'
+                      dataIndex: 'ordersLink'
                   },
                   {
                       text: '',
-                      width: 45,
-                      dataIndex: 'editLink'
+                      width: 80,
+                      dataIndex: 'orderLink'
                   },
                   {
                       text: '',
-                      width: 50,
-                      dataIndex: 'deleteLink'
+                      width: 65,
+                      dataIndex: 'damageLink'
+                  },
+                  {
+                      text: '',
+                      width: 80,
+                      dataIndex: 'planLink'
                   }                  
                ];
-            loadGrid(fields, './completeDepoList.html?'+$("#searchForm").serialize(), 'depo',
-				columns, 220, 835, 'admin-depo-grid');
+            loadGrid(fields, './activeDepoList.html?'+$("#searchForm").serialize(), 'depo',
+				columns, 420, 835, 'admin-depo-grid');
 
         }
 
