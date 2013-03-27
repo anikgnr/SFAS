@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
@@ -68,7 +68,13 @@ public class UserController {
     		roles.put(role.getValue(), role.getLabel());
     	
     	model.addAttribute("roles", roles);
-    	    	
+    	
+    	Map<String,String> types = new LinkedHashMap<String,String>();
+    	for(ManagerType type : ManagerType.getAllTypes())
+    		types.put(type.getValue(), type.getLabel());
+    	
+    	model.addAttribute("types", types);
+    	
     	return new ModelAndView("admin/user", "command", user);
 	}    
 

@@ -27,7 +27,7 @@
 <div id="branding">
 	<div class="main_width">
 		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
-			<spring:message code="layout.module.report"/>
+			<spring:message code="layout.module.manager"/>
 		</div>
 		<div style="color: white;font-size: 20px;font-family: cursive;font-style: italic;padding-top: 17px;">
 			Sales Forced Automation System

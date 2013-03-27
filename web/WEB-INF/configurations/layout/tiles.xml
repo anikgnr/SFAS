@@ -35,10 +35,10 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
     
-    <definition name="report.definition"
+    <definition name="manager.definition"
         template="/WEB-INF/views/layout/layout.jsp">
 		<!-- <put-attribute name="title" value="" /> -->
-        <put-attribute name="header" value="/WEB-INF/views/layout/report_header.jsp" />        
+        <put-attribute name="header" value="/WEB-INF/views/layout/manager_header.jsp" />        
         <put-attribute name="body" value="" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
@@ -65,8 +65,8 @@
         <put-attribute name="body" value="/WEB-INF/views/operator/{1}.jsp" />
     </definition>
     
-    <definition name="report/*" extends="report.definition">
-        <put-attribute name="body" value="/WEB-INF/views/report/{1}.jsp" />
+    <definition name="manager/*" extends="manager.definition">
+        <put-attribute name="body" value="/WEB-INF/views/manager/{1}.jsp" />
     </definition>
         
 </tiles-definitions>

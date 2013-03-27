@@ -1,14 +1,14 @@
 package com.codeyard.sfas.entity;
 
 
-public enum Role {
-	 ADMIN("System Admin", "ROLE_ADMIN"), MANAGER("System Manager", "ROLE_MANAGER"), OPERATOR("System Operator", "ROLE_OPERATOR"),
-	 INVENTORY_ADMIN("Inventory Admin", "ROLE_INVENTORY_ADMIN"), INVENTORY_OPERATOR("Inventory Operator", "ROLE_INVENTORY_OPERATOR");
+public enum ManagerType {
+	 MIS("MIS", "mis"), ACCOUNT("Account", "account"), Manager("Manager", "manager"),
+	 MM("MM", "mm"), MD("MD", "md");
 	 
 	private String label;
 	private String value;
 
-	private Role(String label, String value) {
+	private ManagerType(String label, String value) {
 		this.label = label;
 		this.value = value;
 	}
@@ -30,7 +30,7 @@ public enum Role {
 	}
 
 	public static String getLabelForValue(String value) {
-		for (Role type : values()) {
+		for (ManagerType type : values()) {
 			if (type.getValue().equals(value)) {
 				return type.getLabel();				
 			}
@@ -38,7 +38,7 @@ public enum Role {
 		return value;
 	}
 	
-	public static Role[] getAllRoles(){
+	public static ManagerType[] getAllTypes(){
 		return values();
 	}
 	

@@ -30,7 +30,10 @@ public class User extends AbstractBaseEntity{
     
     @Column(name = "mobile_number")
     private String mobileNumber;
-
+    
+    @Column(name = "department")
+    private String department;
+    
     @Transient
     private String confirmPassword;
 
@@ -110,6 +113,14 @@ public class User extends AbstractBaseEntity{
 		return this.firstName+" "+this.lastName;
 	}
 	
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password

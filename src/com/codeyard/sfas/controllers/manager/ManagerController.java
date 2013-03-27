@@ -1,4 +1,4 @@
-package com.codeyard.sfas.controllers.report; 
+package com.codeyard.sfas.controllers.manager; 
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +11,17 @@ import com.codeyard.sfas.service.AdminService;
 
 
 @Controller
-public class ReportController {
-	private static Logger logger = Logger.getLogger(ReportController.class);
+public class ManagerController {
+	private static Logger logger = Logger.getLogger(ManagerController.class);
 	
 	@Autowired(required=true)
 	private AdminService adminService;
 	
 
-	@RequestMapping(value="/report/home.html", method=RequestMethod.GET)
+	@RequestMapping(value="/manager/home.html", method=RequestMethod.GET)
 	public String reportHomePanel(HttpServletRequest request,Model model) {
-    	logger.debug(":::::::::: inside report home:::::::::::::::::");
-    	return "report/home";
+    	logger.debug(":::::::::: inside manager home:::::::::::::::::");
+    	return "manager/home";
 	}   
 	
 }

@@ -24,8 +24,8 @@
 	p:acquireIncrement="5"
 	p:idleConnectionTestPeriod="60"
 	p:maxPoolSize="100"
-	p:maxStatements="50"
-	p:minPoolSize="10"/>
+	p:maxStatements="500"
+	p:minPoolSize="2"/>
   
   
   <!-- Declare the Hibernate SessionFactory for retrieving Hibernate sessions -->  

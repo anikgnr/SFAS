@@ -73,6 +73,14 @@ $(function () {
 	 *										For Add/Edit User Page 										
 	/********************************************************************************************************************/
 
+	$("#role").bind('change', function () {
+		if($("#managerRole").val()==$(this).val()){
+			$("#deptBlock").show();
+		}else{
+			$("#deptBlock").hide();	
+		}			
+	});
+	
 	$("#saveBtn").click(function(){
 		clearErrors();
 		flag = false;
@@ -93,8 +101,8 @@ $(function () {
         }
 		if ($("#role").val() == '') {
             flag = addError("#role", '');
-        }else if(($("#role").val() == 'ROLE_INVENTORY_ADMIN' || $("#role").val() == 'ROLE_INVENTORY_OPERATOR') && $("#inventoryId").val() == ''){
-        	flag = addError("#inventoryId", '');
+        }else if($("#role").val() ==  $("#managerRole").val() && $("#department").val() == ''){
+        	flag = addError("#department", '');
         }
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');
