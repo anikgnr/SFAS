@@ -71,6 +71,11 @@
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
 							<tr>
+								<td><spring:message code="user.form.email"/> : <span class="required">*</span></td>
+								<td><form:input path="email" /></td>
+								<td class="inputerrormsg">&nbsp;</td>
+							</tr>
+							<tr>
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">

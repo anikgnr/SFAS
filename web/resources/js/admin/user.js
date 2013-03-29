@@ -106,6 +106,11 @@ $(function () {
         }
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');
+        }		
+		if ($("#email").val() == '') {
+            flag = addError("#email", '');
+        }else if (!isValidEmail($("#email").val())) {
+        	flag = addError("#email", 'invalid email !!');
         }
 		
 		if(flag)
