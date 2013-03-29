@@ -87,4 +87,9 @@ public class AdminDaoImpl implements AdminDao {
 	public List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value){
 		return hibernateTemplate.find("FROM "+className+" where "+property+" = ?",value);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getUserListByDept(String dept){
+		return hibernateTemplate.find("FROM User where department = ?",dept);
+	}
 }

@@ -5,30 +5,29 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/operator/depo.js"></script>
-	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 50px;">
-		<h3 class="maintitle" style="width: 1000px;"><spring:message code="depo.form.title"/></h3>
-		<div class="ipsBox table_wrap" style="width: 1000px;">
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/account.js"></script>
+	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 100px;">
+		<h3 class="maintitle"><spring:message code="account.form.title"/></h3>
+		<div class="ipsBox table_wrap">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
 					<form id="searchForm">
 					<table cellspacing="10" cellpadding="0">
 						<tr>
 							<td>
-								<spring:message code="depo.form.name"/> : <input type="text" id="nm" name="nm" />
+								<spring:message code="account.form.bankName"/> : <input type="text" id="bankName" name="bankName" />
 							</td>
 							<td>
-								<spring:message code="depo.form.location"/> : <input type="text" id="ad" name="ad" />	
+								<spring:message code="account.form.account"/> : <input type="text" id="bankAccount" name="bankAccount" />
 							</td>
 							<td>
-								<spring:message code="asm.form.rsm"/> : 
-								<select id="rs" name="rs">
+								<spring:message code="user.form.isActive"/> : 
+								<select id="ia" name="ia" style="width: 100px;">
 									<option value=""></option>
-									<c:forEach items="${rsms}" var="rsm">
-										<option value="${rsm.id}">${rsm.firstName} ${rsm.lastName}-(${rsm.region.name})</option>
-									</c:forEach>
+									<option value="1">True</option>
+									<option value="0">False</option>
 								</select>	
-							</td>							
+							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
@@ -41,7 +40,10 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-depo-grid"></div><br/>						
+				<div id="admin-account-grid"></div><br/>
+				<center>
+					<input class="button orange" id="createNew" type="button" value='<spring:message code="account.form.new"/>'/>
+				</center>		
 			</div>
 		</div>
 	</div>	  

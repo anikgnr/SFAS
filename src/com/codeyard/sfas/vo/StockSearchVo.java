@@ -11,6 +11,7 @@ import com.codeyard.sfas.util.Utils;
 
 public class StockSearchVo extends SearchVo{
 	
+	private Long depoId;
 	private Long productId;
 	private String createdBy;
 	private Long quantity;
@@ -21,6 +22,7 @@ public class StockSearchVo extends SearchVo{
 	private String damageType;
 	
 	public StockSearchVo(){
+		this.depoId = 0L;
 		this.productId = 0L;
 		this.createdBy = null;
 		this.quantity = 0L;
@@ -32,6 +34,16 @@ public class StockSearchVo extends SearchVo{
 	}
 	
 	
+	public Long getDepoId() {
+		return depoId;
+	}
+
+
+	public void setDepoId(Long id) {
+		this.depoId = id;
+	}
+
+
 	public Long getProductId() {
 		return productId;
 	}
@@ -116,6 +128,8 @@ public class StockSearchVo extends SearchVo{
 	public static StockSearchVo fetchFromRequest(HttpServletRequest request){
     	StockSearchVo searchVo = new StockSearchVo();
 
+    	if(request.getParameter("depoId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoId")))
+    		searchVo.setDepoId(Long.parseLong((String)request.getParameter("depoId")));
     	if(request.getParameter("productId") != null && !Utils.isNullOrEmpty((String)request.getParameter("productId")))
     		searchVo.setProductId(Long.parseLong((String)request.getParameter("productId")));
     	if(request.getParameter("createdBy") != null && !Utils.isNullOrEmpty((String)request.getParameter("createdBy")))
@@ -138,6 +152,11 @@ public class StockSearchVo extends SearchVo{
 	
 	public void buildFilterQueryClauses(String sql, List<Object> paramList, boolean hasClause){	
 		
+		if(this.depoId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "depo.id = ? ";
+    		paramList.add(this.depoId);
+    		hasClause = true;
+    	}   
 		if(this.productId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "product.id = ? ";
     		paramList.add(this.productId);

@@ -17,6 +17,8 @@ public class AdminSearchVo {
 	private String productName;
 	private String name;
 	private String bagSize;
+	private String bankName;
+	private String bankAccount;
     private Double rate;
 	private Double profitMargin;
 	private long regionId;
@@ -48,6 +50,8 @@ public class AdminSearchVo {
 		this.productName = null;
 		this.name = null;
 		this.bagSize = null;
+		this.bankName = null;
+		this.bankAccount = null;
 		this.rate = 0.0;
 		this.profitMargin= 0.0;
 		this.regionId = 0;
@@ -285,6 +289,22 @@ public class AdminSearchVo {
 
 	public void setDepoId(long depoId) {
 		this.depoId = depoId;
+	}	
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
 	}
 
 	public static AdminSearchVo fetchFromRequest(HttpServletRequest request){
@@ -306,6 +326,10 @@ public class AdminSearchVo {
     		searchVo.setPointName((String)request.getParameter("pn"));
     	if(request.getParameter("nm") != null && !Utils.isNullOrEmpty((String)request.getParameter("nm")))
     		searchVo.setName((String)request.getParameter("nm"));
+    	if(request.getParameter("bankName") != null && !Utils.isNullOrEmpty((String)request.getParameter("bankName")))
+    		searchVo.setBankName((String)request.getParameter("bankName"));
+    	if(request.getParameter("bankAccount") != null && !Utils.isNullOrEmpty((String)request.getParameter("bankAccount")))
+    		searchVo.setBankAccount((String)request.getParameter("bankAccount"));
     	if(request.getParameter("rg") != null && !Utils.isNullOrEmpty((String)request.getParameter("rg")))
     		searchVo.setRegionId(Long.parseLong((String)request.getParameter("rg")));
     	if(request.getParameter("ia") != null && !Utils.isNullOrEmpty((String)request.getParameter("ia")))
@@ -392,6 +416,14 @@ public class AdminSearchVo {
     	}
     	if(!Utils.isNullOrEmpty(this.bagSize)){
     		sql += (hasClause ? "AND ":"WHERE ") + "bagSize LIKE '%"+this.bagSize+"%'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(this.bankName)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "bankName LIKE '%"+this.bankName+"%'";
+    		hasClause = true;
+    	}
+    	if(!Utils.isNullOrEmpty(this.bankAccount)){
+    		sql += (hasClause ? "AND ":"WHERE ") + "bankAccount LIKE '%"+this.bankAccount+"%'";
     		hasClause = true;
     	}
     	if(this.rate != 0.0){

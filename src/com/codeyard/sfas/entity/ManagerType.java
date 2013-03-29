@@ -2,7 +2,7 @@ package com.codeyard.sfas.entity;
 
 
 public enum ManagerType {
-	 MIS("MIS", "mis"), ACCOUNT("Account", "account"), Manager("Manager", "manager"),
+	 MIS("MIS", "mis"), ACCOUNT("Accounts", "accounts"), Manager("Manager", "manager"),
 	 MM("MM", "mm"), MD("MD", "md");
 	 
 	private String label;

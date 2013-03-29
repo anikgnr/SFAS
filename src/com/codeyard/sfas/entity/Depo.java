@@ -116,6 +116,9 @@ public class Depo extends AbstractBaseEntity{
 			return this.name+" ("+this.rsm.getRegion().getName()+")";
 	}
 	
+	public String getStockLink(){
+		return "<a href='./depoStockList.html?id="+super.getId()+"'>Stocks</a>";
+	}
 	public String getOrdersLink(){
 		return "<a href=''>Orders</a>";
 	}	
@@ -123,9 +126,16 @@ public class Depo extends AbstractBaseEntity{
 		return "<a href=''>Place Order</a>";
 	}
 	public String getDamageLink(){
-		return "<a href=''>Damages</a>";
+		return "<a href='./depoDamageStockList.html?id="+super.getId()+"'>Damages</a>";
 	}
 	public String getPlanLink(){
 		return "<a href=''>Product Plan</a>";
 	}
+	public String getDepositLink(){
+		return "<a href='./depoDepositList.html?id="+super.getId()+"'>Deposits</a>";
+	}
+	public String getSalesLink(){
+		return "<a href=''>Sales</a>";
+	}	
+	
 }

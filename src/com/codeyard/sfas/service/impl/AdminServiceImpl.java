@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
@@ -70,5 +71,9 @@ public class AdminServiceImpl implements AdminService {
 	public List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value){
 		return adminDao.getLookUpEntityList(className, property, value);
 	}
-
+	
+	public List<User> getUserListByDept(String dept){
+		return adminDao.getUserListByDept(dept);
+	}
+	
 }
