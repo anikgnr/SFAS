@@ -11,7 +11,7 @@
 		<div id="user_navigation" class="not_logged_in">
 			<div style="float:left;">
 				<img src="<%= contextPath %>/resources/images/smalllogo.png"/>
-				<span style="color: green;font-size: 13px; padding-left:5px;">Mabco Group : Serving Fibre, Food, Feed &amp; Fertilizer</span>
+				<span style="color: green;font-size: 13px; padding-left:5px;">Mabco Group : Serving Fibre, Food, Feed &amp; Fertilizer Since 1958</span>
 			</div>						
 			<ul class="ipsList_inline right">			
 				<li>
@@ -37,7 +37,9 @@
 <div id="primary_nav" class="clearfix">
 				<div class="main_width">
 					<ul class="ipsList_inline" id="community_app_menu">					
-																		
+						<li id="nav_menu_1" class="left  ">
+							<a id="menu1" href="<%= contextPath %>/manager/pendingDepoDepositList.html" title="">Pending DEPO Deposits</a>
+						</li>																														
 					</ul>
 				</div>
  </div>

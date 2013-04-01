@@ -116,4 +116,9 @@ public class DepoDeposit extends AbstractBaseEntity{
 		else
 			return "";
 	}
+	
+	public String getApproveLink(){
+		return "<a href='javascript:doApprove(\"./approveDepoDeposit.html?id="+super.getId()+"\")'>approve</a>";
+	}
+
 }
