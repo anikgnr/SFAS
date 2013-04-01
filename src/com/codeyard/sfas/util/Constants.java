@@ -8,4 +8,10 @@ public interface Constants {
 	public static final Long COMPANY_INVENTORY_ID = 1L;
 	public static final String COMPANY_INVENTORY_NAME = "Company Inventory";
 	public static final String DATE_FORMAT = "MM/dd/yyyy";
+	public static final String MAIL_SMTP_HOST = "smtp.gmail.com";
+	public static final String MAIL_SMTP_PORT= "587";
+	public static final String MAIL_SMTP_AUTH= "true";
+	public static final String MAIL_SMTP_TLS= "true";
+	public static final String MAIL_FROM_ADDRESS = "anikgnr@gmail.com";
+	public static final String MAIL_FROM_PASSWORD= "Amilia312";
 }

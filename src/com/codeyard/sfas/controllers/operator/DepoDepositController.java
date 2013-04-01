@@ -107,6 +107,7 @@ public class DepoDepositController {
 	    	try{    		
 	    		adminService.saveOrUpdate(deposit);
 	    		Utils.setSuccessMessage(request, "Depo Deposit successfully saved/updated.");
+	    		//Utils.sendMail("anikgnr@gmail.com", "Test email from SFAS system", "sdalkjasdl asdflkasdjf");
 	    	}catch(Exception ex){
 	    		logger.debug("Error while saving/updating Depo Deposit :: "+ex);
 	    		Utils.setErrorMessage(request, "Depo Deposit can't be saved/updated. Please contact with System Admin.");

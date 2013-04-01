@@ -13,6 +13,7 @@ import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.vo.OprSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
  
@@ -27,8 +28,7 @@ public class OperatorDaoImpl implements OperatorDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
     	hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
-	
-		
+			
 	@SuppressWarnings("unchecked")
 	public List<DepoStockSummary> getDepoCurrentStockList(StockSearchVo searchVo){
 		searchVo.buildFilterQueryClauses("FROM DepoStockSummary ",new ArrayList<Object>(),false);
@@ -45,5 +45,6 @@ public class OperatorDaoImpl implements OperatorDao {
 	public List<DepoDeposit> getDepoDepositList(OprSearchVo searchVo){
 		searchVo.buildFilterQueryClauses("FROM DepoDeposit ",new ArrayList<Object>(),false);
 		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
-	}
+	}	
+	
 }

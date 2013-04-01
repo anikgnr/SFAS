@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.BankAccount;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.OprSearchVo;
 
@@ -67,5 +69,24 @@ public class ManagerController {
 	   	map.put("deposit", depositList);
 		return map;
 	}
+
+	 @RequestMapping(value="/manager/approveDepoDeposit.html", method=RequestMethod.GET)
+	 public String approveDepoDeposit(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside manager account approve depo deposit form:::::::::::::::::");
+	   	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null){
+	   	    	if(operatorService.approveDepoDeposit(Long.parseLong(request.getParameter("id"))))
+	   	    		Utils.setSuccessMessage(request, "Depo Deposit approved successfully.");
+	   	    	else
+	   	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");	   	    		
+	   	    }else
+	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");
+	   	}catch(Exception ex){
+	   		logger.debug("Error while approving depo deposit :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");	   		
+	   	}      	    	
+		return "redirect:/manager/pendingDepoDepositList.html";
+	}	
 	
 }

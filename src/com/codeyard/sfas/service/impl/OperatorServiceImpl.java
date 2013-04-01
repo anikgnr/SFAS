@@ -11,7 +11,9 @@ import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.OprSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
 
@@ -24,6 +26,9 @@ public class OperatorServiceImpl implements OperatorService {
 	@Autowired(required=true)
 	private OperatorDao operatorDao;
 	
+	@Autowired(required=true)
+	private AdminService adminService;
+	
 	public List<DepoStockSummary> getDepoCurrentStockList(StockSearchVo searchVo){
 		return operatorDao.getDepoCurrentStockList(searchVo);
 	}
@@ -34,5 +39,26 @@ public class OperatorServiceImpl implements OperatorService {
 	
 	public List<DepoDeposit> getDepoDepositList(OprSearchVo searchVo){
 		return operatorDao.getDepoDepositList(searchVo);
+	}
+	
+	@Transactional(readOnly = false)
+	public boolean approveDepoDeposit(Long depositId){
+		
+		DepoDeposit deposit = (DepoDeposit)adminService.loadEntityById(depositId,"DepoDeposit");
+		if(deposit != null){
+			deposit.setAccountApproved(true);
+	    	deposit.setAccountApprovedBy(Utils.getLoggedUser());
+	    	deposit.setAccountApprovedDate(Utils.today());
+	    	adminService.saveOrUpdate(deposit);
+	    	
+	    	Double currentBalance = deposit.getDepo().getCurrentBalance();
+	    	if(currentBalance == null)
+	    		currentBalance = 0.0;
+	    	deposit.getDepo().setCurrentBalance(currentBalance+deposit.getDepositAmount());
+	    	adminService.saveOrUpdate(deposit.getDepo());
+	    	
+	    	return true;
+		}
+		return false;		
 	}
 }

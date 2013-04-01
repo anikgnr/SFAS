@@ -12,4 +12,5 @@ public interface OperatorService {
 	List<DepoStockSummary> getDepoCurrentStockList(StockSearchVo searchVo);
 	List<DepoDamageSummary> getDepoDamageStockList(StockSearchVo searchVo);	
 	List<DepoDeposit> getDepoDepositList(OprSearchVo searchVo);
+	boolean approveDepoDeposit(Long depositId);
 }

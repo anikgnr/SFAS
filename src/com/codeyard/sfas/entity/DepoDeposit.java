@@ -37,7 +37,7 @@ public class DepoDeposit extends AbstractBaseEntity{
     private String accountApprovedBy;
     
     @Column(name = "account_approved_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private  Date accountApprovedDate;
     
     public DepoDeposit(){

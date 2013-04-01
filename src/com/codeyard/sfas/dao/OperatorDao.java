@@ -12,6 +12,6 @@ public interface OperatorDao {
 	
 	List<DepoStockSummary> getDepoCurrentStockList(StockSearchVo searchVo);
 	List<DepoDamageSummary> getDepoDamageStockList(StockSearchVo searchVo);
-	List<DepoDeposit> getDepoDepositList(OprSearchVo searchVo);
+	List<DepoDeposit> getDepoDepositList(OprSearchVo searchVo);	
 }
 

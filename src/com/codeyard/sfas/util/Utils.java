@@ -150,5 +150,14 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static void sendMail(String to, String subject, String text){
+		try{
+			MailSender sender = new MailSender(to, subject, text);
+			sender.send();
+		}catch(Exception ex){
+			logger.debug("Error while sending mail :: "+ex);
+		}		
+	}
 
 }
