@@ -18,9 +18,6 @@
 								<spring:message code="depo.form.name"/> : <input type="text" id="nm" name="nm" />
 							</td>
 							<td>
-								<spring:message code="depo.form.location"/> : <input type="text" id="ad" name="ad" />	
-							</td>
-							<td>
 								<spring:message code="asm.form.rsm"/> : 
 								<select id="rs" name="rs">
 									<option value=""></option>
@@ -28,15 +25,11 @@
 										<option value="${rsm.id}">${rsm.firstName} ${rsm.lastName}-(${rsm.region.name})</option>
 									</c:forEach>
 								</select>	
-							</td>							
-						</tr>
-						<tr><td>&nbsp;</td></tr>
-						<tr>
-							<td colspan="2">&nbsp;</td>
+							</td>
 							<td  style="text-aling: right;">
 								<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>'/>&nbsp;<input class="button orange" id="searchBtn" type="button" value='<spring:message code="search.button.title"/>'/>
-							</td>
-						</tr>
+							</td>														
+						</tr>						
 					</table>
 					</form>
 				</div>

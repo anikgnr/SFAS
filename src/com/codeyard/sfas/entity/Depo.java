@@ -78,7 +78,10 @@ public class Depo extends AbstractBaseEntity{
 	}
 
 	public Double getCurrentBalance() {
-		return currentBalance;
+		if(currentBalance != null)
+			return currentBalance;
+		else
+			return 0.0;
 	}
 
 	public void setCurrentBalance(Double currentBalance) {
@@ -135,7 +138,7 @@ public class Depo extends AbstractBaseEntity{
 		return "<a href='./depoDepositList.html?id="+super.getId()+"'>Deposits</a>";
 	}
 	public String getSalesLink(){
-		return "<a href=''>Sales</a>";
+		return "<a href='./depoSaleList.html?id="+super.getId()+"'>Sales</a>";		
 	}	
 	
 }

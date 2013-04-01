@@ -10,7 +10,7 @@ $(function () {
 	function loadDEPOGrid() {
 
         if ($("#admin-depo-grid").html() == "") {
-        	fields = ['name', 'address', 'rsm.region.name', 'rsm.name', 'ordersLink', 'orderLink', 'damageLink', 'planLink', 'stockLink', 'depositLink', 'salesLink'];
+        	fields = ['name' , 'rsm.nameWithRegion', 'currentBalance', 'ordersLink', 'orderLink', 'damageLink', 'planLink', 'stockLink', 'depositLink', 'salesLink'];
             columns = [
                    {
                        text: '',
@@ -21,21 +21,18 @@ $(function () {
                        text: 'DEPO Name',
                        width: 130,
                        dataIndex: 'name'                       
-                   },                   
-                   {
-                       text: 'DEPO Location',
-                       width: 130,
-                       dataIndex: 'address'
-                   },                   
-                  {
-                      text: 'Region',
-                      width: 120,
-                      dataIndex: 'rsm.region.name'
-                  },
+                   },
                   {
                       text: 'RSM',
-                      width: 120,
-                      dataIndex: 'rsm.name'
+                      width: 190,
+                      dataIndex: 'rsm.nameWithRegion'
+                  },
+                  {
+                      text: 'Current Balance',
+                      width: 100,
+                      dataIndex: 'currentBalance',
+                      align: 'center',
+                      renderer: function (value) { return value+" Tk"; }
                   },
                   {
                       text: '',
@@ -56,6 +53,11 @@ $(function () {
                       text: '',
                       width: 65,
                       dataIndex: 'depositLink'
+                  },
+                  {
+                      text: '',
+                      width: 80,
+                      dataIndex: 'planLink'
                   },
                   {
                       text: '',
@@ -305,4 +307,53 @@ $(function () {
 	$("#depositBackBtn").click(function(){
 		window.location="./depoDepositList.html?id="+$("#depoId").val();
 	});
+	
+	/********************************************************************************************************************
+	 *										For Depo Sell Summary List Page 										
+	/********************************************************************************************************************/
+
+	if($("#admin-sell-grid").length > 0)
+		loadSellGrid();
+
+	function loadSellGrid() {
+		if ($("#admin-sell-grid").html() == "") {
+        	fields = ['product.fullName', 'quantity', 'lastSellDate'];
+            columns = [
+                   {
+                       text: '',
+                       width: 25,
+                       dataIndex: ''
+                   },
+                   {
+                       text: 'Product',
+                       width: 230,
+                       dataIndex: 'product.fullName'                       
+                   },
+                   {
+                       text: 'Sold Quantity',
+                       width: 180,
+                       dataIndex: 'quantity',
+                       align: 'center'
+                   },                   
+                   {
+                       text: 'Last Sell Date',
+                       width: 180,
+                       dataIndex: 'lastSellDate',
+                       renderer: Ext.util.Format.dateRenderer('m/d/Y'),
+                       align: 'center'
+                   }                  
+               ];            
+            loadGrid(fields, './depoCompleteSellList.html?'+$("#searchForm").serialize(), 'stock',
+				columns, 440, 640, 'admin-sell-grid');
+
+        }
+
+    }
+		
+	$("#sellSearchBtn").click(function(){
+		$("#admin-sell-grid").html('');
+		loadSellGrid();
+	});
+	
+
 });

@@ -90,6 +90,9 @@ public class RSM extends AbstractBaseEntity{
 			return "";
 		return firstName+" "+lastName;
 	}
+	public String getNameWithRegion() {
+		return firstName+" "+lastName+" ("+this.region.getName()+")";
+	}	
 	public Double getMonthlyGross() {
 		return monthlyGross;
 	}

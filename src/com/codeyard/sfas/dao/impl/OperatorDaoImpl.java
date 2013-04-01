@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -46,5 +47,11 @@ public class OperatorDaoImpl implements OperatorDao {
 		searchVo.buildFilterQueryClauses("FROM DepoDeposit ",new ArrayList<Object>(),false);
 		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<DepoSellSummary> getDepoSellSummaryList(StockSearchVo searchVo){
+		searchVo.buildFilterQueryClauses("FROM DepoSellSummary ",new ArrayList<Object>(),false);
+		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
+	}
 	
 }

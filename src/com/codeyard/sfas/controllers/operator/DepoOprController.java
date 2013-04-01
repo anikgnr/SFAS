@@ -18,6 +18,7 @@ import com.codeyard.sfas.entity.DamageSummary;
 import com.codeyard.sfas.entity.DamageType;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDamageSummary;
+import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.StockSummary;
@@ -111,6 +112,28 @@ public class DepoOprController {
 	public @ResponseBody Map damageList(HttpServletRequest request, Map map) {    	
 	   	List<DepoDamageSummary> damageList = operatorService.getDepoDamageStockList(StockSearchVo.fetchFromRequest(request));
 	   	map.put("damage", damageList);
+		return map;
+	}
+
+	@RequestMapping(value="/operator/depoSaleList.html", method=RequestMethod.GET)
+	public String sellPanel(HttpServletRequest request,Model model) {    	
+	   	logger.debug(":::::::::: inside operator depo sell List:::::::::::::::::");
+	   	if(request.getParameter("id") != null){
+	   		Long depoId = Long.parseLong((String)request.getParameter("id"));	   		
+	   		Depo depo = (Depo)adminService.loadEntityById(depoId, "Depo");
+	   		if(depo != null){
+	   			model.addAttribute("depoId", depo.getId());
+	   			model.addAttribute("depoName", depo.getFullName());
+	   		}
+	   	}
+	   	return "operator/depoSellList";
+	}   	
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/operator/depoCompleteSellList.html", method=RequestMethod.GET)
+	public @ResponseBody Map sellList(HttpServletRequest request, Map map) {    	
+	   	List<DepoSellSummary> stockList = operatorService.getDepoSellSummaryList(StockSearchVo.fetchFromRequest(request));
+	   	map.put("stock", stockList);
 		return map;
 	}
     

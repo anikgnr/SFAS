@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OperatorService;
@@ -60,5 +61,9 @@ public class OperatorServiceImpl implements OperatorService {
 	    	return true;
 		}
 		return false;		
+	}
+	
+	public List<DepoSellSummary> getDepoSellSummaryList(StockSearchVo searchVo){
+		return operatorDao.getDepoSellSummaryList(searchVo);
 	}
 }
