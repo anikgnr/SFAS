@@ -71,3 +71,40 @@ select{
 	text-align: center;
 	margin: 0 82px;
 }
+
+table.orderTable{
+	border: 1px solid gray;
+}
+
+table.orderTable th{
+	text-align: center;
+	font-size: 11px;
+	background: #2C5687;
+	color: white;
+}
+
+table.orderTable td{
+	text-align: center;
+	font-size: 11px;
+	font-weight:bold;
+	padding: 0px;	
+}
+
+table.orderHeadTable{
+	border: 1px solid gray;
+}
+
+table.orderHeadTable th{
+	text-align: right;
+	font-size: 11px;
+	background: #2C5687;
+	color: white;
+	padding-right: 10px;
+}
+
+table.orderHeadTable td{
+	text-align: left;
+	font-size: 11px;
+	font-weight:bold;
+	padding-left: 20px;	
+}

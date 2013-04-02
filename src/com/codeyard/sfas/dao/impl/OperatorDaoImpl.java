@@ -54,4 +54,11 @@ public class OperatorDaoImpl implements OperatorDao {
 		return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
 	}
 	
+	@SuppressWarnings("unchecked")
+	public DepoDeposit getLatestDepoDeposit(Long depoId){
+		List<DepoDeposit> list = hibernateTemplate.find("FROM DepoDeposit where depo.id = ? and accountApproved = true order by depositDate desc", depoId);
+		if(list != null && list.size() > 0)
+			return list.get(0);
+		return null;
+	}
 }

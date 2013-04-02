@@ -336,7 +336,7 @@ $(function () {
                        align: 'center'
                    },                   
                    {
-                       text: 'Last Sell Date',
+                       text: 'Last Sale Date',
                        width: 180,
                        dataIndex: 'lastSellDate',
                        renderer: Ext.util.Format.dateRenderer('m/d/Y'),

@@ -12,6 +12,6 @@ public interface Constants {
 	public static final String MAIL_SMTP_PORT= "587";
 	public static final String MAIL_SMTP_AUTH= "true";
 	public static final String MAIL_SMTP_TLS= "true";
-	public static final String MAIL_FROM_ADDRESS = "anikgnr@gmail.com";
-	public static final String MAIL_FROM_PASSWORD= "Amilia312";
+	public static final String MAIL_FROM_ADDRESS = "no.reply.mabcogroup@gmail.com";
+	public static final String MAIL_FROM_PASSWORD= "mabcogroup";
 }

@@ -66,4 +66,8 @@ public class OperatorServiceImpl implements OperatorService {
 	public List<DepoSellSummary> getDepoSellSummaryList(StockSearchVo searchVo){
 		return operatorDao.getDepoSellSummaryList(searchVo);
 	}
+	
+	public DepoDeposit getLatestDepoDeposit(Long depoId){
+		return operatorDao.getLatestDepoDeposit(depoId);
+	}
 }
