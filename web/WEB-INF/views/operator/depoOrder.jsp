@@ -14,9 +14,16 @@
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="formBlock1">
 					<form:form method="post" action="./saveDepoOrder.html">
+						<form:hidden path="id"/>
 						<form:hidden path="depo.id"/>
+						<form:hidden path="lastDeposit.id"/>
 						<form:hidden path="orderAmount"/>
-						
+							
+							
+							<div id="orderErrorBlock" <c:if test="${command.errorMsg == null || command.errorMsg == ''}">style="display:none;"</c:if>>
+								${command.errorMsg}
+							</div>							
+							
 							<table class="orderHeadTable" border="1">
 								<tr style="height: 30px;">
 									<th align="left" style="width: 130px;"><spring:message code="depo.form.name"/></td>
@@ -79,19 +86,22 @@
 								<th style="width: 80px;"> Remarks </th>
 							</tr>
 							<c:forEach items="${command.orderLiList}" var="orderli" varStatus="idx">
+								<form:hidden path="orderLiList[${idx.index}].id"/>
 								<form:hidden path="orderLiList[${idx.index}].depoOrder.id"/>
 								<form:hidden path="orderLiList[${idx.index}].serial"/>
 								<form:hidden path="orderLiList[${idx.index}].product.id"/>
+								<form:hidden path="orderLiList[${idx.index}].product.productName"/>
+								<form:hidden path="orderLiList[${idx.index}].product.bagSize"/>
 								<form:hidden path="orderLiList[${idx.index}].currentStock"/>
 								<form:hidden path="orderLiList[${idx.index}].totalSale"/>
 								<form:hidden path="orderLiList[${idx.index}].totalDamage"/>
-								<form:hidden path="orderLiList[${idx.index}].currentRate"/>
+								<form:hidden id="rate-${idx.index}" path="orderLiList[${idx.index}].currentRate"/>
 								<form:hidden path="orderLiList[${idx.index}].currentProfitMargin"/>
 								<form:hidden id="amount-${idx.index}" path="orderLiList[${idx.index}].amount"/>								
-								<tr style="height: 35px;">
+								<tr <c:choose><c:when test="${orderli.hasError == true}">style="height: 35px;background:#ED8080;color:black;"</c:when><c:otherwise>style="height: 35px;"</c:otherwise></c:choose> >
 									<td style="width: 25px;">${orderli.serial}</td>
 									<td style="width: 140px;">${orderli.product.productName}</td>
-									<td style="width: 40px;">${orderli.product.bagSize}</td>									
+									<td style="width: 40px;">${orderli.product.bagSize} pcs</td>									
 									<td style="width: 120px;">
 										<table style="height: 35px;">
 											<tr>
@@ -109,17 +119,21 @@
 											</tr>
 										</table>
 									</td>
-									<td style="width: 60px;"><form:input id="qty-${idx.index}" path="orderLiList[${idx.index}].quantity" cssStyle="width: 60px;font-size: 11px;text-align: center;"/></td>
+									<td style="width: 60px;"><form:input id="qty-${idx.index}" path="orderLiList[${idx.index}].quantity" cssClass="qty" /></td>
 									<td style="width: 40px;">${orderli.currentRate}</td>
-									<td id="amountDiv-${idx.index}" style="width: 60px;">0</td>
+									<td id="amountDiv-${idx.index}" style="width: 60px;">${orderli.amount}</td>
 									<td style="width: 80px;"><form:input path="orderLiList[${idx.index}].remark" cssStyle="width: 79px;font-size: 11px;"/></td>									
 								</tr>
 							</c:forEach>
+								<tr style="height: 35px;">
+									<td colspan="7" style="font-size: 13px; color: #2C5687;text-align: right; padding-right: 20px;">Total Payable Amount</td>									
+									<td id="totalAmount" colspan="2" style="font-size: 13px; color: #2C5687;text-align:left;padding-left: 33px;">${command.orderAmount}</td>									
+								</tr>
 						</table>
 						<br/><br/><br/><br/>
-						<table class="orderHeadTable" border="1">
+						<table class="orderHeadTable" border="1">							
 								<tr style="height: 30px;">
-									<th align="left" style="width: 130px;">Last Deposit Date</td>
+									<th align="left" style="width: 200px;">Last Deposit Date</td>
 									<td align="left" style="width: 350px;"><fmt:formatDate value="${command.lastDeposit.depositDate}" pattern="MM/dd/yyyy" /></td>
 									<th align="left" style="width: 130px;">Last Deposit Amount</td>								
 									<td align="left">${command.lastDeposit.depositAmount} Tk</td>
@@ -132,14 +146,17 @@
 								</tr>
 								<tr style="height: 30px;">
 									<th align="left"><b>Current Available Balance</b></td>
-									<td align="left" colspan="3" style="font-size:12px;color: red;">${command.depo.currentBalance} Tk</td>									
+									<td align="left" colspan="3" style="font-size:13px; color: #2C5687;">
+										${command.depo.currentBalance} Tk
+										<input type="hidden" id="currentBalance" value="${command.depo.currentBalance}"/>
+									</td>									
 								</tr>																
 						</table>
 						
-						<br/><br/><br/>
+						<br/><br/><br/><br/>
 						<center>
-							<input class="button orange" id="backToDepo" type="button" value='<spring:message code="operator.back.order"/>'/>&nbsp;
-							<input class="button orange" id="createDepoDeposit" type="button" value='<spring:message code="depo.order.form.submit"/>'/>
+							<input class="button orange" id="backToDepoOrderList" type="button" value='<spring:message code="operator.back.order"/>'/>&nbsp;
+							<input class="button orange" id="submitDepoOrder" type="submit" value='<spring:message code="depo.order.form.submit"/>'/>
 						</center>			
 					</form:form>
 				</div>										

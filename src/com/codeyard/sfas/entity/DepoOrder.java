@@ -2,11 +2,16 @@ package com.codeyard.sfas.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
@@ -86,7 +91,13 @@ public class DepoOrder extends AbstractBaseEntity{
     private  Date mdApprovedDate;
     
     @Transient
-    private List<DepoOrderLi> orderLiList; 
+    private List<DepoOrderLi> orderLiList;
+    
+    @Transient
+    private boolean hasError;
+    
+    @Transient
+    private String errorMsg;
     
     public DepoOrder(){
     	orderAmount = 0.0;
@@ -99,6 +110,7 @@ public class DepoOrder extends AbstractBaseEntity{
     	mmApproved = false;
     	mdApproved = false;
     	orderLiList = new ArrayList<DepoOrderLi>();
+    	hasError = false;
     }
 
 	public Depo getDepo() {
@@ -269,5 +281,20 @@ public class DepoOrder extends AbstractBaseEntity{
 		this.orderLiList = orderLiList;
 	}
 
+	public boolean isHasError() {
+		return hasError;
+	}
+
+	public void setHasError(boolean hasError) {
+		this.hasError = hasError;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
 	
 }

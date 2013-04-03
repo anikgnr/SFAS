@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoOrder;
+import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.service.AdminService;
@@ -69,5 +71,14 @@ public class OperatorServiceImpl implements OperatorService {
 	
 	public DepoDeposit getLatestDepoDeposit(Long depoId){
 		return operatorDao.getLatestDepoDeposit(depoId);
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveOrUpdateDepoOrder(DepoOrder order){		
+		operatorDao.saveOrUpdateDepoOrder(order);
+	}
+	
+	public List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId){
+		return operatorDao.getDepoOrderLiList(depoOrderId);
 	}
 }

@@ -12,6 +12,8 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoOrder;
+import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.service.AdminService;
@@ -60,5 +62,18 @@ public class OperatorDaoImpl implements OperatorDao {
 		if(list != null && list.size() > 0)
 			return list.get(0);
 		return null;
+	}
+	
+	public void saveOrUpdateDepoOrder(DepoOrder order){
+		hibernateTemplate.saveOrUpdate(order);
+		for(DepoOrderLi orderLi : order.getOrderLiList()){
+			orderLi.setDepoOrder(order);
+			hibernateTemplate.saveOrUpdate(orderLi);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId){
+		return hibernateTemplate.find("FROM DepoOrderLi where depoOrder.id = ? order by serial ", depoOrderId);
 	}
 }

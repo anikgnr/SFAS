@@ -1,5 +1,6 @@
 package com.codeyard.sfas.controllers.operator; 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,7 +38,9 @@ import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.util.Constants;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -52,16 +55,52 @@ public class DepoOrderController {
 	private AdminService adminService;
 	
 	@Autowired(required=true)
+	private InventoryService inventoryService;
+	
+	@Autowired(required=true)
 	private OperatorService operatorService;
 	
+	@RequestMapping(value="/operator/depoOrderList.html", method=RequestMethod.GET)
+	public String orderListPanel(HttpServletRequest request,Model model) {    	
+	   	logger.debug(":::::::::: inside operator depo order List:::::::::::::::::");
+	   	if(request.getParameter("id") != null){
+	   		Long depoId = Long.parseLong((String)request.getParameter("id"));	   		
+	   		Depo depo = (Depo)adminService.loadEntityById(depoId, "Depo");
+	   		if(depo != null){
+	   			model.addAttribute("depoId", depo.getId());
+	   			model.addAttribute("depoName", depo.getFullName());	   				   		   	
+	   		}
+	   	}
+	   	return "operator/depoOrderList";
+	}   	
+		
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/operator/depoCompleteOrderList.html", method=RequestMethod.GET)
+	public @ResponseBody Map stockList(HttpServletRequest request, Map map) {    	
+	   	//List<DepoDeposit> depositList = operatorService.getDepoDepositList(OprSearchVo.fetchFromRequest(request));
+	   	map.put("deposit", new ArrayList<DepoOrder>());
+		return map;
+	}
+		
 	 @RequestMapping(value="/operator/depoOrder.html", method=RequestMethod.GET)
 	 public ModelAndView addEditEntity(HttpServletRequest request,Model model) {
 	   	logger.debug(":::::::::: inside operator add/edit depo order form:::::::::::::::::");
 	   	DepoOrder order=null;
-	   	if(request.getParameter("id") != null){
+	   	if(request.getParameter("er") != null && request.getSession().getAttribute(Constants.SESSION_DEPO_ORDER) != null){
+	   		
+	   		order = (DepoOrder)request.getSession().getAttribute(Constants.SESSION_DEPO_ORDER);
+	   		
+	   	}else if(request.getParameter("id") != null){
+	   		
 	   		order = (DepoOrder)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoOrder");
-	   		//need to work more
+	   		if(order.isMisApproved()){
+	   			Utils.setErrorMessage(request, "Order has been already approved by MIS.Can't edit/delete this anymore.");
+	   			return new ModelAndView("redirect:/operator/depoOrderList.html");
+	   		}
+	   		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
+	   		
 	   	}else{
+	   		
 	   		order = new DepoOrder();
 	   		if(request.getParameter("did") != null){
 	   			Depo depo = (Depo)adminService.loadEntityById(Long.parseLong(request.getParameter("did")),"Depo");
@@ -81,9 +120,10 @@ public class DepoOrderController {
 	   				int serial = 1;
 	   				for(AbstractBaseEntity entity : products){
 	   					Product product = (Product)entity;
-	   					orderLi = new DepoOrderLi(order, product);
+	   					orderLi = new DepoOrderLi();
 	   					
 	   					orderLi.setSerial(serial++);
+	   					orderLi.setProduct(product);
 	   					orderLi.setCurrentStock(getCurrentStock(stockList, product));
 	   					orderLi.setTotalSale(getCurrentSale(saleList, product));
 	   					orderLi.setTotalDamage(getCurrentDamage(damageList, product));
@@ -105,8 +145,54 @@ public class DepoOrderController {
 	 public String saveUpdateEntity(@ModelAttribute("order") DepoOrder order, BindingResult result, HttpServletRequest request) {
 	   	logger.debug(":::::::::: inside operator save or edit depo order:::::::::::::::::");
 	    	
-		    return "redirect:/operator/depoDepositList.html";
+	   		try{
+	   			order.setErrorMsg("");
+	   			List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
+	   			boolean hasError = false;
+	   			for(DepoOrderLi orderLi : order.getOrderLiList()){
+	   				if(isQuantityExceededWithInventory(stocks, orderLi)){
+	   					orderLi.setHasError(true);
+	   					hasError = true;
+	   				}
+	   			}
+	   			if(hasError){
+	   				order.setErrorMsg("* Highlighted Product quantities are not available on Inventory now.<br/>");
+	   			}
+	   			Depo depo = (Depo)adminService.loadEntityById(order.getDepo().getId(),"Depo");
+	   			if(order.getOrderAmount() > depo.getCurrentBalance()){
+	   				order.setErrorMsg(order.getErrorMsg()+"* Payable Amount exceeds Current Balance. Please refactor your Order.<br/>");
+	   				order.setHasError(true);
+	   			}
+	   			if(!Utils.isNullOrEmpty(order.getErrorMsg())){
+	   				order.setDepo(depo);
+	   				order.setLastDeposit((DepoDeposit)adminService.loadEntityById(order.getLastDeposit().getId(),"DepoDeposit"));
+	   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
+	   				return "redirect:/operator/depoOrder.html?er=1";
+	   			}else if(request.getSession().getAttribute(Constants.SESSION_DEPO_ORDER) != null)
+	   				request.getSession().removeAttribute(Constants.SESSION_DEPO_ORDER);
+	   			operatorService.saveOrUpdateDepoOrder(order);
+	   			Utils.setSuccessMessage(request, "Depo Order successfully saved/updated.");
+	   		}catch(Exception ex){
+	   			logger.debug("Operator save/edit depo order exception :: "+ex);
+	   			Utils.setErrorMessage(request, "Depo Order can't be saved/updated. Please contact with System Admin.");
+	   		}
+		    return "redirect:/operator/depoList.html";
 	}    
+	 
+	 private boolean isQuantityExceededWithInventory(List<StockSummary> stocks, DepoOrderLi orderLi){
+		 for(StockSummary stock : stocks){
+			 if(stock.getProduct().getId() == orderLi.getProduct().getId()){
+				 if(orderLi.getQuantity() > stock.getQuantity())
+					 return true;
+				 else
+					 return false;
+			 }
+		 }
+		 if(orderLi.getQuantity() > 0)
+			 return true;
+		 else
+			 return false;
+	 }
 	 
 	 private Long getCurrentStock(List<DepoStockSummary> stockList, Product product){
 		 for(DepoStockSummary summary : stockList){

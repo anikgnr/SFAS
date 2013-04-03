@@ -108,3 +108,20 @@ table.orderHeadTable td{
 	font-weight:bold;
 	padding-left: 20px;	
 }
+
+#orderErrorBlock{
+	background: #ED8080;
+	text-align: left;
+	font-size: 11px;
+	font-weight:bold;
+	padding: 20px;
+	margin-bottom: 30px;
+	border: 1px solid gray;
+	color: black;
+}
+
+.qty{
+	width: 60px;
+	font-size: 11px;
+	text-align: center;
+}

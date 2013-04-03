@@ -47,12 +47,15 @@ public class DepoOrderLi extends AbstractBaseEntity{
 	@Column(name = "remark")
 	private String remark;
 	
-	@Transient
+	@Column(name = "serial")
 	private int serial;
 	
+	@Transient
+	private boolean hasError;
+	
 	public DepoOrderLi(){
-    	this.depoOrder = new DepoOrder();
-    	this.product = new Product();
+    	this.depoOrder = null;
+    	this.product = null;
     	this.currentStock = 0L;
     	this.totalSale = 0L;
     	this.totalDamage = 0L;
@@ -60,6 +63,7 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.currentRate = 0.0;
     	this.currentProfitMargin = 0.0;
     	this.amount = 0.0;    	
+    	this.hasError = false;
     }
 
     public DepoOrderLi(DepoOrder order, Product product){
@@ -71,7 +75,8 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.quantity = 0L;
     	this.currentRate = 0.0;
     	this.currentProfitMargin = 0.0;
-    	this.amount = 0.0;    	
+    	this.amount = 0.0;
+    	this.hasError = false;
     }
 
 	public DepoOrder getDepoOrder() {
@@ -160,6 +165,14 @@ public class DepoOrderLi extends AbstractBaseEntity{
 
 	public void setSerial(int serial) {
 		this.serial = serial;
+	}
+
+	public boolean isHasError() {
+		return hasError;
+	}
+
+	public void setHasError(boolean hasError) {
+		this.hasError = hasError;
 	}
 
     

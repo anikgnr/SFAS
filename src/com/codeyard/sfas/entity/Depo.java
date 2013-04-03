@@ -123,7 +123,7 @@ public class Depo extends AbstractBaseEntity{
 		return "<a href='./depoStockList.html?id="+super.getId()+"'>Stocks</a>";
 	}
 	public String getOrdersLink(){
-		return "<a href=''>Orders</a>";
+		return "<a href='./depoOrderList.html?id="+super.getId()+"'>Orders</a>";
 	}	
 	public String getOrderLink(){
 		return "<a href='./depoOrder.html?did="+super.getId()+"'>Place Order</a>";		
