@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.dao.OperatorDao;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
@@ -31,7 +32,10 @@ public class OperatorServiceImpl implements OperatorService {
 	
 	@Autowired(required=true)
 	private AdminService adminService;
-	
+
+	@Autowired(required=true)
+	private JdbcDao jdbcDao;
+
 	public List<DepoStockSummary> getDepoCurrentStockList(StockSearchVo searchVo){
 		return operatorDao.getDepoCurrentStockList(searchVo);
 	}
@@ -89,5 +93,9 @@ public class OperatorServiceImpl implements OperatorService {
 	@Transactional(readOnly = false)
 	public void deleteDepoOrderById(Long orderId){
 		operatorDao.deleteDepoOrderById(orderId);
+	}
+	
+	public boolean hasUnDeliveredOrderForDepo(Long depoId){
+		return jdbcDao.hasUnDeliveredOrderForDepo(depoId);
 	}
 }

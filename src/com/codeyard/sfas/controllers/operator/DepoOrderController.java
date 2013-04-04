@@ -94,7 +94,7 @@ public class DepoOrderController {
 	   		
 	   		order = (DepoOrder)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoOrder");
 	   		if(order.isMisApproved()){
-	   			Utils.setErrorMessage(request, "Order has been already approved by MIS.Can't edit/delete this anymore.");
+	   			Utils.setErrorMessage(request, "Order has been already approved.Can't edit/delete this anymore.");
 	   			return new ModelAndView("redirect:/operator/depoOrderList.html?id="+order.getDepo().getId());
 	   		}
 	   		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
@@ -102,15 +102,21 @@ public class DepoOrderController {
 	   		if(request.getParameter("rd") != null)
 	   			model.addAttribute("readOnly", true);
 	   	}else{
-	   		
+	   			   		
 	   		order = new DepoOrder();
 	   		if(request.getParameter("did") != null){
 	   			Depo depo = (Depo)adminService.loadEntityById(Long.parseLong(request.getParameter("did")),"Depo");
 	   			if(depo != null){
+	   				if(operatorService.hasUnDeliveredOrderForDepo(depo.getId())){
+	   					Utils.setErrorMessage(request, "This Depo already have a pending Order. Please deliver the existing Order and try again later.");
+	   		   			return new ModelAndView("redirect:/operator/depoOrderList.html?id="+depo.getId());
+	   				}
+	   				
 	   				order.setDepo(depo);
 	   				DepoDeposit deposit = operatorService.getLatestDepoDeposit(depo.getId());
 	   				if(deposit != null)
 	   					order.setLastDeposit(deposit);
+	   				order.setDepoBalance(depo.getCurrentBalance());
 	   				StockSearchVo searchVo = new StockSearchVo();
 	   				searchVo.setDepoId(depo.getId());
 	   				List<DepoStockSummary> stockList = operatorService.getDepoCurrentStockList(searchVo);
@@ -167,6 +173,7 @@ public class DepoOrderController {
 	   			}
 	   			if(!Utils.isNullOrEmpty(order.getErrorMsg())){
 	   				order.setDepo(depo);
+	   				order.setDepoBalance(depo.getCurrentBalance());
 	   				order.setLastDeposit((DepoDeposit)adminService.loadEntityById(order.getLastDeposit().getId(),"DepoDeposit"));
 	   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
 	   				return "redirect:/operator/depoOrder.html?er=1";

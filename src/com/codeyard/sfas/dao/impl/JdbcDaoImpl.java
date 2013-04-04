@@ -32,4 +32,12 @@ public class JdbcDaoImpl implements JdbcDao {
     	else
     		return false;
     }
+    
+    public boolean hasUnDeliveredOrderForDepo(Long depoId){
+    	int count = jdbcTemplate.queryForInt("select count(id) from cy_re_depo_order where depo_id = ? and is_delivered = false ",depoId);
+    	if(count > 0)
+    		return true;
+    	else
+    		return false;
+    }
 }

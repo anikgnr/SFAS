@@ -22,4 +22,5 @@ public interface OperatorService {
 	List<DepoOrder> getDepoOrderList(OprSearchVo searchVo);
 	List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId);
 	void deleteDepoOrderById(Long orderId);
+	boolean hasUnDeliveredOrderForDepo(Long depoId);
 }

@@ -174,8 +174,8 @@
 								<tr style="height: 30px;">
 									<th align="left"><b>Current Available Balance</b></td>
 									<td align="left" colspan="3" style="font-size:13px; color: #2C5687;">
-										${command.depo.currentBalance} Tk
-										<input type="hidden" id="currentBalance" value="${command.depo.currentBalance}"/>
+										${command.depoBalance} Tk
+										<input type="hidden" id="currentBalance" value="${command.depoBalance}"/>
 									</td>									
 								</tr>																
 						</table>

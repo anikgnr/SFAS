@@ -33,7 +33,10 @@ public class DepoOrder extends AbstractBaseEntity{
 	@Column(name = "order_date")
     @Temporal(TemporalType.DATE)
     private  Date orderDate;
-    
+
+	@Column(name = "depo_balance")
+    private  Double depoBalance;       
+
 	@Column(name = "order_amount")
     private  Double orderAmount;       
     
@@ -101,6 +104,7 @@ public class DepoOrder extends AbstractBaseEntity{
     
     public DepoOrder(){
     	orderAmount = 0.0;
+    	depoBalance = 0.0;
     	depo = new Depo();
     	lastDeposit = new DepoDeposit();
     	delivered = false;
@@ -297,6 +301,14 @@ public class DepoOrder extends AbstractBaseEntity{
 		this.errorMsg = errorMsg;
 	}
 	
+	public Double getDepoBalance() {
+		return depoBalance;
+	}
+
+	public void setDepoBalance(Double depoBalance) {
+		this.depoBalance = depoBalance;
+	}
+
 	public String getLastApprovedBy(){
 		if(this.mdApproved){
 			return ManagerType.MD.getValue();
