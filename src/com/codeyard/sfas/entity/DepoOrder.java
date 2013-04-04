@@ -297,4 +297,36 @@ public class DepoOrder extends AbstractBaseEntity{
 		this.errorMsg = errorMsg;
 	}
 	
+	public String getLastApprovedBy(){
+		if(this.mdApproved){
+			return ManagerType.MD.getValue();
+		}else if(this.mmApproved){
+			return ManagerType.MM.getValue();
+		}else if(this.mgrApproved){
+			return ManagerType.Manager.getValue();
+		}else if(this.accountApproved){
+			return ManagerType.ACCOUNT.getValue();
+		}else if(this.misApproved){
+			return ManagerType.MIS.getValue();
+		}else{
+			return "NONE";
+		}
+	}
+	
+	public String getEditLink(){
+		if(!this.misApproved){
+			return "<a href='./depoOrder.html?id="+super.getId()+"'>edit</a>";
+		}else if(this.mdApproved){
+			return "<a href='./depoOrder.html?rd=1&id="+super.getId()+"'>view</a>";			
+		}else{
+			return "<a href='javascript:alert('Order already in Approval process. Cannot alter it anymore.');'>edit</a>";
+		}
+	}
+	
+	public String getDeleteLink(){
+		if(!this.misApproved){
+			return "<a href='javascript:deleteLinkClicked(\"./depoOrderDelete.html?id="+super.getId()+"&did="+this.depo.getId()+"\")'>delete</a>";
+		}
+		return "";
+	}
 }

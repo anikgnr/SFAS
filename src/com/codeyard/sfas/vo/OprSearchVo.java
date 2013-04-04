@@ -18,6 +18,11 @@ public class OprSearchVo extends SearchVo{
 	private String accountApprovedBy;
 	private Date depositFromDate;
 	private Date depositToDate;
+	private Date orderFromDate;
+	private Date orderToDate;
+	private Double orderAmount;
+	private Boolean mdApproved;
+	private Boolean delivered;
 	
 	
 	public OprSearchVo(){
@@ -28,6 +33,11 @@ public class OprSearchVo extends SearchVo{
 		this.accountApprovedBy = null;
 		this.depositFromDate = null;
 		this.depositToDate = null;
+		this.orderFromDate = null;
+		this.orderToDate = null;
+		this.orderAmount = null;
+		this.mdApproved = null;
+		this.delivered = null;		
 	}
 	
 	
@@ -99,6 +109,56 @@ public class OprSearchVo extends SearchVo{
 	public void setDepositToDate(Date depositToDate) {
 		this.depositToDate = depositToDate;
 	}
+	
+	
+	public Date getOrderFromDate() {
+		return orderFromDate;
+	}
+
+
+	public void setOrderFromDate(Date orderFromDate) {
+		this.orderFromDate = orderFromDate;
+	}
+
+
+	public Date getOrderToDate() {
+		return orderToDate;
+	}
+
+
+	public void setOrderToDate(Date orderToDate) {
+		this.orderToDate = orderToDate;
+	}
+
+
+	public Double getOrderAmount() {
+		return orderAmount;
+	}
+
+
+	public void setOrderAmount(Double orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+
+	public Boolean getMdApproved() {
+		return mdApproved;
+	}
+
+
+	public void setMdApproved(Boolean mdApproved) {
+		this.mdApproved = mdApproved;
+	}
+
+
+	public Boolean getDelivered() {
+		return delivered;
+	}
+
+
+	public void setDelivered(Boolean delivered) {
+		this.delivered = delivered;
+	}
 
 
 	public static OprSearchVo fetchFromRequest(HttpServletRequest request){
@@ -118,7 +178,16 @@ public class OprSearchVo extends SearchVo{
     		searchVo.setDepositFromDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("depositFromDate")));
     	if(request.getParameter("depositToDate") != null && !Utils.isNullOrEmpty((String)request.getParameter("depositToDate")))
     		searchVo.setDepositToDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("depositToDate")));
-    	
+    	if(request.getParameter("orderFromDate") != null && !Utils.isNullOrEmpty((String)request.getParameter("orderFromDate")))
+    		searchVo.setOrderFromDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("orderFromDate")));
+    	if(request.getParameter("orderToDate") != null && !Utils.isNullOrEmpty((String)request.getParameter("orderToDate")))
+    		searchVo.setOrderToDate(Utils.getDateFromString(Constants.DATE_FORMAT,(String)request.getParameter("orderToDate")));
+    	if(request.getParameter("orderAmount") != null && !Utils.isNullOrEmpty((String)request.getParameter("orderAmount")))
+    		searchVo.setOrderAmount(Double.parseDouble((String)request.getParameter("orderAmount")));
+    	if(request.getParameter("mdApproved") != null && !Utils.isNullOrEmpty((String)request.getParameter("mdApproved")))
+    		searchVo.setMdApproved(Boolean.parseBoolean((String)request.getParameter("mdApproved")));
+    	if(request.getParameter("delivered") != null && !Utils.isNullOrEmpty((String)request.getParameter("delivered")))
+    		searchVo.setDelivered(Boolean.parseBoolean((String)request.getParameter("delivered")));
     	
     	return searchVo;
     }
@@ -158,6 +227,31 @@ public class OprSearchVo extends SearchVo{
 		if(this.depositToDate != null){
     		sql += (hasClause ? "AND ":"WHERE ") + "depositDate < ? ";
     		paramList.add(Utils.nextDay(this.depositToDate));
+    		hasClause = true;
+    	}
+		if(this.orderFromDate != null){
+    		sql += (hasClause ? "AND ":"WHERE ") + "orderDate > ? ";
+    		paramList.add(Utils.prevDay(this.orderFromDate));
+    		hasClause = true;
+    	}
+		if(this.orderToDate != null){
+    		sql += (hasClause ? "AND ":"WHERE ") + "orderDate < ? ";
+    		paramList.add(Utils.nextDay(this.orderToDate));
+    		hasClause = true;
+    	}
+		if(this.orderAmount != null){
+    		sql += (hasClause ? "AND ":"WHERE ") + "orderAmount = ? ";
+    		paramList.add(this.orderAmount);
+    		hasClause = true;
+    	}
+		if(this.mdApproved != null){
+    		sql += (hasClause ? "AND ":"WHERE ") + "mdApproved = ? ";
+    		paramList.add(this.mdApproved);
+    		hasClause = true;
+    	}
+		if(this.delivered != null){
+    		sql += (hasClause ? "AND ":"WHERE ") + "delivered = ? ";
+    		paramList.add(this.delivered);
     		hasClause = true;
     	}
 		

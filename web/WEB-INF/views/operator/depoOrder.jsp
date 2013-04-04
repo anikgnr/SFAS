@@ -15,7 +15,7 @@
 				<div id="formBlock1">
 					<form:form method="post" action="./saveDepoOrder.html">
 						<form:hidden path="id"/>
-						<form:hidden path="depo.id"/>
+						<form:hidden id="depoId" path="depo.id"/>
 						<form:hidden path="lastDeposit.id"/>
 						<form:hidden path="orderAmount"/>
 							
@@ -47,7 +47,16 @@
 									<th align="left"><spring:message code="depo.form.location"/></td>
 									<td align="left"><b>${command.depo.address}</b></td>								
 									<th align="left"><spring:message code="depo.order.form.orderDate"/></td>
-									<td align="left"><input size="20" type="text" id="orderDate" name="orderDate" value='<fmt:formatDate value="${command.orderDate}" pattern="MM/dd/yyyy" />'/></td>
+									<td align="left">
+										<c:choose>
+											<c:when test="${readOnly == true}">
+												<fmt:formatDate value="${command.orderDate}" pattern="MM/dd/yyyy" />
+											</c:when>
+											<c:otherwise>
+												<input size="20" type="text" id="orderDate" name="orderDate" value='<fmt:formatDate value="${command.orderDate}" pattern="MM/dd/yyyy" />'/>
+											</c:otherwise>
+										</c:choose>										
+									</td>
 								</tr>								
 							</table>
 						
@@ -119,10 +128,28 @@
 											</tr>
 										</table>
 									</td>
-									<td style="width: 60px;"><form:input id="qty-${idx.index}" path="orderLiList[${idx.index}].quantity" cssClass="qty" /></td>
+									<td style="width: 60px;">
+										<c:choose>
+											<c:when test="${readOnly == true}">
+												${orderli.quantity}
+											</c:when>
+											<c:otherwise>
+												<form:input id="qty-${idx.index}" path="orderLiList[${idx.index}].quantity" cssClass="qty" />
+											</c:otherwise>
+										</c:choose>										
+									</td>
 									<td style="width: 40px;">${orderli.currentRate}</td>
 									<td id="amountDiv-${idx.index}" style="width: 60px;">${orderli.amount}</td>
-									<td style="width: 80px;"><form:input path="orderLiList[${idx.index}].remark" cssStyle="width: 79px;font-size: 11px;"/></td>									
+									<td style="width: 80px;">
+										<c:choose>
+											<c:when test="${readOnly == true}">
+												${orderli.remark}
+											</c:when>
+											<c:otherwise>
+												<form:input path="orderLiList[${idx.index}].remark" cssStyle="width: 79px;font-size: 11px;"/>
+											</c:otherwise>
+										</c:choose>												
+									</td>									
 								</tr>
 							</c:forEach>
 								<tr style="height: 35px;">
@@ -156,7 +183,16 @@
 						<br/><br/><br/><br/>
 						<center>
 							<input class="button orange" id="backToDepoOrderList" type="button" value='<spring:message code="operator.back.order"/>'/>&nbsp;
-							<input class="button orange" id="submitDepoOrder" type="submit" value='<spring:message code="depo.order.form.submit"/>'/>
+							<c:choose>
+								<c:when test="${readOnly == true}">
+									<c:if test="${command.mdApproved == true && command.delivered != true}">
+										<input class="button orange" id="deliverDepoOrder" type="button" value='<spring:message code="depo.order.form.deliver"/>'/>
+									</c:if>
+								</c:when>
+								<c:otherwise>
+									<input class="button orange" id="submitDepoOrder" type="submit" value='<spring:message code="depo.order.form.submit"/>'/>
+								</c:otherwise>
+							</c:choose>							
 						</center>			
 					</form:form>
 				</div>										

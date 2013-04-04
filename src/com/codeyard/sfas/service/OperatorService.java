@@ -19,5 +19,7 @@ public interface OperatorService {
 	boolean approveDepoDeposit(Long depositId);
 	DepoDeposit getLatestDepoDeposit(Long depoId);
 	void saveOrUpdateDepoOrder(DepoOrder order);
+	List<DepoOrder> getDepoOrderList(OprSearchVo searchVo);
 	List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId);
+	void deleteDepoOrderById(Long orderId);
 }

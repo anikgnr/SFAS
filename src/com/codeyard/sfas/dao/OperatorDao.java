@@ -19,6 +19,8 @@ public interface OperatorDao {
 	List<DepoSellSummary> getDepoSellSummaryList(StockSearchVo searchVo);
 	DepoDeposit getLatestDepoDeposit(Long depoId);
 	void saveOrUpdateDepoOrder(DepoOrder order);
+	List<DepoOrder> getDepoOrderList(OprSearchVo searchVo);
 	List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId);
+	void deleteDepoOrderById(Long orderId);
 }
 

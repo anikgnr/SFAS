@@ -76,4 +76,16 @@ public class OperatorDaoImpl implements OperatorDao {
 	public List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId){
 		return hibernateTemplate.find("FROM DepoOrderLi where depoOrder.id = ? order by serial ", depoOrderId);
 	}
+	
+	@SuppressWarnings("unchecked")	
+	public List<DepoOrder> getDepoOrderList(OprSearchVo searchVo){
+		searchVo.buildFilterQueryClauses("FROM DepoOrder ",new ArrayList<Object>(),false);
+		return hibernateTemplate.find(searchVo.getSql()+" order by orderDate desc", searchVo.getParams());
+	}
+	
+	public void deleteDepoOrderById(Long orderId){
+		
+		hibernateTemplate.bulkUpdate("DELETE FROM DepoOrderLi where depoOrder.id =  ?", orderId);
+		hibernateTemplate.bulkUpdate("DELETE FROM DepoOrder where id =  ?", orderId);
+	}
 }

@@ -77,8 +77,8 @@ public class DepoOrderController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/operator/depoCompleteOrderList.html", method=RequestMethod.GET)
 	public @ResponseBody Map stockList(HttpServletRequest request, Map map) {    	
-	   	//List<DepoDeposit> depositList = operatorService.getDepoDepositList(OprSearchVo.fetchFromRequest(request));
-	   	map.put("deposit", new ArrayList<DepoOrder>());
+		List<DepoOrder> orderList = operatorService.getDepoOrderList(OprSearchVo.fetchFromRequest(request));
+	   	map.put("order", orderList);
 		return map;
 	}
 		
@@ -95,10 +95,12 @@ public class DepoOrderController {
 	   		order = (DepoOrder)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoOrder");
 	   		if(order.isMisApproved()){
 	   			Utils.setErrorMessage(request, "Order has been already approved by MIS.Can't edit/delete this anymore.");
-	   			return new ModelAndView("redirect:/operator/depoOrderList.html");
+	   			return new ModelAndView("redirect:/operator/depoOrderList.html?id="+order.getDepo().getId());
 	   		}
 	   		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
 	   		
+	   		if(request.getParameter("rd") != null)
+	   			model.addAttribute("readOnly", true);
 	   	}else{
 	   		
 	   		order = new DepoOrder();
@@ -176,7 +178,7 @@ public class DepoOrderController {
 	   			logger.debug("Operator save/edit depo order exception :: "+ex);
 	   			Utils.setErrorMessage(request, "Depo Order can't be saved/updated. Please contact with System Admin.");
 	   		}
-		    return "redirect:/operator/depoList.html";
+		    return "redirect:/operator/depoOrderList.html?id="+order.getDepo().getId();
 	}    
 	 
 	 private boolean isQuantityExceededWithInventory(List<StockSummary> stocks, DepoOrderLi orderLi){
@@ -218,92 +220,26 @@ public class DepoOrderController {
 		 }
 		 return 0L;
 	 }
-	/*	
-    @RequestMapping(value="/operator/depoDepositList.html", method=RequestMethod.GET)
-	public String stockPanel(HttpServletRequest request,Model model) {    	
-	   	logger.debug(":::::::::: inside operator depo deposit List:::::::::::::::::");
-	   	if(request.getParameter("id") != null){
-	   		Long depoId = Long.parseLong((String)request.getParameter("id"));	   		
-	   		Depo depo = (Depo)adminService.loadEntityById(depoId, "Depo");
-	   		if(depo != null){
-	   			model.addAttribute("depoId", depo.getId());
-	   			model.addAttribute("depoName", depo.getFullName());
-	   			model.addAttribute("accounts", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"BankAccount"));
-	   		   	model.addAttribute("users", adminService.getUserListByDept(ManagerType.ACCOUNT.getValue()));	   		   	
-	   		}
+			    
+	@RequestMapping(value="/operator/depoOrderDelete.html", method=RequestMethod.GET)
+	public String deleteEntity(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside operator delete Depo Order form:::::::::::::::::");
+	    	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null){
+	   	    	operatorService.deleteDepoOrderById(Long.parseLong((String) request.getParameter("id")));
+	   	    	Utils.setSuccessMessage(request, "Depo Order successfully deleted.");
+	   	    }
+	   	}catch(Exception ex){
+	   		logger.debug("Error while delete Depo Order :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Order can't be deleted. Please contact with System Admin.");
+	   	}   
+	   	if(request.getParameter("did") != null)
+	   		return "redirect:/operator/depoOrderList.html?id="+Long.parseLong(request.getParameter("did"));
+	   	else{
+	   		Utils.setErrorMessage(request, "Depo id not found after deleting Depo Order. Please contanct with System Admin.");
+	   		return "redirect:/operator/depoList.html";
 	   	}
-	   	return "operator/depoDepositList";
-	}   	
-	
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/operator/depoCompleteDepositList.html", method=RequestMethod.GET)
-	public @ResponseBody Map stockList(HttpServletRequest request, Map map) {    	
-	   	List<DepoDeposit> depositList = operatorService.getDepoDepositList(OprSearchVo.fetchFromRequest(request));
-	   	map.put("deposit", depositList);
-		return map;
-	}
-	
-	  @RequestMapping(value="/operator/depoDeposit.html", method=RequestMethod.GET)
-	    public ModelAndView addEditEntity(HttpServletRequest request,Model model) {
-	    	logger.debug(":::::::::: inside operator add/edit depo deposit form:::::::::::::::::");
-	    	DepoDeposit deposit=null;
-	    	if(request.getParameter("id") != null)
-	    		deposit = (DepoDeposit)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoDeposit");    		
-	    	else{
-	    		deposit = new DepoDeposit();
-	    		if(request.getParameter("did") != null){
-	    			Depo depo = (Depo)adminService.loadEntityById(Long.parseLong(request.getParameter("did")),"Depo");
-	    			if(depo != null)
-	    				deposit.setDepo(depo);
-	    		}
-	    	}
-	    	
-	    	Map<Long,String> accounts = new LinkedHashMap<Long,String>();
-	    	for(AbstractBaseEntity entity : adminService.getActiveEnityList(AdminSearchVo.fetchFromRequest(request),"BankAccount")){
-	    		BankAccount account = (BankAccount)entity;
-	    		accounts.put(account.getId(), account.getCompleteName());    	
-	    	}
-	    	model.addAttribute("accounts", accounts);    	
+	} 
 
-		    return new ModelAndView("operator/depoDeposit", "command", deposit);
-		}    
-
-	    @RequestMapping(value="/operator/saveDepoDeposit.html", method=RequestMethod.POST)	
-	    public String saveUpdateEntity(@ModelAttribute("deposit") DepoDeposit deposit, BindingResult result, HttpServletRequest request) {
-	    	logger.debug(":::::::::: inside operator save or edit depo deposit:::::::::::::::::");
-	    	
-	    	try{    		
-	    		adminService.saveOrUpdate(deposit);
-	    		Utils.setSuccessMessage(request, "Depo Deposit successfully saved/updated.");
-	    		//Utils.sendMail("anikgnr@gmail.com", "Test email from SFAS system", "sdalkjasdl asdflkasdjf");
-	    	}catch(Exception ex){
-	    		logger.debug("Error while saving/updating Depo Deposit :: "+ex);
-	    		Utils.setErrorMessage(request, "Depo Deposit can't be saved/updated. Please contact with System Admin.");
-	    	}
-	    	
-		    return "redirect:/operator/depoDepositList.html?id="+deposit.getDepo().getId();
-		}    
-	    
-	    @RequestMapping(value="/operator/depoDepositDelete.html", method=RequestMethod.GET)
-	    public String deleteEntity(HttpServletRequest request,Model model) {
-	    	logger.debug(":::::::::: inside operator delete Depo Deposit form:::::::::::::::::");
-	    	
-	    	try{ 	    
-	    	    if(request.getParameter("id") != null){
-	    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"DepoDeposit");  
-	    	    	Utils.setSuccessMessage(request, "Depo Deposit successfully deleted.");
-	    	    }
-	    	}catch(Exception ex){
-	    		logger.debug("Error while delete Depo Deposit :: "+ex);
-	    		Utils.setErrorMessage(request, "Depo Deposit already in use. Please remove associated entries first.");
-	    	}   
-	    	if(request.getParameter("did") != null)
-	    		return "redirect:/operator/depoDepositList.html?id="+Long.parseLong(request.getParameter("did"));
-	    	else{
-	    		Utils.setErrorMessage(request, "Depo id not found after deleting Depo Deposit. Please contanct with System Admin.");
-	    		return "redirect:/operator/depoList.html";
-	    	}
-		} 
-		*/       
-    
 }

@@ -81,4 +81,13 @@ public class OperatorServiceImpl implements OperatorService {
 	public List<DepoOrderLi> getDepoOrderLiList(Long depoOrderId){
 		return operatorDao.getDepoOrderLiList(depoOrderId);
 	}
+	
+	public List<DepoOrder> getDepoOrderList(OprSearchVo searchVo){
+		return operatorDao.getDepoOrderList(searchVo);
+	}
+	
+	@Transactional(readOnly = false)
+	public void deleteDepoOrderById(Long orderId){
+		operatorDao.deleteDepoOrderById(orderId);
+	}
 }
