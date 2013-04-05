@@ -12,17 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.BankAccount;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoOrder;
+import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.util.Constants;
+import com.codeyard.sfas.util.DepoOrderHelper;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.OprSearchVo;
+import com.codeyard.sfas.vo.StockSearchVo;
 
 
 @Controller
@@ -34,6 +42,9 @@ public class ManagerController {
 
 	@Autowired(required=true)
 	private OperatorService operatorService;
+	
+	@Autowired(required=true)
+	private InventoryService inventoryService;
 
 
 	@RequestMapping(value="/manager/home.html", method=RequestMethod.GET)
@@ -88,5 +99,70 @@ public class ManagerController {
 	   	}      	    	
 		return "redirect:/manager/pendingDepoDepositList.html";
 	}	
+	 
+	@RequestMapping(value="/manager/depoOrderList.html", method=RequestMethod.GET)
+	public String orderListPanel(HttpServletRequest request,Model model) {    	
+	   	logger.debug(":::::::::: inside manager depo order List:::::::::::::::::");
+	   	List<AbstractBaseEntity> depoList = adminService.getActiveEnityList(AdminSearchVo.fetchFromRequest(request),"Depo");
+    	Iterator<AbstractBaseEntity> itr = depoList.iterator();
+    	while(itr.hasNext()){
+    		Depo depo = (Depo)itr.next();
+    		if(depo.isCompanyInventory()){
+    			itr.remove();
+    			continue;
+    		}
+    		
+    	}  	
+	   	model.addAttribute("depos", depoList);
+	   	model.addAttribute("regions", adminService.getAllLookUpEntity("Region"));
+	   	
+	   	return "manager/depoOrderList";
+	}   	
+			
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/manager/depoCompleteOrderList.html", method=RequestMethod.GET)
+	public @ResponseBody Map orderList(HttpServletRequest request, Map map) {
+		OprSearchVo searchVo = OprSearchVo.fetchFromRequest(request);
+		if(!Utils.isNullOrEmpty(Utils.getLoggedSysMgrPost()))
+			searchVo.setApproveType(Utils.getLoggedSysMgrPost());
+		List<DepoOrder> orderList = operatorService.getDepoOrderList(searchVo);
+	   	map.put("order", orderList);
+		return map;
+	}	 
 	
+	 @RequestMapping(value="/manager/depoOrder.html", method=RequestMethod.GET)
+	 public ModelAndView addEditEntity(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside manager add/edit depo order form:::::::::::::::::");
+	   	return DepoOrderHelper.loadDepoOrderForm(request, model, adminService, operatorService, "manager");
+	 }
+	 
+	 @RequestMapping(value="/manager/depoOrderApprove.html", method=RequestMethod.GET)
+	 public String approveDepoOrder(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside manager account approve depo order form:::::::::::::::::");
+	   	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null && request.getParameter("type") != null){
+	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
+	   	    	if(order != null){
+	   	    		
+	   	    		//DepoOrderHelper.inventoryStockComparison(order, inventoryService);
+	   	    		DepoOrderHelper.oderBalanceCurrentBalanceComparison(order);
+	   	    		
+	   	    		if(!Utils.isNullOrEmpty(order.getErrorMsg())){
+		   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
+		   				return "redirect:/manager/depoOrder.html?er=1";
+		   			}
+		   			
+	   	    		operatorService.approveDepoOrder(order, (String)request.getParameter("type"));
+		   			Utils.setSuccessMessage(request, "Depo Order successfully approved.");
+	   	    	}else
+		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be approved. Please contact with System Admin.");
+	   	    }else
+	   	    	Utils.setErrorMessage(request, "Depo Order couldn't be approved. Please contact with System Admin.");
+	   	}catch(Exception ex){
+	   		logger.debug("Error while approving depo order :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Order couldn't be approved. Please contact with System Admin.");	   		
+	   	}      	    	
+		return "redirect:/manager/depoOrderList.html";
+	}	
 }

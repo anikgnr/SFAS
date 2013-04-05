@@ -17,6 +17,7 @@ import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.OprSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
  
@@ -65,9 +66,23 @@ public class OperatorDaoImpl implements OperatorDao {
 	}
 	
 	public void saveOrUpdateDepoOrder(DepoOrder order){
+		if(order.getId() == null || order.getId() == 0){
+			order.setCreated(Utils.today());
+			order.setCreatedBy(Utils.getLoggedUser());
+		}
+		order.setLastModified(Utils.today());
+		order.setLastModifiedBy(Utils.getLoggedUser());
 		hibernateTemplate.saveOrUpdate(order);
+		
 		for(DepoOrderLi orderLi : order.getOrderLiList()){
 			orderLi.setDepoOrder(order);
+			if(orderLi.getId() == null || orderLi.getId() == 0){
+				orderLi.setCreated(Utils.today());
+				orderLi.setCreatedBy(Utils.getLoggedUser());
+			}
+			orderLi.setLastModified(Utils.today());
+			orderLi.setLastModifiedBy(Utils.getLoggedUser());
+			
 			hibernateTemplate.saveOrUpdate(orderLi);
 		}
 	}

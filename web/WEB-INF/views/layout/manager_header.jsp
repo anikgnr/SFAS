@@ -1,10 +1,12 @@
-<%@ page import="java.security.Principal"%>
+<%@ page import="java.security.Principal,com.codeyard.sfas.util.Utils,com.codeyard.sfas.entity.ManagerType"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
 
 <%	
 	final String contextPath = request.getContextPath();
-	final Principal loggedUser = request.getUserPrincipal(); 	
+	final Principal loggedUser = request.getUserPrincipal();
+	pageContext.setAttribute("accountType", ManagerType.ACCOUNT.getValue());
+	pageContext.setAttribute("postType", Utils.getLoggedSysMgrPost());
 %>
 <div id="header_bar" class="clearfix">
 	<div class="main_width">
@@ -36,10 +38,15 @@
 </div>
 <div id="primary_nav" class="clearfix">
 				<div class="main_width">
-					<ul class="ipsList_inline" id="community_app_menu">					
-						<li id="nav_menu_1" class="left  ">
-							<a id="menu1" href="<%= contextPath %>/manager/pendingDepoDepositList.html" title="">Pending DEPO Deposits</a>
-						</li>																														
+					<ul class="ipsList_inline" id="community_app_menu">
+						<c:if test="${accountType == postType}">					
+							<li id="nav_menu_1" class="left  ">
+								<a id="menu1" href="<%= contextPath %>/manager/pendingDepoDepositList.html" title="">Pending DEPO Deposits</a>
+							</li>			
+						</c:if>																											
+						<li id="nav_menu_2" class="left  ">
+							<a id="menu2" href="<%= contextPath %>/manager/depoOrderList.html" title="">Pending DEPO Orders</a>
+						</li>
 					</ul>
 				</div>
  </div>

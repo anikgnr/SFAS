@@ -11,8 +11,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.ContextLoader;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.User;
+import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
 public class Utils {
@@ -145,6 +148,20 @@ public class Utils {
 	public static String getLoggedUser(){
 		try{
 			return SecurityContextHolder.getContext().getAuthentication().getName();
+		}catch(Exception ex){
+			logger.debug("Error while retrieving logged user name :: "+ex);
+		}
+		return null;
+	}
+
+	public static String getLoggedSysMgrPost(){
+		try{
+			AdminService adminService = (AdminService)ContextLoader.getCurrentWebApplicationContext().getBean("adminService");
+			if(adminService != null){
+				User user = adminService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+				if(user != null)
+					return user.getDepartment();
+			}			
 		}catch(Exception ex){
 			logger.debug("Error while retrieving logged user name :: "+ex);
 		}

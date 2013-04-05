@@ -67,6 +67,78 @@ $(function () {
 		loadDepositGrid();
 	});
 	
+	
+	/********************************************************************************************************************
+	 *										For Depo Order List Page 										
+	/********************************************************************************************************************/
+	
+	if ($("#orderFromDate").length > 0) {
+		   $("#orderFromDate").datepicker();
+	}
+	if ($("#orderToDate").length > 0) {
+	   $("#orderToDate").datepicker();
+	}
+	
+	if($("#admin-order-grid").length > 0)
+		loadStockGrid();
+
+	function loadStockGrid() {
+		if ($("#admin-order-grid").html() == "") {
+        	fields = ['depo.name', 'depo.rsm.region.name', 'orderDate', 'orderAmount', 'lastModifiedBy', 'lastApprovedBy', 'detailLink'];
+            columns = [
+                   {
+                       text: '',
+                       width: 25,
+                       dataIndex: ''
+                   },                   
+                   {
+                       text: 'DEPO Name',
+                       width: 150,
+                       dataIndex: 'depo.name'
+                   },                   
+                   {
+                       text: 'DEPO Region',
+                       width: 120,
+                       dataIndex: 'depo.rsm.region.name'
+                   },                   
+                   {
+                       text: 'Order Date',
+                       width: 120,
+                       dataIndex: 'orderDate',
+                       align: 'center',
+                       renderer: Ext.util.Format.dateRenderer('m/d/Y')
+                   },
+                   {
+                       text: 'Order Amount',
+                       width: 130,
+                       dataIndex: 'orderAmount',
+                       align: 'center',
+                       renderer: function (value) { return value+" Tk"; }                       
+                   },
+                   {
+                       text: 'Prepared By',
+                       width: 150,
+                       dataIndex: 'lastModifiedBy',
+                       align: 'center'
+                   },
+                   {
+                       text: '',
+                       width: 50,
+                       dataIndex: 'detailLink'
+                   }                   
+               ];            
+            loadGrid(fields, './depoCompleteOrderList.html?'+$("#searchForm").serialize(), 'order',
+				columns, 440, 770, 'admin-order-grid');
+
+        }
+
+    }
+		
+	$("#orderSearchBtn").click(function(){
+		$("#admin-order-grid").html('');
+		loadStockGrid();
+	});
+	
 });
 
 function doApprove(url){

@@ -331,7 +331,7 @@ public class DepoOrder extends AbstractBaseEntity{
 		}else if(this.mdApproved){
 			return "<a href='./depoOrder.html?rd=1&id="+super.getId()+"'>view</a>";			
 		}else{
-			return "<a href='javascript:alert('Order already in Approval process. Cannot alter it anymore.');'>edit</a>";
+			return "<a href=\"javascript:alert('Order already in Approval process. Cannot alter it now.');\">edit</a>";
 		}
 	}
 	
@@ -340,5 +340,22 @@ public class DepoOrder extends AbstractBaseEntity{
 			return "<a href='javascript:deleteLinkClicked(\"./depoOrderDelete.html?id="+super.getId()+"&did="+this.depo.getId()+"\")'>delete</a>";
 		}
 		return "";
+	}
+	
+	public String getDetailLink(){
+		String content = "<a href='./depoOrder.html?id="+super.getId()+"&rd=1&ap=1&tp=";
+		if(!this.misApproved){
+			content += ManagerType.MIS.getValue();
+		}else if(!this.accountApproved){
+			content += ManagerType.ACCOUNT.getValue();
+		}else if(!this.mgrApproved){
+			content += ManagerType.Manager.getValue();
+		}else if(!this.mmApproved){
+			content += ManagerType.MM.getValue();
+		}else if(!this.mdApproved){
+			content += ManagerType.MD.getValue();
+		}
+		content += "'>details</a>";
+		return content;
 	}
 }

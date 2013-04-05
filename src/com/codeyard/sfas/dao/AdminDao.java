@@ -10,14 +10,16 @@ import com.codeyard.sfas.vo.AdminSearchVo;
 public interface AdminDao { 
 	
 	boolean hasUserByUserName(String userName);
+	User getUserByUserName(String userName);
 	List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className);
 	List<AbstractBaseEntity> getActiveEnityList(AdminSearchVo searchVo, String className);
     AbstractBaseEntity loadEntityById(Long id, String className);
     AbstractLookUpEntity loadLookUpEntityById(Long id, String className);
     void saveOrUpdate(AbstractBaseEntity entity);
+    void onlySaveOrUpdate(AbstractBaseEntity entity);
     void deleteEntityById(Long id, String className);
     List<AbstractLookUpEntity> getAllLookUpEntity(String className);
     List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value);
-    List<User> getUserListByDept(String dept);
+    List<User> getUserListByDept(String dept);    
 }
 

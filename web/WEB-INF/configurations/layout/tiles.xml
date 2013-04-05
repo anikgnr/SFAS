@@ -64,9 +64,13 @@
     <definition name="operator/*" extends="operator.definition">
         <put-attribute name="body" value="/WEB-INF/views/operator/{1}.jsp" />
     </definition>
-    
+        
     <definition name="manager/*" extends="manager.definition">
         <put-attribute name="body" value="/WEB-INF/views/manager/{1}.jsp" />
+    </definition>
+    
+    <definition name="manager/depoOrder" extends="manager.definition">
+        <put-attribute name="body" value="/WEB-INF/views/operator/depoOrder.jsp" />
     </definition>
         
 </tiles-definitions>

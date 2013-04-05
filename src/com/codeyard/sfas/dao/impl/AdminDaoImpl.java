@@ -34,6 +34,14 @@ public class AdminDaoImpl implements AdminDao {
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")	
+	public User getUserByUserName(String userName){
+		List<User> userList = hibernateTemplate.find("From User where userName = ?", userName);
+		if(userList != null && userList.size() > 0)
+			return userList.get(0);
+		return null;
+	}
+		
     @SuppressWarnings("unchecked")
     public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
     	String sql = searchVo.buildFilterQueryClauses("From "+className+" ", false);
@@ -64,6 +72,10 @@ public class AdminDaoImpl implements AdminDao {
     	entity.setLastModifiedBy(Utils.getLoggedUser());
     	entity.setLastModified(Utils.today());
 		hibernateTemplate.saveOrUpdate(entity);		
+	}
+    
+    public void onlySaveOrUpdate(AbstractBaseEntity entity){
+    	hibernateTemplate.saveOrUpdate(entity);		
 	}
     
 	public void deleteEntityById(Long id, String className){

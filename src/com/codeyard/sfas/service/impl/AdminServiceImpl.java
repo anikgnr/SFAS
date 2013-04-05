@@ -30,6 +30,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.hasUserByUserName(userName);
 	}
 	
+	public User getUserByUserName(String userName){
+		return adminDao.getUserByUserName(userName);
+	}
+	
 	public List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className){
 		
 		List<AbstractBaseEntity> entityList = adminDao.getEnityList(searchVo, className);
@@ -53,6 +57,11 @@ public class AdminServiceImpl implements AdminService {
 	@Transactional(readOnly = false)
 	public void saveOrUpdate(AbstractBaseEntity entity){
 		adminDao.saveOrUpdate(entity);		
+	}
+	
+	@Transactional(readOnly = false)
+	public void onlySaveOrUpdate(AbstractBaseEntity entity){
+		adminDao.onlySaveOrUpdate(entity);		
 	}
 	
 	@Transactional(readOnly = false)

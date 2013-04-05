@@ -56,6 +56,18 @@ $(function () {
 	$("#backToDepoOrderList").click(function(){
 		window.location="./depoOrderList.html?id="+$("#depoId").val();
 	});
+		
+	$("#approveDepoOrder").click(function(){
+		if(confirm("Are you sure ?")){
+			window.location="./depoOrderApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
+		}
+	});
+	
+	$("#denyDepoOrder").click(function(){
+		if(confirm("Are you sure ?")){
+			window.location="./depoOrderUnApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
+		}
+	});
 	
 	/********************************************************************************************************************
 	 *										For Depo Order List Page 										

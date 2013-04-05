@@ -18,6 +18,7 @@
 						<form:hidden id="depoId" path="depo.id"/>
 						<form:hidden path="lastDeposit.id"/>
 						<form:hidden path="orderAmount"/>
+						<form:hidden path="depoBalance"/>
 							
 							
 							<div id="orderErrorBlock" <c:if test="${command.errorMsg == null || command.errorMsg == ''}">style="display:none;"</c:if>>
@@ -185,6 +186,13 @@
 							<input class="button orange" id="backToDepoOrderList" type="button" value='<spring:message code="operator.back.order"/>'/>&nbsp;
 							<c:choose>
 								<c:when test="${readOnly == true}">
+									<c:if test="${approveType != null && approveType != ''}">
+										<input type="hidden" id="approveType" value="${approveType}"/>
+										<input class="button orange" id="approveDepoOrder" type="button" value='<spring:message code="depo.order.form.approve"/>'/>
+										<c:if test="${approveType != 'mis'}">
+											&nbsp;<input class="button orange" id="denyDepoOrder" type="button" value='<spring:message code="depo.order.form.denied"/>'/>
+										</c:if>
+									</c:if>
 									<c:if test="${command.mdApproved == true && command.delivered != true}">
 										<input class="button orange" id="deliverDepoOrder" type="button" value='<spring:message code="depo.order.form.deliver"/>'/>
 									</c:if>

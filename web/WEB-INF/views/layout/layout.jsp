@@ -22,6 +22,8 @@
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/jquery-ui-1.8.18.custom.min.js"></script>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/common.js"></script>
 	<link type="text/css" href="<%= contextPath %>/resources/styles/ipb_styles.css" rel="stylesheet" />	
+	<link rel="icon" type="image/jpeg" href="<%= contextPath %>/resources/images/favicon.jpg">
+	<title>SFAS</title>
 </head>
 <body id="ipboard_body">
 

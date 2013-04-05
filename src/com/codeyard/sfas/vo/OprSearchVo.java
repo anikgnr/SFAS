@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.util.Constants;
 import com.codeyard.sfas.util.Utils;
 
@@ -13,24 +14,28 @@ public class OprSearchVo extends SearchVo{
 	
 	private Long depoId;
 	private Long accountId;
+	private Long depoRegionId;
 	private Double depositAmount;
 	private Boolean accountApproved;
 	private String accountApprovedBy;
+	private String approveType;
 	private Date depositFromDate;
 	private Date depositToDate;
 	private Date orderFromDate;
 	private Date orderToDate;
 	private Double orderAmount;
 	private Boolean mdApproved;
-	private Boolean delivered;
+	private Boolean delivered;	
 	
 	
 	public OprSearchVo(){
 		this.depoId = 0L;
 		this.accountId = 0L;
+		this.depoRegionId = 0L;
 		this.depositAmount = null;
 		this.accountApproved = null;
 		this.accountApprovedBy = null;
+		this.approveType = null;
 		this.depositFromDate = null;
 		this.depositToDate = null;
 		this.orderFromDate = null;
@@ -58,6 +63,16 @@ public class OprSearchVo extends SearchVo{
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
+	}
+
+
+	public Long getDepoRegionId() {
+		return depoRegionId;
+	}
+
+
+	public void setDepoRegionId(Long depoRegionId) {
+		this.depoRegionId = depoRegionId;
 	}
 
 
@@ -161,13 +176,25 @@ public class OprSearchVo extends SearchVo{
 	}
 
 
+	public String getApproveType() {
+		return approveType;
+	}
+
+
+	public void setApproveType(String approveType) {
+		this.approveType = approveType;
+	}
+
+
 	public static OprSearchVo fetchFromRequest(HttpServletRequest request){
     	OprSearchVo searchVo = new OprSearchVo();
-
+    	    	
     	if(request.getParameter("depoId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoId")))
     		searchVo.setDepoId(Long.parseLong((String)request.getParameter("depoId")));
     	if(request.getParameter("accountId") != null && !Utils.isNullOrEmpty((String)request.getParameter("accountId")))
     		searchVo.setAccountId(Long.parseLong((String)request.getParameter("accountId")));    	
+    	if(request.getParameter("depoRegionId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoRegionId")))
+    		searchVo.setDepoRegionId(Long.parseLong((String)request.getParameter("depoRegionId")));
     	if(request.getParameter("depositAmount") != null && !Utils.isNullOrEmpty((String)request.getParameter("depositAmount")))
     		searchVo.setDepositAmount(Double.parseDouble((String)request.getParameter("depositAmount")));
     	if(request.getParameter("accountApproved") != null && !Utils.isNullOrEmpty((String)request.getParameter("accountApproved")))
@@ -204,6 +231,11 @@ public class OprSearchVo extends SearchVo{
     		paramList.add(this.accountId);
     		hasClause = true;
     	}
+    	if(this.depoRegionId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "depo.rsm.region.id = ? ";
+    		paramList.add(this.depoRegionId);
+    		hasClause = true;
+    	}  		
 		if(this.depositAmount != null){
     		sql += (hasClause ? "AND ":"WHERE ") + "depositAmount = ? ";
     		paramList.add(this.depositAmount);
@@ -254,6 +286,21 @@ public class OprSearchVo extends SearchVo{
     		paramList.add(this.delivered);
     		hasClause = true;
     	}
+		if(!Utils.isNullOrEmpty(this.approveType)){
+			
+			if(ManagerType.MIS.getValue().equals(this.approveType)){
+    			sql += (hasClause ? "AND ":"WHERE ") + "misApproved = false ";
+    		}else if(ManagerType.ACCOUNT.getValue().equals(this.approveType)){
+    			sql += (hasClause ? "AND ":"WHERE ") + "misApproved = true and accountApproved = false ";
+    		}else if(ManagerType.Manager.getValue().equals(this.approveType)){
+    			sql += (hasClause ? "AND ":"WHERE ") + "accountApproved = true and mgrApproved = false ";
+    		}else if(ManagerType.MM.getValue().equals(this.approveType)){
+    			sql += (hasClause ? "AND ":"WHERE ") + "mgrApproved = true and mmApproved = false ";
+    		}else if(ManagerType.MD.getValue().equals(this.approveType)){
+    			sql += (hasClause ? "AND ":"WHERE ") + "mmApproved = true and mdApproved = false ";
+    		}
+    		hasClause = true;
+    	}		
 		
 		this.sql = sql;
 		this.params = paramList.toArray();		

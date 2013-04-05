@@ -16,7 +16,8 @@ import com.codeyard.sfas.util.Utils;
 @Controller
 public class LoginController {
 	private static Logger logger = Logger.getLogger(LoginController.class);
-		
+	
+	
     @RequestMapping(value="/login.html", method=RequestMethod.GET)
 	public String redirectLogin(@RequestParam(value="error", required=false) String error,HttpServletRequest request,Model model) {
     	logger.debug("::  inside redirectLogin :: ");
@@ -30,6 +31,7 @@ public class LoginController {
 	@RequestMapping(value="/forward.html", method=RequestMethod.GET)
 	public String forwardOnRole(HttpServletRequest request,Model model) {
 		logger.debug("::  LOGIN SUCCESSFUL :: ");
+		
 		if(Utils.isInRole(Role.ADMIN.getValue())){
 			return "redirect:/admin/home.html";
 		}else if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue()) || Utils.isInRole(Role.INVENTORY_OPERATOR.getValue())){

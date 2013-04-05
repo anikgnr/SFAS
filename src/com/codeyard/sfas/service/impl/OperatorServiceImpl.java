@@ -15,7 +15,10 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -33,6 +36,9 @@ public class OperatorServiceImpl implements OperatorService {
 	@Autowired(required=true)
 	private AdminService adminService;
 
+	@Autowired(required=true)
+	private InventoryService inventoryService;
+	
 	@Autowired(required=true)
 	private JdbcDao jdbcDao;
 
@@ -79,6 +85,30 @@ public class OperatorServiceImpl implements OperatorService {
 	
 	@Transactional(readOnly = false)
 	public void saveOrUpdateDepoOrder(DepoOrder order){		
+		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
+		List<DepoOrderLi> orderLiList = getDepoOrderLiList(order.getId());
+		Long oldQty = 0L;
+		Long newQty = 0L;
+		for(StockSummary stock : stocks){
+			oldQty = 0L;
+			newQty = 0L;
+			if(orderLiList != null){
+				for(DepoOrderLi oldLi : orderLiList){
+					if(stock.getProduct().getId() == oldLi.getProduct().getId()){
+						oldQty = oldLi.getQuantity();
+						break;
+					}
+				}
+			}
+			for(DepoOrderLi newLi : order.getOrderLiList()){
+				if(stock.getProduct().getId() == newLi.getProduct().getId()){
+					newQty = newLi.getQuantity();
+					break;
+				}
+			}
+			stock.setQuantity(stock.getQuantity()+oldQty-newQty);
+			adminService.saveOrUpdate(stock);
+		}
 		operatorDao.saveOrUpdateDepoOrder(order);
 	}
 	
@@ -92,10 +122,49 @@ public class OperatorServiceImpl implements OperatorService {
 	
 	@Transactional(readOnly = false)
 	public void deleteDepoOrderById(Long orderId){
+		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
+		List<DepoOrderLi> orderLiList = getDepoOrderLiList(orderId);
+		for(StockSummary stock : stocks){
+			if(orderLiList != null){
+				for(DepoOrderLi oldLi : orderLiList){
+					if(stock.getProduct().getId() == oldLi.getProduct().getId()){						
+						stock.setQuantity(stock.getQuantity()+oldLi.getQuantity());
+						break;
+					}
+				}
+			}
+			adminService.saveOrUpdate(stock);			
+		}
 		operatorDao.deleteDepoOrderById(orderId);
 	}
 	
 	public boolean hasUnDeliveredOrderForDepo(Long depoId){
 		return jdbcDao.hasUnDeliveredOrderForDepo(depoId);
+	}
+	
+	@Transactional(readOnly = false)
+	public void approveDepoOrder(DepoOrder order, String type){
+		if(ManagerType.MIS.getValue().equals(type)){
+			order.setMisApproved(true);
+			order.setMisApprovedBy(Utils.getLoggedUser());
+			order.setMisApprovedDate(Utils.today());
+		}else if(ManagerType.ACCOUNT.getValue().equals(type)){
+			order.setAccountApproved(true);
+			order.setAccountApprovedBy(Utils.getLoggedUser());
+			order.setAccountApprovedDate(Utils.today());
+		}else if(ManagerType.Manager.getValue().equals(type)){
+			order.setMgrApproved(true);
+			order.setMgrApprovedBy(Utils.getLoggedUser());
+			order.setMgrApprovedDate(Utils.today());
+		}else if(ManagerType.MM.getValue().equals(type)){
+			order.setMmApproved(true);
+			order.setMmApprovedBy(Utils.getLoggedUser());
+			order.setMmApprovedDate(Utils.today());
+		}else if(ManagerType.MD.getValue().equals(type)){
+			order.setMdApproved(true);
+			order.setMdApprovedBy(Utils.getLoggedUser());
+			order.setMdApprovedDate(Utils.today());
+		}
+		adminService.onlySaveOrUpdate(order);
 	}
 }
