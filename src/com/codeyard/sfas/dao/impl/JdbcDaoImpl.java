@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.codeyard.sfas.dao.JdbcDao;
+import com.codeyard.sfas.entity.DepoOrderLi;
+import com.codeyard.sfas.entity.Product;
 
 @Repository
 public class JdbcDaoImpl implements JdbcDao {
@@ -39,5 +41,31 @@ public class JdbcDaoImpl implements JdbcDao {
     		return true;
     	else
     		return false;
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<DepoOrderLi> getLiteDepoOrderLiList(Long depoOrderId){
+    	final List<DepoOrderLi> orderLiList = new ArrayList<DepoOrderLi>();    		
+    	try	{
+    		jdbcTemplate.query("SELECT product_id, order_quantity FROM cy_re_depo_order_li where depo_order_id = "+depoOrderId, new RowMapper(){
+				@Override
+				public Object mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					DepoOrderLi orderLi = new DepoOrderLi();
+					Product product = new Product();
+					
+					product.setId(rs.getLong("product_id"));
+					orderLi.setProduct(product);
+					orderLi.setQuantity(rs.getLong("order_quantity"));
+					
+					orderLiList.add(orderLi);
+					return null;
+				}
+    		});
+    		    		
+    	} catch(Exception ex) {
+    		logger.debug("getLiteDepoOrderLi error :: " + depoOrderId, ex);
+    	}
+    	return orderLiList;
     }
 }

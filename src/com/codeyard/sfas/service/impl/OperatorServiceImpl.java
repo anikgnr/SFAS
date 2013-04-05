@@ -86,26 +86,29 @@ public class OperatorServiceImpl implements OperatorService {
 	@Transactional(readOnly = false)
 	public void saveOrUpdateDepoOrder(DepoOrder order){		
 		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
-		List<DepoOrderLi> orderLiList = getDepoOrderLiList(order.getId());
+		List<DepoOrderLi> orderLiList = jdbcDao.getLiteDepoOrderLiList(order.getId());
 		Long oldQty = 0L;
 		Long newQty = 0L;
 		for(StockSummary stock : stocks){
 			oldQty = 0L;
 			newQty = 0L;
-			if(orderLiList != null){
-				for(DepoOrderLi oldLi : orderLiList){
-					if(stock.getProduct().getId() == oldLi.getProduct().getId()){
-						oldQty = oldLi.getQuantity();
-						break;
-					}
+			
+			for(DepoOrderLi oldLi : orderLiList){
+				if(stock.getProduct().getId() == oldLi.getProduct().getId()){
+					oldQty = oldLi.getQuantity();
+					break;
 				}
 			}
+			
 			for(DepoOrderLi newLi : order.getOrderLiList()){
 				if(stock.getProduct().getId() == newLi.getProduct().getId()){
 					newQty = newLi.getQuantity();
 					break;
 				}
 			}
+			logger.debug(stock.getProduct().getFullName()+" current stock :: "+stock.getQuantity());
+			logger.debug(stock.getProduct().getFullName()+" old Order Qty :: "+oldQty);
+			logger.debug(stock.getProduct().getFullName()+" new Order Qty :: "+newQty);
 			stock.setQuantity(stock.getQuantity()+oldQty-newQty);
 			adminService.saveOrUpdate(stock);
 		}
