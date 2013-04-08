@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.StockIn;
@@ -65,19 +66,14 @@ public class StockInController {
 	  	logger.debug(":::::::::: inside inventory save or edit stockIn:::::::::::::::::");
 	    	
 	   	try{
-	   		if(stockIn.getId() != null && stockIn.getId() > 0){
-	   			if(inventoryService.isStockInAlreadyUsedById(stockIn.getId())){
-	   				Utils.setErrorMessage(request, Utils.getMessageBundlePropertyValue("error.stockin.used"));
-	   				logger.debug("stock In already in use");
-	   			    return "redirect:/inventory/stockinList.html";	    			
-	    		}
-	   			StockIn mainStockIn = (StockIn)adminService.loadEntityById(stockIn.getId(),"StockIn");
-	   			mainStockIn.setPreviousQuantity(mainStockIn.getQuantity());
-	   			mainStockIn.merge(stockIn);
-	   			inventoryService.saveOrUpdateStockIn(mainStockIn);
-	   		}else
-	   			inventoryService.saveOrUpdateStockIn(stockIn);
-	   		Utils.setSuccessMessage(request, "Stock In Entry successfully saved/updated.");
+	   		
+	   		String message = "Stock In Entry successfully saved.";
+	   		if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+	   			message = "Stock In Entry successfully saved. Notification for approval has been sent to Inventory Admin.";
+	   		}
+	   		adminService.saveOrUpdate(stockIn);	
+	   		
+	   		Utils.setSuccessMessage(request, message);
 	   	}catch(Exception ex){
 	   		logger.debug("Error while saving/updating stockIn :: "+ex);
 	   		Utils.setErrorMessage(request, "Stock In Entry can't be saved/updated. Please contact with System Admin.");
@@ -95,9 +91,9 @@ public class StockInController {
 	}   	    
     	  
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/inventory/todayStockInList.html", method=RequestMethod.GET)
+	@RequestMapping(value = "/inventory/pendingStockInList.html", method=RequestMethod.GET)
 	public @ResponseBody Map entityList(HttpServletRequest request, Map map) {    	
-	   	List<StockIn> stockInList = inventoryService.getTodaysStockInList(StockSearchVo.fetchFromRequest(request));
+	   	List<StockIn> stockInList = inventoryService.getPendingStockInList(StockSearchVo.fetchFromRequest(request));
 	   	map.put("stockin", stockInList);
 		return map;
 	}
@@ -112,9 +108,28 @@ public class StockInController {
 		   	}
 	    }catch(Exception ex){
 	    	logger.debug("stock in delete error "+ex);
-			Utils.setErrorMessage(request, Utils.getMessageBundlePropertyValue("error.stockin.used"));
+	    	Utils.setErrorMessage(request, "Stock In Entry coudn't be deleted. Please contact with System Admin.");
 	    }	    	    	
 	    return "redirect:/inventory/stockinList.html";
 	}        
-	    
+
+	 @RequestMapping(value="/inventory/stockinApprove.html", method=RequestMethod.GET)
+	 public String approveEntity(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside inventory approve stock in form:::::::::::::::::");
+	    try{	
+		   	if(request.getParameter("id") != null){	   		
+		   		StockIn stockIn = (StockIn)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"StockIn");
+		   		stockIn.setApproved(true);
+		   		stockIn.setApprovedBy(Utils.getLoggedUser());
+		   		stockIn.setApprovedDate(Utils.today());		   		
+		   		inventoryService.saveOrUpdateStockIn(stockIn);
+		   		Utils.setSuccessMessage(request, "Stock In Entry successfully approved.");
+		   	}
+	    }catch(Exception ex){
+	    	logger.debug("stock in approved error "+ex);
+			Utils.setErrorMessage(request, "Stock In Entry coudn't be approved. Please contact with System Admin.");
+	    }	    	    	
+	    return "redirect:/inventory/stockinList.html";
+	}        
+	 
 }

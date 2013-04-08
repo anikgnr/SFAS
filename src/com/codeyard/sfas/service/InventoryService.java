@@ -13,9 +13,10 @@ import com.codeyard.sfas.vo.StockSearchVo;
 public interface InventoryService { 
 	
 	void saveOrUpdateStockIn(StockIn stockIn);
-	List<StockIn> getTodaysStockInList(StockSearchVo searchVo);
+	List<StockIn> getPendingStockInList(StockSearchVo searchVo);
 	List<StockSummary> getCurrentStockList(StockSearchVo searchVo);
 	List<DamageSummary> getDamageStockList(StockSearchVo searchVo);
 	void deleteStockInById(Long stockInId);
 	boolean isStockInAlreadyUsedById(Long stockInId);
+	StockSummary getStockSummaryByProductId(Long productId);
 }

@@ -16,6 +16,7 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -102,5 +103,14 @@ public class OperatorDaoImpl implements OperatorDao {
 		
 		hibernateTemplate.bulkUpdate("DELETE FROM DepoOrderLi where depoOrder.id =  ?", orderId);
 		hibernateTemplate.bulkUpdate("DELETE FROM DepoOrder where id =  ?", orderId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public DepoStockSummary getDepoStockSummaryByProductId(Long productId){
+		List<DepoStockSummary> summaryList = hibernateTemplate.find("From DepoStockSummary where product.id = ? ", productId);
+    	if(summaryList != null && summaryList.size() > 0)
+    		return (DepoStockSummary) summaryList.get(0);
+    	else
+    		return null;  
 	}
 }

@@ -55,11 +55,6 @@
 								<td><form:input path="quantity" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>
-							<tr>
-								<td><spring:message code="product.form.description"/> : </td>
-								<td><form:textarea path="comment" rows="5" cols="20" /></td>
-								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
 							<tr><td>&nbsp;</td></tr>													 
 							<tr>
 								<td>&nbsp;</td>

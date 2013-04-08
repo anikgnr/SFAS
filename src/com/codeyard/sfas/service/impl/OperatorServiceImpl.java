@@ -200,12 +200,33 @@ public class OperatorServiceImpl implements OperatorService {
 		List <DepoOrderLi> orderLiList = getDepoOrderLiList(order.getId());
 		if(orderLiList != null){
 			for(DepoOrderLi orderLi : orderLiList){
+				if(orderLi.getQuantity() <= 0)
+					continue;
+				
+				DepoStockSummary stockSummary = operatorDao.getDepoStockSummaryByProductId(orderLi.getProduct().getId());
+				if(stockSummary == null){
+					stockSummary = new DepoStockSummary();
+					stockSummary.setDepo(depo);
+					stockSummary.setProduct(orderLi.getProduct());
+				}
+				stockSummary.setQuantity(stockSummary.getQuantity() + orderLi.getQuantity());
+				stockSummary.setLastStockInDate(Utils.today());
+				adminService.saveOrUpdate(stockSummary);
+				
 				StockOut stockOut = new StockOut();
+				stockOut.setProduct(orderLi.getProduct());
 				stockOut.setQuantity(orderLi.getQuantity());
 				stockOut.setOrderFrom(OrderType.DEPO.getValue());
 				stockOut.setOrderId(order.getId());
 				stockOut.setStockOutDate(Utils.today());
 				adminService.saveOrUpdate(stockOut);
+				
+				StockSummary inventoryStockSummary = inventoryService.getStockSummaryByProductId(orderLi.getProduct().getId());
+				if(inventoryStockSummary != null){
+					inventoryStockSummary.setLastStockOutDate(Utils.today());
+					adminService.saveOrUpdate(inventoryStockSummary);	
+				}
+				
 			}
 		}
 		

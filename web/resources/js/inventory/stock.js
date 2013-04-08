@@ -52,12 +52,12 @@ $(function () {
                   },
                   {
                       text: 'Stock Entry By',
-                      width: 120,
+                      width: 110,
                       dataIndex: 'createdBy'
                   },
                   {
                       text: '',
-                      width: 50,
+                      width: 60,
                       dataIndex: 'editLink'
                   },
                   {
@@ -66,7 +66,7 @@ $(function () {
                       dataIndex: 'deleteLink'
                   }                  
                ];
-            loadGrid(fields, './todayStockInList.html?'+$("#searchForm").serialize(), 'stockin',
+            loadGrid(fields, './pendingStockInList.html?'+$("#searchForm").serialize(), 'stockin',
 				columns, 220, 835, 'admin-stockin-grid');
 
         }

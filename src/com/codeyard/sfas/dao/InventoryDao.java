@@ -13,7 +13,7 @@ import com.codeyard.sfas.vo.StockSearchVo;
 public interface InventoryDao { 
 	
 	void saveOrUpdateStockIn(StockIn stockIn);
-	List<StockIn> getTodaysStockInList(StockSearchVo searchVo);
+	List<StockIn> getPendingStockInList(StockSearchVo searchVo);
 	List<StockSummary> getCurrentStockList(StockSearchVo searchVo);
 	StockSummary getStockSummaryByProductId(Long productId);
 	void deleteStockInById(Long stockInId);

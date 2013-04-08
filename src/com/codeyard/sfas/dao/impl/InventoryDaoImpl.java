@@ -41,33 +41,19 @@ public class InventoryDaoImpl implements InventoryDao {
 	
 	public void saveOrUpdateStockIn(StockIn stockIn){
 		
-		StockSummary stockSummary = null;
-		if(stockIn.getId() != null && stockIn.getId() > 0 && 
-				stockIn.getPreviousQuantity() != null && stockIn.getPreviousQuantity() != 0){
-			stockSummary = getStockSummaryByProductId(stockIn.getProduct().getId());
-			stockSummary.setQuantity(stockSummary.getQuantity() - stockIn.getPreviousQuantity());
-		}else{
-			stockSummary = getStockSummaryByProductId(stockIn.getProduct().getId());
-			if(stockSummary == null){
-				stockSummary = new StockSummary();
-				stockSummary.setProduct(stockIn.getProduct());
-				stockSummary.setCreated(Utils.today());
-				stockSummary.setCreatedBy(Utils.getLoggedUser());
-			}
-		}
-		
+		StockSummary stockSummary = getStockSummaryByProductId(stockIn.getProduct().getId());
+		if(stockSummary == null){
+			stockSummary = new StockSummary();
+			stockSummary.setProduct(stockIn.getProduct());
+			stockSummary.setCreated(Utils.today());
+			stockSummary.setCreatedBy(Utils.getLoggedUser());			
+		}		
 		stockSummary.setQuantity(stockSummary.getQuantity() + stockIn.getQuantity());
 		stockSummary.setLastModified(Utils.today());
 		stockSummary.setLastModifiedBy(Utils.getLoggedUser());
-		if(stockIn.getId() == null || stockIn.getId() == 0){
-			stockSummary.setLastStockInDate(stockIn.getStockInDate());
-		}
+		stockSummary.setLastStockInDate(stockIn.getStockInDate());		
 		hibernateTemplate.saveOrUpdate(stockSummary);
 		
-		if(stockIn.getId() == null || stockIn.getId() == 0){
-			stockIn.setCreatedBy(Utils.getLoggedUser());
-			stockIn.setCreated(Utils.today());
-    	}
 		stockIn.setLastModifiedBy(Utils.getLoggedUser());
 		stockIn.setLastModified(Utils.today());
 		hibernateTemplate.saveOrUpdate(stockIn);
@@ -75,11 +61,10 @@ public class InventoryDaoImpl implements InventoryDao {
 	}
  
 	@SuppressWarnings("unchecked")
-	public List<StockIn> getTodaysStockInList(StockSearchVo searchVo){
-		String sql = "From StockIn WHERE created > ? and created < ? ";
+	public List<StockIn> getPendingStockInList(StockSearchVo searchVo){
+		String sql = "From StockIn WHERE approved = ? ";
 		List<Object> params = new ArrayList<Object>();
-		params.add(Utils.prevDay(new Date()));
-		params.add(Utils.nextDay(new Date()));
+		params.add(new Boolean(false));		
 		searchVo.buildFilterQueryClauses(sql,params,true);
     	return hibernateTemplate.find(searchVo.getSql(), searchVo.getParams());
 	}
@@ -95,15 +80,8 @@ public class InventoryDaoImpl implements InventoryDao {
 	
 	public void deleteStockInById(Long stockInId){
 		
-		StockIn stockIn = (StockIn)adminService.loadEntityById(stockInId,"StockIn");
-		if(stockIn != null){
-			StockSummary stockSummary = getStockSummaryByProductId(stockIn.getProduct().getId());
-			stockSummary.setQuantity(stockSummary.getQuantity() - stockIn.getQuantity());
-			stockSummary.setLastModified(Utils.today());
-			stockSummary.setLastModifiedBy(Utils.getLoggedUser());
-			hibernateTemplate.saveOrUpdate(stockSummary);
-			hibernateTemplate.delete(stockIn);			
-		}
+		hibernateTemplate.bulkUpdate("DELETE FROM StockIn WHERE id = ? ", stockInId);		
+		
 	}
 	
 	@SuppressWarnings("unchecked")

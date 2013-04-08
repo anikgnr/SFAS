@@ -38,22 +38,13 @@ public class InventoryServiceImpl implements InventoryService {
 		inventoryDao.saveOrUpdateStockIn(stockIn);
 	}
 	
-	public List<StockIn> getTodaysStockInList(StockSearchVo searchVo){
+	public List<StockIn> getPendingStockInList(StockSearchVo searchVo){
 	
-		List<StockIn> stockInList = inventoryDao.getTodaysStockInList(searchVo);
-		if(stockInList != null && stockInList.size() > 0){
-			for(StockIn stockIn : stockInList){
-				if(stockIn != null){
-					if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
-						Utils.setEditDeleteLinkOnAbstractEntity(stockIn,"stockin");
-					}else{
-						stockIn.setEditLink("<a href='javascript:void(0);' onclick='alert(\"You do not have permission for this action. Please contact with Inventory Admin.\");'>edit</a>");
-						stockIn.setDeleteLink("<a href='javascript:void(0);' onclick='alert(\"You do not have permission for this action. Please contact with Inventory Admin.\");'>delete</a>");						
-					}
-				}
-			}
-		}
-		return stockInList;
+		return inventoryDao.getPendingStockInList(searchVo);		
+	}
+	
+	public StockSummary getStockSummaryByProductId(Long productId){
+		return inventoryDao.getStockSummaryByProductId(productId);
 	}
 	
 	@Transactional(readOnly = false)

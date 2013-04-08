@@ -15,8 +15,8 @@ import javax.persistence.TemporalType;
 public class StockOut extends AbstractBaseEntity{
     
 	@ManyToOne(optional=true)
-    @JoinColumn(name="stock_in_id")
-    private StockIn stockIn;
+    @JoinColumn(name="product_id")
+    private Product product;
 
     @Column(name = "quantity")
     private  Long quantity;
@@ -59,12 +59,13 @@ public class StockOut extends AbstractBaseEntity{
 		this.orderId = orderId;
 	}
 
-	public StockIn getStockIn() {
-		return stockIn;
+
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setStockIn(StockIn stockIn) {
-		this.stockIn = stockIn;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Date getStockOutDate() {

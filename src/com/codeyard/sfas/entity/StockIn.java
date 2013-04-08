@@ -11,6 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.codeyard.sfas.util.Utils;
+
 @Entity
 @Table(name="cy_re_stocks_in")
 public class StockIn extends AbstractBaseEntity{
@@ -35,20 +37,21 @@ public class StockIn extends AbstractBaseEntity{
     @Column(name = "quantity")
     private  Long quantity;
     
-    @Column(name = "stock_description")
-    private  String comment;
+    @Column(name = "is_approved")
+    private  Boolean approved;
     
-    @Column(name = "is_used")
-    private  boolean used;
+    @Column(name = "approved_by")
+    private  String approvedBy;
+    
+    @Column(name = "approved_date")
+    @Temporal(TemporalType.DATE)
+    private  Date approvedDate;
+    
         
-    @Transient
-    private Long previousQuantity;
-    
     public StockIn(){
     	quantity = 0L;
-    	previousQuantity = 0L;
     	product = new Product();
-    	used = false;
+    	approved = false;
     }
 
 	public Product getProduct() {
@@ -83,14 +86,6 @@ public class StockIn extends AbstractBaseEntity{
 		this.quantity = quantity;
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public Date getManufactureDate() {
 		return manufactureDate;
 	}
@@ -98,31 +93,44 @@ public class StockIn extends AbstractBaseEntity{
 	public void setManufactureDate(Date manufactureDate) {
 		this.manufactureDate = manufactureDate;
 	}
- 
-	public Long getPreviousQuantity() {
-		return previousQuantity;
+
+	public Boolean getApproved() {
+		return approved;
 	}
 
-	public void setPreviousQuantity(Long previousQuantity) {
-		this.previousQuantity = previousQuantity;
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
 	}
 
+	public String getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+	public Date getApprovedDate() {
+		return approvedDate;
+	}
+
+	public void setApprovedDate(Date approvedDate) {
+		this.approvedDate = approvedDate;
+	}
 	
-	public boolean isUsed() {
-		return used;
+	@Override
+	public String getEditLink(){
+		if(!this.approved && Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+			return "<a href='javascript:deleteLinkClicked(\"./stockinApprove.html?id="+super.getId()+"\")'>approve</a>";
+		}else
+			return "";
 	}
 
-	public void setUsed(boolean used) {
-		this.used = used;
+	@Override
+	public String getDeleteLink(){
+		if(!this.approved && Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+			return "<a href='javascript:deleteLinkClicked(\"./stockinDelete.html?id="+super.getId()+"\")'>delete</a>";
+		}else
+			return "";
 	}
-
-	public void merge(StockIn stockIn){
-		this.product = stockIn.getProduct();
-		this.stockInDate = stockIn.getStockInDate();
-		this.manufactureDate = stockIn.getManufactureDate();
-		this.expireDate = stockIn.getExpireDate();
-		this.quantity = stockIn.getQuantity();
-		this.comment = stockIn.getComment();
-	}
-
 }
