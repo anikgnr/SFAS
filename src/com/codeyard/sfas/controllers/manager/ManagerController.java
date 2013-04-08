@@ -165,4 +165,27 @@ public class ManagerController {
 	   	}      	    	
 		return "redirect:/manager/depoOrderList.html";
 	}	
+
+	 @RequestMapping(value="/manager/depoOrderUnApprove.html", method=RequestMethod.GET)
+	 public String unApproveDepoOrder(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside manager account un-approve depo order form:::::::::::::::::");
+	   	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null && request.getParameter("type") != null){
+	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
+	   	    	if(order != null){
+	   	    				   			
+	   	    		operatorService.unApproveDepoOrder(order, (String)request.getParameter("type"));
+		   			Utils.setSuccessMessage(request, "Depo Order successfully un-approved.");
+	   	    	}else
+		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be un-approved. Please contact with System Admin.");
+	   	    }else
+	   	    	Utils.setErrorMessage(request, "Depo Order couldn't be un-approved. Please contact with System Admin.");
+	   	}catch(Exception ex){
+	   		logger.debug("Error while un-approving depo order :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Order couldn't be un-approved. Please contact with System Admin.");	   		
+	   	}      	    	
+		return "redirect:/manager/depoOrderList.html";
+	}
+	 
 }

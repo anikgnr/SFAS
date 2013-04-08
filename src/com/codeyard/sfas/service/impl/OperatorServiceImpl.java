@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.dao.OperatorDao;
+import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoOrder;
@@ -16,6 +17,8 @@ import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.OrderType;
+import com.codeyard.sfas.entity.StockOut;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
@@ -169,5 +172,42 @@ public class OperatorServiceImpl implements OperatorService {
 			order.setMdApprovedDate(Utils.today());
 		}
 		adminService.onlySaveOrUpdate(order);
+	}
+	
+	@Transactional(readOnly = false)
+	public void unApproveDepoOrder(DepoOrder order, String type){
+		if(ManagerType.ACCOUNT.getValue().equals(type)){
+			order.setMisApproved(false);			
+		}else if(ManagerType.Manager.getValue().equals(type)){
+			order.setAccountApproved(false);			
+		}else if(ManagerType.MM.getValue().equals(type)){
+			order.setMgrApproved(false);			
+		}else if(ManagerType.MD.getValue().equals(type)){
+			order.setMmApproved(false);			
+		}
+		adminService.onlySaveOrUpdate(order);
+	}
+	
+	@Transactional(readOnly = false)
+	public void deliverDepoOrder(DepoOrder order){
+		order.setDelivered(true);
+		adminService.saveOrUpdate(order);
+		
+		Depo depo = order.getDepo();
+		depo.setCurrentBalance(depo.getCurrentBalance() - order.getOrderAmount());
+		adminService.onlySaveOrUpdate(depo);
+		
+		List <DepoOrderLi> orderLiList = getDepoOrderLiList(order.getId());
+		if(orderLiList != null){
+			for(DepoOrderLi orderLi : orderLiList){
+				StockOut stockOut = new StockOut();
+				stockOut.setQuantity(orderLi.getQuantity());
+				stockOut.setOrderFrom(OrderType.DEPO.getValue());
+				stockOut.setOrderId(order.getId());
+				stockOut.setStockOutDate(Utils.today());
+				adminService.saveOrUpdate(stockOut);
+			}
+		}
+		
 	}
 }

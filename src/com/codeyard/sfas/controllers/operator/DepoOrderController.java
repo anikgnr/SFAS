@@ -141,4 +141,55 @@ public class DepoOrderController {
 	   	}
 	} 
 
+	 @RequestMapping(value="/operator/depoOrderDeliver.html", method=RequestMethod.GET)
+	 public String deliverDepoOrder(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside operator deliver depo order form:::::::::::::::::");
+	   	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null){
+	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
+	   	    	if(order != null){
+	   	    		
+	   	    		DepoOrderHelper.oderBalanceCurrentBalanceComparison(order);
+	   	    		
+	   	    		if(!Utils.isNullOrEmpty(order.getErrorMsg())){
+		   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
+		   				return "redirect:/operator/depoOrder.html?er=1";
+		   			}
+		   			
+	   	    		operatorService.deliverDepoOrder(order);
+		   			Utils.setSuccessMessage(request, "Depo Order successfully delivered.");
+	   	    	}else
+		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");
+	   	    }else
+	   	    	Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");
+	   	}catch(Exception ex){
+	   		logger.debug("Error while delivering depo order :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");	   		
+	   	}      	    	
+		return "redirect:/operator/depoOrderList.html";
+	}	
+	 
+	 @RequestMapping(value="/operator/depoOrderReject.html", method=RequestMethod.GET)
+	 public String rejectDepoOrder(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside operator reject depo order form:::::::::::::::::");
+	   	
+	   	try{ 	    
+	   	    if(request.getParameter("id") != null){
+	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
+	   	    	if(order != null){
+	   	    		
+	   	    		order.setMdApproved(false);
+	   	    		adminService.saveOrUpdate(order);
+		   			Utils.setSuccessMessage(request, "Depo Order successfully rejected.");
+	   	    	}else
+		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be rejected. Please contact with System Admin.");
+	   	    }else
+	   	    	Utils.setErrorMessage(request, "Depo Order couldn't be rejected. Please contact with System Admin.");
+	   	}catch(Exception ex){
+	   		logger.debug("Error while rejecting depo order :: "+ex);
+	   		Utils.setErrorMessage(request, "Depo Order couldn't be rejected. Please contact with System Admin.");	   		
+	   	}      	    	
+		return "redirect:/operator/depoOrderList.html";
+	}		 
 }

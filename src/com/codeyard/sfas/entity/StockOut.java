@@ -1,10 +1,14 @@
 package com.codeyard.sfas.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="cy_re_stocks_out")
@@ -23,7 +27,10 @@ public class StockOut extends AbstractBaseEntity{
     @Column(name = "order_id")
     private  Long orderId;
 
-    
+    @Column(name = "stock_out_date")
+    @Temporal(TemporalType.DATE)
+    private  Date stockOutDate;
+        
     public StockOut(){
     	orderId = 0L;
     }
@@ -58,6 +65,14 @@ public class StockOut extends AbstractBaseEntity{
 
 	public void setStockIn(StockIn stockIn) {
 		this.stockIn = stockIn;
+	}
+
+	public Date getStockOutDate() {
+		return stockOutDate;
+	}
+
+	public void setStockOutDate(Date stockOutDate) {
+		this.stockOutDate = stockOutDate;
 	}    
 
 }

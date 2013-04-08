@@ -69,6 +69,18 @@ $(function () {
 		}
 	});
 	
+	$("#deliverDepoOrder").click(function(){
+		if(confirm("This will be your final submission which can't be reverted further. So please re-check the order first and then click ok ?")){
+			window.location="./depoOrderDeliver.html?id="+$("#id").val();
+		}
+	});
+	
+	$("#rejectDepoOrder").click(function(){
+		if(confirm("Are you sure ?")){
+			window.location="./depoOrderReject.html?id="+$("#id").val();
+		}
+	});
+	
 	/********************************************************************************************************************
 	 *										For Depo Order List Page 										
 	/********************************************************************************************************************/

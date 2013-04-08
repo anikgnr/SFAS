@@ -194,7 +194,8 @@
 										</c:if>
 									</c:if>
 									<c:if test="${command.mdApproved == true && command.delivered != true}">
-										<input class="button orange" id="deliverDepoOrder" type="button" value='<spring:message code="depo.order.form.deliver"/>'/>
+										<input class="button orange" id="deliverDepoOrder" type="button" value='<spring:message code="depo.order.form.deliver"/>'/>&nbsp;
+										<input class="button orange" id="rejectDepoOrder" type="button" value='<spring:message code="depo.order.form.reject"/>'/>										
 									</c:if>
 								</c:when>
 								<c:otherwise>
