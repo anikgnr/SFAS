@@ -15,4 +15,5 @@ public interface Constants {
 	public static final String MAIL_FROM_ADDRESS = "no.reply.mabcogroup@gmail.com";
 	public static final String MAIL_FROM_PASSWORD= "mabcogroup";
 	public static final String SESSION_DEPO_ORDER= "SESSION_KEY_DEPO_ORDER";
+	public static final String SESSION_DISTRIBUTOR_ORDER= "SESSION_KEY_DISTRIBUTOR_ORDER";
 }

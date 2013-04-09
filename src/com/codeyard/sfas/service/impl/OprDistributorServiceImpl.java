@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.dao.OprDistributorDao;
+import com.codeyard.sfas.entity.DepoSellSummary;
+import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.Distributor;
 import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
@@ -22,6 +24,7 @@ import com.codeyard.sfas.entity.StockOut;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
+import com.codeyard.sfas.service.OperatorService;
 import com.codeyard.sfas.service.OprDistributorService;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -41,6 +44,9 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 
 	@Autowired(required=true)
 	private InventoryService inventoryService;
+	
+	@Autowired(required=true)
+	private OperatorService operatorService;
 	
 	@Autowired(required=true)
 	private JdbcDao jdbcDao;
@@ -87,34 +93,66 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 	}
 	
 	@Transactional(readOnly = false)
-	public void saveOrUpdateDistributorOrder(DistributorOrder order){		
-		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
+	public void saveOrUpdateDistributorOrder(DistributorOrder order){
+		
 		List<DistributorOrderLi> orderLiList = jdbcDao.getLiteDistributorOrderLiList(order.getId());
 		Long oldQty = 0L;
 		Long newQty = 0L;
-		for(StockSummary stock : stocks){
-			oldQty = 0L;
-			newQty = 0L;
-			
-			for(DistributorOrderLi oldLi : orderLiList){
-				if(stock.getProduct().getId() == oldLi.getProduct().getId()){
-					oldQty = oldLi.getQuantity();
-					break;
+		
+		if(order.getDepo().isCompanyInventory()){
+			List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
+			for(StockSummary stock : stocks){
+				oldQty = 0L;
+				newQty = 0L;
+				
+				for(DistributorOrderLi oldLi : orderLiList){
+					if(stock.getProduct().getId() == oldLi.getProduct().getId()){
+						oldQty = oldLi.getQuantity();
+						break;
+					}
 				}
-			}
-			
-			for(DistributorOrderLi newLi : order.getOrderLiList()){
-				if(stock.getProduct().getId() == newLi.getProduct().getId()){
-					newQty = newLi.getQuantity();
-					break;
+				
+				for(DistributorOrderLi newLi : order.getOrderLiList()){
+					if(stock.getProduct().getId() == newLi.getProduct().getId()){
+						newQty = newLi.getQuantity();
+						break;
+					}
 				}
+				logger.debug(stock.getProduct().getFullName()+" inventory current stock :: "+stock.getQuantity());
+				logger.debug(stock.getProduct().getFullName()+" old Order Qty :: "+oldQty);
+				logger.debug(stock.getProduct().getFullName()+" new Order Qty :: "+newQty);
+				stock.setQuantity(stock.getQuantity()+oldQty-newQty);
+				adminService.saveOrUpdate(stock);
 			}
-			logger.debug(stock.getProduct().getFullName()+" current stock :: "+stock.getQuantity());
-			logger.debug(stock.getProduct().getFullName()+" old Order Qty :: "+oldQty);
-			logger.debug(stock.getProduct().getFullName()+" new Order Qty :: "+newQty);
-			stock.setQuantity(stock.getQuantity()+oldQty-newQty);
-			adminService.saveOrUpdate(stock);
+		}else{
+			StockSearchVo searchVo = new StockSearchVo();
+			searchVo.setDepoId(order.getDepo().getId());
+			List<DepoStockSummary> stocks = operatorService.getDepoCurrentStockList(searchVo);
+			for(DepoStockSummary stock : stocks){
+				oldQty = 0L;
+				newQty = 0L;
+				
+				for(DistributorOrderLi oldLi : orderLiList){
+					if(stock.getProduct().getId() == oldLi.getProduct().getId()){
+						oldQty = oldLi.getQuantity();
+						break;
+					}
+				}
+				
+				for(DistributorOrderLi newLi : order.getOrderLiList()){
+					if(stock.getProduct().getId() == newLi.getProduct().getId()){
+						newQty = newLi.getQuantity();
+						break;
+					}
+				}
+				logger.debug(stock.getProduct().getFullName()+" depo current stock :: "+stock.getQuantity());
+				logger.debug(stock.getProduct().getFullName()+" old Order Qty :: "+oldQty);
+				logger.debug(stock.getProduct().getFullName()+" new Order Qty :: "+newQty);
+				stock.setQuantity(stock.getQuantity()+oldQty-newQty);
+				adminService.saveOrUpdate(stock);
+			}
 		}
+		
 		oprDistributorDao.saveOrUpdateDistributorOrder(order);
 	}
 	
@@ -128,19 +166,40 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 	
 	@Transactional(readOnly = false)
 	public void deleteDistributorOrderById(Long orderId){
-		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
-		List<DistributorOrderLi> orderLiList = getDistributorOrderLiList(orderId);
-		for(StockSummary stock : stocks){
-			if(orderLiList != null){
-				for(DistributorOrderLi oldLi : orderLiList){
-					if(stock.getProduct().getId() == oldLi.getProduct().getId()){						
-						stock.setQuantity(stock.getQuantity()+oldLi.getQuantity());
-						break;
+		
+		DistributorOrder order = (DistributorOrder)adminService.loadEntityById(orderId,"DistributorOrder");
+		List<DistributorOrderLi> orderLiList = getDistributorOrderLiList(order.getId());
+		
+		if(order.getDepo().isCompanyInventory()){			
+			List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());		
+			for(StockSummary stock : stocks){
+				if(orderLiList != null){
+					for(DistributorOrderLi oldLi : orderLiList){
+						if(stock.getProduct().getId() == oldLi.getProduct().getId()){						
+							stock.setQuantity(stock.getQuantity()+oldLi.getQuantity());
+							break;
+						}
 					}
 				}
+				adminService.saveOrUpdate(stock);			
 			}
-			adminService.saveOrUpdate(stock);			
+		}else{
+			StockSearchVo searchVo = new StockSearchVo();
+			searchVo.setDepoId(order.getDepo().getId());
+			List<DepoStockSummary> stocks = operatorService.getDepoCurrentStockList(searchVo);
+			for(DepoStockSummary stock : stocks){
+				if(orderLiList != null){
+					for(DistributorOrderLi oldLi : orderLiList){
+						if(stock.getProduct().getId() == oldLi.getProduct().getId()){						
+							stock.setQuantity(stock.getQuantity()+oldLi.getQuantity());
+							break;
+						}
+					}
+				}
+				adminService.saveOrUpdate(stock);			
+			}		
 		}
+		
 		oprDistributorDao.deleteDistributorOrderById(orderId);
 	}
 	
@@ -213,20 +272,38 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 				stockSummary.setLastStockInDate(Utils.today());
 				adminService.saveOrUpdate(stockSummary);
 				
-				StockOut stockOut = new StockOut();
-				stockOut.setProduct(orderLi.getProduct());
-				stockOut.setQuantity(orderLi.getQuantity());
-				stockOut.setOrderFrom(OrderType.DISTRIBUTOR.getValue());
-				stockOut.setOrderId(order.getId());
-				stockOut.setStockOutDate(Utils.today());
-				adminService.saveOrUpdate(stockOut);
-				
-				StockSummary inventoryStockSummary = inventoryService.getStockSummaryByProductId(orderLi.getProduct().getId());
-				if(inventoryStockSummary != null){
-					inventoryStockSummary.setLastStockOutDate(Utils.today());
-					adminService.saveOrUpdate(inventoryStockSummary);	
-				}
-				
+				if(order.getDepo().isCompanyInventory()){
+					StockOut stockOut = new StockOut();
+					stockOut.setProduct(orderLi.getProduct());
+					stockOut.setQuantity(orderLi.getQuantity());
+					stockOut.setOrderFrom(OrderType.DISTRIBUTOR.getValue());
+					stockOut.setOrderId(order.getId());
+					stockOut.setStockOutDate(Utils.today());
+					adminService.saveOrUpdate(stockOut);
+					
+					StockSummary inventoryStockSummary = inventoryService.getStockSummaryByProductId(orderLi.getProduct().getId());
+					if(inventoryStockSummary != null){
+						inventoryStockSummary.setLastStockOutDate(Utils.today());
+						adminService.saveOrUpdate(inventoryStockSummary);	
+					}
+				}else{
+
+					DepoSellSummary depoSaleSummary = operatorService.getDepoSellSummaryByProductIdAndDepoId(orderLi.getProduct().getId(), order.getDepo().getId());
+					if(depoSaleSummary == null){
+						depoSaleSummary = new DepoSellSummary();
+						depoSaleSummary.setProduct(orderLi.getProduct());
+						depoSaleSummary.setDepo(order.getDepo());						
+					}							
+					depoSaleSummary.setLastSellDate(Utils.today());
+					depoSaleSummary.setQuantity(depoSaleSummary.getQuantity() + orderLi.getQuantity());
+					adminService.saveOrUpdate(depoSaleSummary);
+					
+					DepoStockSummary depoStockSummary = operatorService.getDepoCurrentStockSummaryByProductIdAndDepoId(orderLi.getProduct().getId(), order.getDepo().getId());
+					if(depoStockSummary != null){
+						depoStockSummary.setLastStockOutDate(Utils.today());
+						adminService.saveOrUpdate(depoStockSummary);	
+					}
+				}				
 			}
 		}
 		

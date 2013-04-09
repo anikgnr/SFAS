@@ -26,4 +26,6 @@ public interface OperatorService {
 	void approveDepoOrder(DepoOrder order, String type);
 	void unApproveDepoOrder(DepoOrder order, String type);
 	void deliverDepoOrder(DepoOrder order);
+	DepoStockSummary getDepoCurrentStockSummaryByProductIdAndDepoId(Long productId, Long depoId);
+	DepoSellSummary getDepoSellSummaryByProductIdAndDepoId(Long productId, Long depoId);
 }

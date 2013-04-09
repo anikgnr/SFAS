@@ -53,6 +53,9 @@ public class DistributorOrderLi extends AbstractBaseEntity{
 	@Transient
 	private boolean hasError;
 	
+	@Transient
+	private long previousQty;
+	
 	public DistributorOrderLi(){
     	this.distributorOrder = null;
     	this.product = null;
@@ -64,6 +67,7 @@ public class DistributorOrderLi extends AbstractBaseEntity{
     	this.currentProfitMargin = 0.0;
     	this.amount = 0.0;    	
     	this.hasError = false;
+    	this.previousQty = 0L;
     }
 
     public DistributorOrderLi(DistributorOrder order, Product product){
@@ -77,6 +81,7 @@ public class DistributorOrderLi extends AbstractBaseEntity{
     	this.currentProfitMargin = 0.0;
     	this.amount = 0.0;
     	this.hasError = false;
+    	this.previousQty = 0L;
     }
 
 	public DistributorOrder getDistributorOrder() {
@@ -173,6 +178,14 @@ public class DistributorOrderLi extends AbstractBaseEntity{
 
 	public void setHasError(boolean hasError) {
 		this.hasError = hasError;
+	}
+
+	public long getPreviousQty() {
+		return previousQty;
+	}
+
+	public void setPreviousQty(long previousQty) {
+		this.previousQty = previousQty;
 	}
 
     

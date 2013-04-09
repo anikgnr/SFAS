@@ -27,6 +27,10 @@ public class DistributorOrder extends AbstractBaseEntity{
     private Distributor distributor;
     
 	@ManyToOne(optional=true)
+    @JoinColumn(name="distributor_depo_id")
+    private Depo depo; //associated depo for the distributor
+    
+	@ManyToOne(optional=true)
     @JoinColumn(name="distributor_deposit_id")
     private DistributorDeposit lastDeposit;
     
@@ -106,6 +110,7 @@ public class DistributorOrder extends AbstractBaseEntity{
     	orderAmount = 0.0;
     	distributorBalance = 0.0;
     	distributor = new Distributor();
+    	depo = new Depo();
     	lastDeposit = new DistributorDeposit();
     	delivered = false;
     	misApproved = false;
@@ -313,6 +318,16 @@ public class DistributorOrder extends AbstractBaseEntity{
 	public void setDistributorBalance(Double distributorBalance) {
 		this.distributorBalance = distributorBalance;
 	}
+	
+	public Depo getDepo() {
+		return depo;
+	}
+
+
+	public void setDepo(Depo depo) {
+		this.depo = depo;
+	}
+
 
 	public String getLastApprovedBy(){
 		if(this.mdApproved){

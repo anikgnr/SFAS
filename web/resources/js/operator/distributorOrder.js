@@ -1,7 +1,7 @@
 $(function () {
 	
 	/********************************************************************************************************************
-	 *										For Depo Order Form 										
+	 *										For Distributor Order Form 										
 	/********************************************************************************************************************/
 	if ($("#orderDate").length > 0) {
 	   $("#orderDate").datepicker({ maxDate: new Date() });
@@ -53,36 +53,36 @@ $(function () {
 		$("#totalAmount").css('background','white');
 	}
 	
-	$("#backToDepoOrderList").click(function(){
-		window.location="./depoOrderList.html?id="+$("#depoId").val();
+	$("#backToOrderList").click(function(){
+		window.location="./distributorOrderList.html?id="+$("#distributorId").val();
 	});
 		
 	$("#approveDepoOrder").click(function(){
 		if(confirm("Are you sure ?")){
-			window.location="./depoOrderApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
+			window.location="./distributorOrderApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
 		}
 	});
 	
 	$("#denyDepoOrder").click(function(){
 		if(confirm("Are you sure ?")){
-			window.location="./depoOrderUnApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
+			window.location="./distributorOrderUnApprove.html?id="+$("#id").val()+"&type="+$("#approveType").val();
 		}
 	});
 	
 	$("#deliverDepoOrder").click(function(){
 		if(confirm("This will be your final submission which can't be reverted further. So please re-check the order first and then click ok ?")){
-			window.location="./depoOrderDeliver.html?id="+$("#id").val();
+			window.location="./distributorOrderDeliver.html?id="+$("#id").val();
 		}
 	});
 	
 	$("#rejectDepoOrder").click(function(){
 		if(confirm("Are you sure ?")){
-			window.location="./depoOrderReject.html?id="+$("#id").val();
+			window.location="./distributorOrderReject.html?id="+$("#id").val();
 		}
 	});
 	
 	/********************************************************************************************************************
-	 *										For Depo Order List Page 										
+	 *										For Distributor Order List Page 										
 	/********************************************************************************************************************/
 	
 	if ($("#orderFromDate").length > 0) {
@@ -147,7 +147,7 @@ $(function () {
                        dataIndex: 'deleteLink'
                    }                   
                ];            
-            loadGrid(fields, './depoCompleteOrderList.html?'+$("#searchForm").serialize(), 'order',
+            loadGrid(fields, './distributorCompleteOrderList.html?'+$("#searchForm").serialize(), 'order',
 				columns, 440, 750, 'admin-order-grid');
 
         }
@@ -159,12 +159,12 @@ $(function () {
 		loadStockGrid();
 	});
 	
-	$("#backToDepo").click(function(){
-		window.location='./depoList.html';
+	$("#backToDistributor").click(function(){
+		window.location='./distributorList.html';
 	});
 	
-	$("#createDepoOrder").click(function(){
-		window.location="./depoOrder.html?did="+$("#depoId").val();
+	$("#createDistributorOrder").click(function(){
+		window.location="./distributorOrder.html?did="+$("#distributorId").val();
 	});
 });
 

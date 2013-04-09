@@ -231,4 +231,24 @@ public class OperatorServiceImpl implements OperatorService {
 		}
 		
 	}
+	
+	public DepoStockSummary getDepoCurrentStockSummaryByProductIdAndDepoId(Long productId, Long depoId){
+		StockSearchVo searchVo = new StockSearchVo();
+		searchVo.setProductId(productId);
+		searchVo.setDepoId(depoId);
+		List<DepoStockSummary> stockList = getDepoCurrentStockList(searchVo);
+		if(stockList != null && stockList.size() > 0)
+			return stockList.get(0);		
+		return null;
+	}
+	
+	public DepoSellSummary getDepoSellSummaryByProductIdAndDepoId(Long productId, Long depoId){
+		StockSearchVo searchVo = new StockSearchVo();
+		searchVo.setProductId(productId);
+		searchVo.setDepoId(depoId);
+		List<DepoSellSummary> stockList = getDepoSellSummaryList(searchVo);
+		if(stockList != null && stockList.size() > 0)
+			return stockList.get(0);			
+		return null;
+	}
 }
