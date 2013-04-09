@@ -5,9 +5,9 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/manager/depo.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/manager/distributor.js"></script>
 	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 50px;">
-		<h3 class="maintitle" style="width: 1000px;"><spring:message code="depo.deposit.pending.form.title"/></h3>
+		<h3 class="maintitle" style="width: 1000px;"><spring:message code="distributor.deposit.pending.form.title"/></h3>
 		<div class="ipsBox table_wrap" style="width: 1000px;">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
@@ -15,11 +15,11 @@
 					<table cellspacing="10" cellpadding="0">
 						<tr>
 							<td>
-								<spring:message code="distributor.form.depo"/> : 
-								<select id="depoId" name="depoId">
+								<spring:message code="outlet.form.distributor"/> : 
+								<select id="distributorId" name="distributorId">
 									<option value=""></option>
-									<c:forEach items="${depos}" var="depo">
-										<option value="${depo.id}">${depo.fullName}</option>
+									<c:forEach items="${distributors}" var="distributor">
+										<option value="${distributor.id}">${distributor.fullName}</option>
 									</c:forEach>
 								</select>	
 							</td>

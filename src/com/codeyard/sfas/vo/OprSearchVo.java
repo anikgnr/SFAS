@@ -13,6 +13,7 @@ import com.codeyard.sfas.util.Utils;
 public class OprSearchVo extends SearchVo{
 	
 	private Long depoId;
+	private Long distributorId;	
 	private Long accountId;
 	private Long depoRegionId;
 	private Double depositAmount;
@@ -30,6 +31,7 @@ public class OprSearchVo extends SearchVo{
 	
 	public OprSearchVo(){
 		this.depoId = 0L;
+		this.distributorId = 0L;
 		this.accountId = 0L;
 		this.depoRegionId = 0L;
 		this.depositAmount = null;
@@ -53,6 +55,15 @@ public class OprSearchVo extends SearchVo{
 
 	public void setDepoId(Long depoId) {
 		this.depoId = depoId;
+	}
+
+	public Long getDistributorId() {
+		return distributorId;
+	}
+
+
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
 	}
 
 
@@ -191,6 +202,8 @@ public class OprSearchVo extends SearchVo{
     	    	
     	if(request.getParameter("depoId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoId")))
     		searchVo.setDepoId(Long.parseLong((String)request.getParameter("depoId")));
+    	if(request.getParameter("distributorId") != null && !Utils.isNullOrEmpty((String)request.getParameter("distributorId")))
+    		searchVo.setDistributorId(Long.parseLong((String)request.getParameter("distributorId")));
     	if(request.getParameter("accountId") != null && !Utils.isNullOrEmpty((String)request.getParameter("accountId")))
     		searchVo.setAccountId(Long.parseLong((String)request.getParameter("accountId")));    	
     	if(request.getParameter("depoRegionId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoRegionId")))
@@ -224,6 +237,11 @@ public class OprSearchVo extends SearchVo{
 		if(this.depoId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "depo.id = ? ";
     		paramList.add(this.depoId);
+    		hasClause = true;
+    	}   
+		if(this.distributorId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.id = ? ";
+    		paramList.add(this.distributorId);
     		hasClause = true;
     	}   
 		if(this.accountId != 0){

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.entity.DepoOrderLi;
+import com.codeyard.sfas.entity.DistributorOrderLi;
 import com.codeyard.sfas.entity.Product;
 
 @Repository
@@ -65,6 +66,40 @@ public class JdbcDaoImpl implements JdbcDao {
     		    		
     	} catch(Exception ex) {
     		logger.debug("getLiteDepoOrderLi error :: " + depoOrderId, ex);
+    	}
+    	return orderLiList;
+    }
+    
+    public boolean hasUnDeliveredOrderForDistributor(Long distributorId){
+    	int count = jdbcTemplate.queryForInt("select count(id) from cy_re_distributor_order where distributor_id = ? and is_delivered = false ",distributorId);
+    	if(count > 0)
+    		return true;
+    	else
+    		return false;
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<DistributorOrderLi> getLiteDistributorOrderLiList(Long distributorOrderId){
+    	final List<DistributorOrderLi> orderLiList = new ArrayList<DistributorOrderLi>();    		
+    	try	{
+    		jdbcTemplate.query("SELECT product_id, order_quantity FROM cy_re_distributor_order_li where distributor_order_id = "+distributorOrderId, new RowMapper(){
+				@Override
+				public Object mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					DistributorOrderLi orderLi = new DistributorOrderLi();
+					Product product = new Product();
+					
+					product.setId(rs.getLong("product_id"));
+					orderLi.setProduct(product);
+					orderLi.setQuantity(rs.getLong("order_quantity"));
+					
+					orderLiList.add(orderLi);
+					return null;
+				}
+    		});
+    		    		
+    	} catch(Exception ex) {
+    		logger.debug("getLiteDistributorOrderLi error :: " + distributorOrderId, ex);
     	}
     	return orderLiList;
     }

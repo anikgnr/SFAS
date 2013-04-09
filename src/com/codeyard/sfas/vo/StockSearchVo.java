@@ -12,6 +12,7 @@ import com.codeyard.sfas.util.Utils;
 public class StockSearchVo extends SearchVo{
 	
 	private Long depoId;
+	private Long distributorId;
 	private Long productId;
 	private String createdBy;
 	private Long quantity;
@@ -23,6 +24,7 @@ public class StockSearchVo extends SearchVo{
 	
 	public StockSearchVo(){
 		this.depoId = 0L;
+		this.distributorId = 0L;
 		this.productId = 0L;
 		this.createdBy = null;
 		this.quantity = 0L;
@@ -41,6 +43,16 @@ public class StockSearchVo extends SearchVo{
 
 	public void setDepoId(Long id) {
 		this.depoId = id;
+	}
+
+
+	public Long getDistributorId() {
+		return distributorId;
+	}
+
+
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
 	}
 
 
@@ -130,6 +142,8 @@ public class StockSearchVo extends SearchVo{
 
     	if(request.getParameter("depoId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoId")))
     		searchVo.setDepoId(Long.parseLong((String)request.getParameter("depoId")));
+    	if(request.getParameter("distributorId") != null && !Utils.isNullOrEmpty((String)request.getParameter("distributorId")))
+    		searchVo.setDistributorId(Long.parseLong((String)request.getParameter("distributorId")));
     	if(request.getParameter("productId") != null && !Utils.isNullOrEmpty((String)request.getParameter("productId")))
     		searchVo.setProductId(Long.parseLong((String)request.getParameter("productId")));
     	if(request.getParameter("createdBy") != null && !Utils.isNullOrEmpty((String)request.getParameter("createdBy")))
@@ -155,6 +169,11 @@ public class StockSearchVo extends SearchVo{
 		if(this.depoId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "depo.id = ? ";
     		paramList.add(this.depoId);
+    		hasClause = true;
+    	}   
+		if(this.distributorId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.id = ? ";
+    		paramList.add(this.distributorId);
     		hasClause = true;
     	}   
 		if(this.productId != 0){

@@ -20,11 +20,13 @@ import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
+import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.service.OprDistributorService;
 import com.codeyard.sfas.util.Constants;
 import com.codeyard.sfas.util.DepoOrderHelper;
 import com.codeyard.sfas.util.Utils;
@@ -34,72 +36,55 @@ import com.codeyard.sfas.vo.StockSearchVo;
 
 
 @Controller
-public class ManagerController {
-	private static Logger logger = Logger.getLogger(ManagerController.class);
+public class ManagerDistributorController {
+	private static Logger logger = Logger.getLogger(ManagerDistributorController.class);
 	
 	@Autowired(required=true)
 	private AdminService adminService;
 
 	@Autowired(required=true)
-	private OperatorService operatorService;
+	private OprDistributorService oprDistributorService;
 	
-	@Autowired(required=true)
-	private InventoryService inventoryService;
-
-
-	@RequestMapping(value="/manager/home.html", method=RequestMethod.GET)
-	public String reportHomePanel(HttpServletRequest request,Model model) {
-    	logger.debug(":::::::::: inside manager home:::::::::::::::::");
-    	return "manager/home";
-	}   
 	
-    @RequestMapping(value="/manager/pendingDepoDepositList.html", method=RequestMethod.GET)
+    @RequestMapping(value="/manager/pendingDistributorDepositList.html", method=RequestMethod.GET)
 	public String stockPanel(HttpServletRequest request,Model model) {    	
-	   	logger.debug(":::::::::: inside manager account pending depo deposit List:::::::::::::::::");
-	   	List<AbstractBaseEntity> depoList = adminService.getActiveEnityList(AdminSearchVo.fetchFromRequest(request),"Depo");
-    	Iterator<AbstractBaseEntity> itr = depoList.iterator();
-    	while(itr.hasNext()){
-    		Depo depo = (Depo)itr.next();
-    		if(depo.isCompanyInventory()){
-    			itr.remove();
-    			continue;
-    		}
-    		
-    	}  	
-	   	model.addAttribute("depos", depoList);
+	   	logger.debug(":::::::::: inside manager account pending Distributor deposit List:::::::::::::::::");
+	   	List<AbstractBaseEntity> distributorList = adminService.getActiveEnityList(AdminSearchVo.fetchFromRequest(request),"Distributor");
+    	model.addAttribute("distributors", distributorList);
 	   	model.addAttribute("accounts", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"BankAccount"));
-	   	return "manager/pendingDepoDepositList";
+	   	return "manager/pendingDistributorDepositList";
 	}   
     
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/manager/depoCompleteDepositList.html", method=RequestMethod.GET)
+	@RequestMapping(value = "/manager/distributorCompleteDepositList.html", method=RequestMethod.GET)
 	public @ResponseBody Map stockList(HttpServletRequest request, Map map) {
 		OprSearchVo searchVo = OprSearchVo.fetchFromRequest(request);
 		searchVo.setAccountApproved(false);
-	   	List<DepoDeposit> depositList = operatorService.getDepoDepositList(searchVo);
+	   	List<DistributorDeposit> depositList = oprDistributorService.getDistributorDepositList(searchVo);
 	   	map.put("deposit", depositList);
 		return map;
 	}
 
-	 @RequestMapping(value="/manager/approveDepoDeposit.html", method=RequestMethod.GET)
-	 public String approveDepoDeposit(HttpServletRequest request,Model model) {
-	   	logger.debug(":::::::::: inside manager account approve depo deposit form:::::::::::::::::");
+	 @RequestMapping(value="/manager/approveDistributorDeposit.html", method=RequestMethod.GET)
+	 public String approveDistributorDeposit(HttpServletRequest request,Model model) {
+	   	logger.debug(":::::::::: inside manager account approve Distributor deposit form:::::::::::::::::");
 	   	
 	   	try{ 	    
 	   	    if(request.getParameter("id") != null){
-	   	    	if(operatorService.approveDepoDeposit(Long.parseLong(request.getParameter("id"))))
-	   	    		Utils.setSuccessMessage(request, "Depo Deposit approved successfully.");
+	   	    	if(oprDistributorService.approveDistributorDeposit(Long.parseLong(request.getParameter("id"))))
+	   	    		Utils.setSuccessMessage(request, "Distributor Deposit approved successfully.");
 	   	    	else
-	   	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");	   	    		
+	   	    		Utils.setErrorMessage(request, "Distributor Deposit couldn't be approved. Please contact with System Admin.");	   	    		
 	   	    }else
-	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");
+	    		Utils.setErrorMessage(request, "Distributor Deposit couldn't be approved. Please contact with System Admin.");
 	   	}catch(Exception ex){
-	   		logger.debug("Error while approving depo deposit :: "+ex);
-	   		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");	   		
+	   		logger.debug("Error while approving Distributor deposit :: "+ex);
+	   		Utils.setErrorMessage(request, "Distributor Deposit couldn't be approved. Please contact with System Admin.");	   		
 	   	}      	    	
-		return "redirect:/manager/pendingDepoDepositList.html";
+		return "redirect:/manager/pendingDistributorDepositList.html";
 	}	
 	 
+	 /*
 	@RequestMapping(value="/manager/depoOrderList.html", method=RequestMethod.GET)
 	public String orderListPanel(HttpServletRequest request,Model model) {    	
 	   	logger.debug(":::::::::: inside manager depo order List:::::::::::::::::");
@@ -187,5 +172,5 @@ public class ManagerController {
 	   	}      	    	
 		return "redirect:/manager/depoOrderList.html";
 	}
-	 
+	 */
 }

@@ -29,8 +29,8 @@ import com.codeyard.sfas.vo.StockSearchVo;
 
 
 @Controller
-public class DepoOprController {
-	private static Logger logger = Logger.getLogger(DepoOprController.class);
+public class OprDepoController {
+	private static Logger logger = Logger.getLogger(OprDepoController.class);
 	
 	@Autowired(required=true)
 	private AdminService adminService;

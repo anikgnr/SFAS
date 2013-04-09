@@ -5,24 +5,16 @@
 <html>
 
 <body>	
-	<script type="text/javascript" src="<%= contextPath %>/resources/js/manager/depo.js"></script>
+	<script type="text/javascript" src="<%= contextPath %>/resources/js/operator/distributor.js"></script>
 	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 50px;">
-		<h3 class="maintitle" style="width: 1000px;"><spring:message code="depo.deposit.pending.form.title"/></h3>
+		<h3 class="maintitle" style="width: 1000px;"><spring:message code="dep.deposit.form.title"/> of ${distributorName}</h3>
 		<div class="ipsBox table_wrap" style="width: 1000px;">
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="searchBlock">
 					<form id="searchForm">
+					<input type="hidden" id="distributorId" name="distributorId" value="${distributorId}"/>
 					<table cellspacing="10" cellpadding="0">
 						<tr>
-							<td>
-								<spring:message code="distributor.form.depo"/> : 
-								<select id="depoId" name="depoId">
-									<option value=""></option>
-									<c:forEach items="${depos}" var="depo">
-										<option value="${depo.id}">${depo.fullName}</option>
-									</c:forEach>
-								</select>	
-							</td>
 							<td>
 								<spring:message code="depo.deposit.form.bankAccount"/> : 
 								<select id="accountId" name="accountId">
@@ -35,6 +27,14 @@
 							<td>
 								<spring:message code="depo.deposit.form.amount"/> : <input type="text" id="depositAmount" name="depositAmount" style="width:130px;"/> Tk	
 							</td>
+							<td>
+								<spring:message code="depo.deposit.form.isApproved"/> : 
+								<select id="accountApproved" name="accountApproved">
+									<option value=""></option>
+									<option value="true">True</option>
+									<option value="false">False</option>
+								</select>	
+							</td>
 						</tr>					
 						<tr><td>&nbsp;</td></tr>	
 						<tr>
@@ -44,7 +44,15 @@
 							<td>
 								<spring:message code="depo.deposit.form.dateTo"/> : <input type="text" id="depositToDate" name="depositToDate" />	
 							</td>
-							<td>&nbsp;</td>
+							<td>
+								<spring:message code="depo.deposit.form.approvedBy"/> : 
+								<select id="accountApprovedBy" name="accountApprovedBy">
+									<option value=""></option>
+									<c:forEach items="${users}" var="user">
+										<option value="${user.userName}">${user.userName}</option>
+									</c:forEach>
+								</select>	
+							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
@@ -57,7 +65,11 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-depo-deposit-grid"></div><br/>						
+				<div id="admin-deposit-grid"></div><br/>						
+				<center>
+					<input class="button orange" id="backToDistributor" type="button" value='<spring:message code="operator.back.distributor"/>'/>&nbsp;
+					<input class="button orange" id="createDistributorDeposit" type="button" value='<spring:message code="depo.deposit.form.new"/>'/>
+				</center>			
 			</div>
 		</div>
 	</div>	  

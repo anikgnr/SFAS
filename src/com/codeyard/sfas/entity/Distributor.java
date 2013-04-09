@@ -92,7 +92,10 @@ public class Distributor extends AbstractBaseEntity{
 	}
 
 	public Double getCurrentBalance() {
-		return currentBalance;
+		if(currentBalance != null)
+			return currentBalance;
+		else
+			return 0.0;
 	}
 
 	public void setCurrentBalance(Double currentBalance) {
@@ -106,5 +109,31 @@ public class Distributor extends AbstractBaseEntity{
 	public void setDepo(Depo depo) {
 		this.depo = depo;
 	}
+	
+	public String getFullName(){
+		return this.pointName+" ( "+this.tso.getTerritory().getName()+" )";
+	}
+	
+	public String getStockLink(){
+		return "<a href='./distributorStockList.html?id="+super.getId()+"'>Stocks</a>";
+	}
+	public String getOrdersLink(){
+		return "<a href='./distributorOrderList.html?id="+super.getId()+"'>Orders</a>";
+	}	
+	public String getOrderLink(){
+		return "<a href='./distributorOrder.html?did="+super.getId()+"'>Place Order</a>";		
+	}
+	public String getDamageLink(){
+		return "<a href='./distributorDamageStockList.html?id="+super.getId()+"'>Damages</a>";
+	}
+	public String getPlanLink(){
+		return "<a href=''>Product Plan</a>";
+	}
+	public String getDepositLink(){
+		return "<a href='./distributorDepositList.html?id="+super.getId()+"'>Deposits</a>";
+	}
+	public String getSalesLink(){
+		return "<a href='./distributorSaleList.html?id="+super.getId()+"'>Sales</a>";		
+	}	
 
 }

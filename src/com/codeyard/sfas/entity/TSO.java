@@ -105,4 +105,7 @@ public class TSO extends AbstractBaseEntity{
 		this.monthlyGross = monthlyGross;
 	}
 
+	public String getNameWithTerritory(){
+		return this.firstName+" "+this.lastName+" ("+this.territory.getName()+")";
+	}
 }

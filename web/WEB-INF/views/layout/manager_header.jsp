@@ -47,6 +47,14 @@
 						<li id="nav_menu_2" class="left  ">
 							<a id="menu2" href="<%= contextPath %>/manager/depoOrderList.html" title="">Pending DEPO Orders</a>
 						</li>
+						<c:if test="${accountType == postType}">					
+							<li id="nav_menu_1" class="left  ">
+								<a id="menu1" href="<%= contextPath %>/manager/pendingDistributorDepositList.html" title="">Pending Distributor Deposits</a>
+							</li>			
+						</c:if>																											
+						<li id="nav_menu_2" class="left  ">
+							<a id="menu2" href="<%= contextPath %>/manager/distributorOrderList.html" title="">Pending Distributor Orders</a>
+						</li>
 					</ul>
 				</div>
  </div>
