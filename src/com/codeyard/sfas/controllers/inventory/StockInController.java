@@ -106,8 +106,10 @@ public class StockInController {
 	   	logger.debug(":::::::::: inside inventory delete stock in form:::::::::::::::::");
 	    try{	
 		   	if(request.getParameter("id") != null){	   		
+		   		StockIn stockIn = (StockIn)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"StockIn");
 		   		inventoryService.deleteStockInById(Long.parseLong(request.getParameter("id")));
 		   		Utils.setSuccessMessage(request, "Stock In Entry successfully deleted.");
+		   		NotificationGenerator.sendUserNameWiseNotification(stockIn.getCreatedBy(), NotificationType.INVENTORY_STOCK_DELETED, stockIn);
 		   	}
 	    }catch(Exception ex){
 	    	logger.debug("stock in delete error "+ex);
@@ -127,6 +129,7 @@ public class StockInController {
 		   		stockIn.setApprovedDate(Utils.today());		   		
 		   		inventoryService.saveOrUpdateStockIn(stockIn);
 		   		Utils.setSuccessMessage(request, "Stock In Entry successfully approved.");
+		   		NotificationGenerator.sendUserNameWiseNotification(stockIn.getCreatedBy(), NotificationType.INVENTORY_STOCK_APPROVED, stockIn);
 		   	}
 	    }catch(Exception ex){
 	    	logger.debug("stock in approved error "+ex);

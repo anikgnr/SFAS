@@ -214,7 +214,7 @@ $(function () {
                         },
                         {
                             text: 'Bank Account',
-                            width: 200,
+                            width: 260,
                             dataIndex: 'account.completeName'                       
                         },
                         {
@@ -226,14 +226,15 @@ $(function () {
                         },                   
                         {
                             text: 'Deposit Date',
-                            width: 120,
+                            width: 90,
                             dataIndex: 'depositDate',
                             renderer: Ext.util.Format.dateRenderer('m/d/Y')
                         },
                         {
                             text: 'Is Approved',
                             width: 80,
-                            dataIndex: 'accountApproved'
+                            dataIndex: 'accountApproved',
+                            align: "center"
                         },
                         {
                             text: 'Approved By',
@@ -242,7 +243,7 @@ $(function () {
                         },
                         {
                             text: 'Approved Date',
-                            width: 120,
+                            width: 90,
                             dataIndex: 'accountApprovedDate',
                             renderer: Ext.util.Format.dateRenderer('m/d/Y')
                         },

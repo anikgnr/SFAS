@@ -82,7 +82,11 @@ public class NotificationGenerator {
 		String subject = "SFAS Notification :: "; 
 		
 		if(type == NotificationType.INVENTORY_STOCK_IN){
-			subject += "Pending Company Inventory Stock In Entry for Approval.";
+			subject += "Pending Company Inventory Stock In Entry for Approval";
+		}else if(type == NotificationType.INVENTORY_STOCK_APPROVED){
+			subject += "Company Inventory Stock In Entry Approved.";
+		}else if(type == NotificationType.INVENTORY_STOCK_DELETED){			
+			subject += "Company Inventory Stock In Entry Deleted.";
 		}
 		return subject;
 	}
@@ -93,14 +97,39 @@ public class NotificationGenerator {
 		
 		if(type == NotificationType.INVENTORY_STOCK_IN){
 			StockIn stockIn = (StockIn)entity;
-			content += "Inventory Admin,<br/><br/>New Company Inventory Stock In Entry is waiting for your Approval. Here is the Stock In Summary : <br/><br/>"+
+			content += "Inventory Admin,<br/><br/>New Company Inventory Stock In Entry is waiting for your Approval. Here is the Stock In Entry Summary : <br/><br/>"+
 					   "Product : <b>"+stockIn.getProduct().getFullName()+"</b><br/>"+
 					   "Stock In Date : <b>"+Utils.getStringFromDate(Constants.DATE_FORMAT, stockIn.getStockInDate())+"</b><br/>"+
 					   "Stock In Quantity : <b>"+stockIn.getQuantity()+"</b><br/>"+
-					   "Stock In By : <b>"+stockIn.getLastModifiedBy()+"</b><br/>";
+					   "Stock In By : <b>"+stockIn.getLastModifiedBy()+"</b><br/>"+
+					   "<br/>Please take appropriate action asap (<a href='"+getAppUrl()+"/inventory/stockinList.html'>Click here</a>)"+
+					   "<br/><br/>Regards<br/><span style='font-weight: bold;color: #0f3854;'>SFAS Notification Panel</span>";
+			
+		}else if(type == NotificationType.INVENTORY_STOCK_APPROVED){
+			StockIn stockIn = (StockIn)entity;
+			content += stockIn.getCreatedBy()+",<br/><br/>Your Company Inventory Stock In Entry has been <span style='font-weight: bold;color: green;'>Approved</span>. Here is the Stock In Approval Summary : <br/><br/>"+
+					   "Product : <b>"+stockIn.getProduct().getFullName()+"</b><br/>"+
+					   "Stock In Date : <b>"+Utils.getStringFromDate(Constants.DATE_FORMAT, stockIn.getStockInDate())+"</b><br/>"+
+					   "Stock In Quantity : <b>"+stockIn.getQuantity()+"</b><br/>"+
+					   "Stock In By : <b>"+stockIn.getLastModifiedBy()+" (you)</b><br/>"+
+					   "Approved By : <b>"+stockIn.getApprovedBy()+"</b><br/>"+
+					   "Approved Date : <b>"+Utils.getStringFromDate(Constants.DATE_FORMAT, stockIn.getApprovedDate())+"</b><br/>"+
+					   "<br/>Company Inventory stock has been updated as well. Please <a href='"+getAppUrl()+"/inventory/stockList.html'>click here</a> "+
+					   "to see the updated stock summary.<br/><br/>Regards<br/><span style='font-weight: bold;color: #0f3854;'>SFAS Notification Panel</span>";
+			
+		}else if(type == NotificationType.INVENTORY_STOCK_DELETED){
+			StockIn stockIn = (StockIn)entity;
+			content += stockIn.getCreatedBy()+",<br/><br/>Your Company Inventory Stock In Entry has been <span style='font-weight: bold;color: red;'>Deleted</span>. Here is the Stock In Deletion Summary : <br/><br/>"+
+					   "Product : <b>"+stockIn.getProduct().getFullName()+"</b><br/>"+
+					   "Stock In Date : <b>"+Utils.getStringFromDate(Constants.DATE_FORMAT, stockIn.getStockInDate())+"</b><br/>"+
+					   "Stock In Quantity : <b>"+stockIn.getQuantity()+"</b><br/>"+
+					   "Stock In By : <b>"+stockIn.getLastModifiedBy()+" (you)</b><br/>"+
+					   "Deleted By : <b>"+Utils.getLoggedUser()+"</b><br/>"+
+					   "Deleted Date : <b>"+Utils.getStringFromDate(Constants.DATE_FORMAT, Utils.today())+"</b><br/>"+
+					   "<br/>Please <a href='"+getAppUrl()+"/inventory/stockin.html'>visit here</a> "+
+					   "in-order to enter more Inventory Stock-In Entry.<br/><br/>Regards<br/><span style='font-weight: bold;color: #0f3854;'>SFAS Notification Panel</span>";
 		}
-		
-		content += "<br/>Please take appropriate action asap (<a href='"+getAppUrl()+"/inventory/stockinList.html'>Click here</a>)<br/><br/>Regards<br/><b>SFAS Notification Panel</b>";
+				
 		return content;
 	}
 	
