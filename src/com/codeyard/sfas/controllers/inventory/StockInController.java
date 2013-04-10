@@ -20,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.DepoOrder;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.StockIn;
 import com.codeyard.sfas.entity.User;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.util.Utils;
@@ -68,12 +70,13 @@ public class StockInController {
 	   	try{
 	   		
 	   		String message = "Stock In Entry successfully saved.";
-	   		if(Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
+	   		if(!Utils.isInRole(Role.INVENTORY_ADMIN.getValue())){
 	   			message = "Stock In Entry successfully saved. Notification for approval has been sent to Inventory Admin.";
 	   		}
-	   		adminService.saveOrUpdate(stockIn);	
-	   		
+	   		stockIn.setProduct((Product)adminService.loadEntityById(stockIn.getProduct().getId(), "Product"));
+	   		adminService.saveOrUpdate(stockIn);	   		
 	   		Utils.setSuccessMessage(request, message);
+	   		NotificationGenerator.sendRoleWiseNotification(Role.INVENTORY_ADMIN.getValue(), NotificationType.INVENTORY_STOCK_IN, stockIn);
 	   	}catch(Exception ex){
 	   		logger.debug("Error while saving/updating stockIn :: "+ex);
 	   		Utils.setErrorMessage(request, "Stock In Entry can't be saved/updated. Please contact with System Admin.");

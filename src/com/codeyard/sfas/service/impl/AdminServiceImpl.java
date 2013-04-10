@@ -85,4 +85,8 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.getUserListByDept(dept);
 	}
 	
+	public List<User> getUserListByRole(String role){
+		return adminDao.getUserListByRole(role);
+	}
+	
 }

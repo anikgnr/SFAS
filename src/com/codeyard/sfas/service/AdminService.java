@@ -21,4 +21,5 @@ public interface AdminService {
     List<AbstractLookUpEntity> getAllLookUpEntity(String className);
     List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value);
     List<User> getUserListByDept(String dept);
+    List<User> getUserListByRole(String role);
 }

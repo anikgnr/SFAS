@@ -14,7 +14,7 @@
 			<div class="ipsBox_container" style="padding: 35px;">		
 				<div id="formBlock" style="padding-left:160px" >
 					<form:form method="post" action="./saveStockin.html">
-						<form:hidden path="id"/>
+						<form:hidden path="id"/>						
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
 								<td width="150px;"><spring:message code="stockin.form.product"/> : <span class="required">*</span></td>

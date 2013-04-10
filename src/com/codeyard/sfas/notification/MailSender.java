@@ -1,4 +1,4 @@
-package com.codeyard.sfas.util;
+package com.codeyard.sfas.notification;
 
 import java.util.Properties;
 
@@ -12,25 +12,19 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.codeyard.sfas.util.Constants;
+
 public class MailSender {
 	 
     private String from;
     private String password;
-    private String to;
-    private String subject;
-    private String text;
+    private Message simpleMessage;
 	 
-    public MailSender(String to, String subject, String text){
+    public MailSender(){
     	this.from = Constants.MAIL_FROM_ADDRESS;
     	this.password = Constants.MAIL_FROM_PASSWORD;
-        this.to = to;
-        this.subject = subject;
-        this.text = text;
-    }
-	 
-    public void send(){
-	 
-    	Properties props = new Properties();
+    	
+        Properties props = new Properties();
         props.put("mail.smtp.host", Constants.MAIL_SMTP_HOST);
         props.put("mail.smtp.port", Constants.MAIL_SMTP_PORT);
         props.put("mail.smtp.auth", Constants.MAIL_SMTP_AUTH);
@@ -39,8 +33,11 @@ public class MailSender {
 	        protected PasswordAuthentication getPasswordAuthentication() {
 	        return new PasswordAuthentication(from, password);
         }});
-        Message simpleMessage = new MimeMessage(mailSession);
-        
+        simpleMessage = new MimeMessage(mailSession);       
+    }
+	 
+    public void send(String to, String subject, String text){
+	     	
         InternetAddress fromAddress = null;
         InternetAddress toAddress = null;
         try {
@@ -54,7 +51,7 @@ public class MailSender {
             simpleMessage.setFrom(fromAddress);
             simpleMessage.setRecipient(RecipientType.TO, toAddress);
             simpleMessage.setSubject(subject);
-            simpleMessage.setText(text);
+            simpleMessage.setContent(text, "text/html; charset=utf-8");
 	 
             Transport.send(simpleMessage);
         } catch (MessagingException e) {

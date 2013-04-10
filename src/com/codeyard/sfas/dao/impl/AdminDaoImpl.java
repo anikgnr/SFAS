@@ -104,4 +104,9 @@ public class AdminDaoImpl implements AdminDao {
 	public List<User> getUserListByDept(String dept){
 		return hibernateTemplate.find("FROM User where department = ?",dept);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getUserListByRole(String role){
+		return hibernateTemplate.find("FROM User where role = ?",role);
+	}
 }

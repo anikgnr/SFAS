@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.ContextLoader;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.vo.AdminSearchVo;
@@ -167,14 +168,5 @@ public class Utils {
 		}
 		return null;
 	}
-	
-	public static void sendMail(String to, String subject, String text){
-		try{
-			MailSender sender = new MailSender(to, subject, text);
-			sender.send();
-		}catch(Exception ex){
-			logger.debug("Error while sending mail :: "+ex);
-		}		
-	}
-
+		
 }
