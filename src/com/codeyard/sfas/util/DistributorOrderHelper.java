@@ -111,7 +111,7 @@ public class DistributorOrderHelper {
 			long stockQty = DistributorOrderHelper.getQuantityExceededWithInventory(stocks, orderLi);
 			if(stockQty > -1){
 				orderLi.setHasError(true);
-				error += "&nbsp;&nbsp;&nbsp;&nbsp;- Serial: '"+orderLi.getSerial()+"'&nbsp;&nbsp;Product: '"+orderLi.getProduct().getFullName()+"'&nbsp;&nbsp;Order Qty: '"+orderLi.getQuantity()+"'&nbsp;&nbsp;Inventory Qty: '"+stockQty+"'<br/>";
+				error += "&nbsp;&nbsp;&nbsp;&nbsp;- Serial: '"+orderLi.getSerial()+"'&nbsp;&nbsp;Product: '"+orderLi.getProduct().getFullName()+"'&nbsp;&nbsp;Order Qty: '"+orderLi.getQuantity()+"'&nbsp;&nbsp;Available Qty: '"+(stockQty+orderLi.getPreviousQty())+"'<br/>";
 				hasError = true;
 			}
 		}
@@ -131,7 +131,7 @@ public class DistributorOrderHelper {
 			long stockQty = DistributorOrderHelper.getQuantityExceededWithDepo(stocks, orderLi);
 			if(stockQty > -1){
 				orderLi.setHasError(true);
-				error += "&nbsp;&nbsp;&nbsp;&nbsp;- Serial: '"+orderLi.getSerial()+"'&nbsp;&nbsp;Product: '"+orderLi.getProduct().getFullName()+"'&nbsp;&nbsp;Order Qty: '"+orderLi.getQuantity()+"'&nbsp;&nbsp;Inventory Qty: '"+stockQty+"'<br/>";
+				error += "&nbsp;&nbsp;&nbsp;&nbsp;- Serial: '"+orderLi.getSerial()+"'&nbsp;&nbsp;Product: '"+orderLi.getProduct().getFullName()+"'&nbsp;&nbsp;Order Qty: '"+orderLi.getQuantity()+"'&nbsp;&nbsp;Available Qty: '"+(stockQty+orderLi.getPreviousQty())+"'<br/>";
 				hasError = true;
 			}
 		}

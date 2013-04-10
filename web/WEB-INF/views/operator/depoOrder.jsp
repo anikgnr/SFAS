@@ -105,6 +105,7 @@
 								<form:hidden path="orderLiList[${idx.index}].currentStock"/>
 								<form:hidden path="orderLiList[${idx.index}].totalSale"/>
 								<form:hidden path="orderLiList[${idx.index}].totalDamage"/>
+								<form:hidden path="orderLiList[${idx.index}].previousQty"/>
 								<form:hidden id="rate-${idx.index}" path="orderLiList[${idx.index}].currentRate"/>
 								<form:hidden path="orderLiList[${idx.index}].currentProfitMargin"/>
 								<form:hidden id="amount-${idx.index}" path="orderLiList[${idx.index}].amount"/>								

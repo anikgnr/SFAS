@@ -22,6 +22,8 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.DistributorOrder;
+import com.codeyard.sfas.entity.DistributorOrderLi;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
@@ -44,6 +46,10 @@ public class DepoOrderHelper {
 	   		
 	   		order = (DepoOrder)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoOrder");	   		
 	   		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
+	   		if(order.getOrderLiList() != null && order.getOrderLiList().size() > 0){
+	   			for(DepoOrderLi orderLi : order.getOrderLiList())
+	   				orderLi.setPreviousQty(orderLi.getQuantity());	   			
+	   		}
 	   		
 	   		if(request.getParameter("rd") != null){
 	   			model.addAttribute("readOnly", true);
@@ -89,6 +95,7 @@ public class DepoOrderHelper {
 	   					orderLi.setTotalSale(getCurrentSale(saleList, product));
 	   					orderLi.setTotalDamage(getCurrentDamage(damageList, product));
 	   					orderLi.setQuantity(0L);
+	   					orderLi.setPreviousQty(0L);
 	   					orderLi.setCurrentRate(product.getRate());
 	   					orderLi.setCurrentProfitMargin(product.getProfitMargin());
 	   					orderLi.setAmount(0.0);
@@ -106,38 +113,42 @@ public class DepoOrderHelper {
 		order.setErrorMsg("");
 		List<StockSummary> stocks = inventoryService.getCurrentStockList(new StockSearchVo());
 		boolean hasError = false;
+		String error = "* Highlighted Product quantities are not available on Company Inventory :<br/>";
 		for(DepoOrderLi orderLi : order.getOrderLiList()){
-			if(DepoOrderHelper.isQuantityExceededWithInventory(stocks, orderLi)){
+			long stockQty = DepoOrderHelper.getQuantityExceededWithInventory(stocks, orderLi);
+			if(stockQty > -1){
 				orderLi.setHasError(true);
+				error += "&nbsp;&nbsp;&nbsp;&nbsp;- Serial: '"+orderLi.getSerial()+"'&nbsp;&nbsp;Product: '"+orderLi.getProduct().getFullName()+"'&nbsp;&nbsp;Order Qty: '"+orderLi.getQuantity()+"'&nbsp;&nbsp;Available Qty: '"+(stockQty+orderLi.getPreviousQty())+"'<br/>";
 				hasError = true;
 			}
 		}
 		if(hasError){
-			order.setErrorMsg("* Highlighted Product quantities are not available on Inventory now.<br/>");
+			order.setErrorMsg(error);
 		}
 	}
-	
+		
 	public static void oderBalanceCurrentBalanceComparison(DepoOrder order){
 		if(order.getOrderAmount() > order.getDepo().getCurrentBalance()){
 			order.setErrorMsg(order.getErrorMsg()+"* Payable Amount exceeds Current Balance. Please refactor your Order.<br/>");
 			order.setHasError(true);
 		}			
 	}
-		
-	 public static boolean isQuantityExceededWithInventory(List<StockSummary> stocks, DepoOrderLi orderLi){
+	
+	private static long getQuantityExceededWithInventory(List<StockSummary> stocks, DepoOrderLi orderLi){
 		 for(StockSummary stock : stocks){
 			 if(stock.getProduct().getId() == orderLi.getProduct().getId()){
-				 if(orderLi.getQuantity() > stock.getQuantity())
-					 return true;
+				 if(orderLi.getQuantity() > (stock.getQuantity()+orderLi.getPreviousQty()))
+					 return stock.getQuantity();
 				 else
-					 return false;
+					 return -1;
 			 }
 		 }
 		 if(orderLi.getQuantity() > 0)
-			 return true;
+			 return 0;
 		 else
-			 return false;
+			 return -1;
 	 }
+
 	 private static Long getCurrentStock(List<DepoStockSummary> stockList, Product product){
 		 for(DepoStockSummary summary : stockList){
 			 if(summary.getProduct().getId() == product.getId()){

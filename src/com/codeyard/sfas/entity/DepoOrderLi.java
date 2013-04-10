@@ -53,6 +53,9 @@ public class DepoOrderLi extends AbstractBaseEntity{
 	@Transient
 	private boolean hasError;
 	
+	@Transient
+	private long previousQty;
+	
 	public DepoOrderLi(){
     	this.depoOrder = null;
     	this.product = null;
@@ -64,6 +67,7 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.currentProfitMargin = 0.0;
     	this.amount = 0.0;    	
     	this.hasError = false;
+    	this.previousQty = 0L;
     }
 
     public DepoOrderLi(DepoOrder order, Product product){
@@ -77,6 +81,7 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.currentProfitMargin = 0.0;
     	this.amount = 0.0;
     	this.hasError = false;
+    	this.previousQty = 0L;
     }
 
 	public DepoOrder getDepoOrder() {
@@ -173,6 +178,14 @@ public class DepoOrderLi extends AbstractBaseEntity{
 
 	public void setHasError(boolean hasError) {
 		this.hasError = hasError;
+	}
+
+	public long getPreviousQty() {
+		return previousQty;
+	}
+
+	public void setPreviousQty(long previousQty) {
+		this.previousQty = previousQty;
 	}
 
     
