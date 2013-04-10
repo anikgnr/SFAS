@@ -63,7 +63,7 @@
 						<tr><td>&nbsp;</td></tr>
 						<tr>
 							<td colspan="2">&nbsp;</td>
-							<td  style="text-aling: right;">
+							<td  style="padding-left: 40px;">
 								<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>'/>&nbsp;<input class="button orange" id="searchBtn" type="button" value='<spring:message code="search.button.title"/>'/>
 							</td>
 						</tr>

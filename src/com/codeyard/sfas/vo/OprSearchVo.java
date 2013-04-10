@@ -16,6 +16,7 @@ public class OprSearchVo extends SearchVo{
 	private Long distributorId;	
 	private Long accountId;
 	private Long depoRegionId;
+	private Long distributorRsmId;
 	private Double depositAmount;
 	private Boolean accountApproved;
 	private String accountApprovedBy;
@@ -34,6 +35,7 @@ public class OprSearchVo extends SearchVo{
 		this.distributorId = 0L;
 		this.accountId = 0L;
 		this.depoRegionId = 0L;
+		this.distributorRsmId = 0L;
 		this.depositAmount = null;
 		this.accountApproved = null;
 		this.accountApprovedBy = null;
@@ -196,6 +198,15 @@ public class OprSearchVo extends SearchVo{
 		this.approveType = approveType;
 	}
 
+	public Long getDistributorRsmId() {
+		return distributorRsmId;
+	}
+
+
+	public void setDistributorRsmId(Long distributorRsmId) {
+		this.distributorRsmId = distributorRsmId;
+	}
+
 
 	public static OprSearchVo fetchFromRequest(HttpServletRequest request){
     	OprSearchVo searchVo = new OprSearchVo();
@@ -208,6 +219,8 @@ public class OprSearchVo extends SearchVo{
     		searchVo.setAccountId(Long.parseLong((String)request.getParameter("accountId")));    	
     	if(request.getParameter("depoRegionId") != null && !Utils.isNullOrEmpty((String)request.getParameter("depoRegionId")))
     		searchVo.setDepoRegionId(Long.parseLong((String)request.getParameter("depoRegionId")));
+    	if(request.getParameter("distributorRsmId") != null && !Utils.isNullOrEmpty((String)request.getParameter("distributorRsmId")))
+    		searchVo.setDistributorRsmId(Long.parseLong((String)request.getParameter("distributorRsmId")));
     	if(request.getParameter("depositAmount") != null && !Utils.isNullOrEmpty((String)request.getParameter("depositAmount")))
     		searchVo.setDepositAmount(Double.parseDouble((String)request.getParameter("depositAmount")));
     	if(request.getParameter("accountApproved") != null && !Utils.isNullOrEmpty((String)request.getParameter("accountApproved")))
@@ -252,6 +265,11 @@ public class OprSearchVo extends SearchVo{
     	if(this.depoRegionId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "depo.rsm.region.id = ? ";
     		paramList.add(this.depoRegionId);
+    		hasClause = true;
+    	}  		
+    	if(this.distributorRsmId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.tso.asm.rsm.id = ? ";
+    		paramList.add(this.distributorRsmId);
     		hasClause = true;
     	}  		
 		if(this.depositAmount != null){

@@ -84,7 +84,7 @@ $(function () {
 
 	function loadStockGrid() {
 		if ($("#admin-order-grid").html() == "") {
-        	fields = ['depo.name', 'depo.rsm.region.name', 'orderDate', 'orderAmount', 'lastModifiedBy', 'lastApprovedBy', 'detailLink'];
+        	fields = ['distributor.pointName', 'distributor.tso.territory.name', 'orderDate', 'orderAmount', 'lastModifiedBy', 'detailLink'];
             columns = [
                    {
                        text: '',
@@ -92,14 +92,14 @@ $(function () {
                        dataIndex: ''
                    },                   
                    {
-                       text: 'DEPO Name',
-                       width: 150,
-                       dataIndex: 'depo.name'
+                       text: 'Distributor',
+                       width: 160,
+                       dataIndex: 'distributor.pointName'
                    },                   
                    {
-                       text: 'DEPO Region',
-                       width: 120,
-                       dataIndex: 'depo.rsm.region.name'
+                       text: 'Territory',
+                       width: 140,
+                       dataIndex: 'distributor.tso.territory.name'
                    },                   
                    {
                        text: 'Order Date',
@@ -117,7 +117,7 @@ $(function () {
                    },
                    {
                        text: 'Prepared By',
-                       width: 150,
+                       width: 120,
                        dataIndex: 'lastModifiedBy',
                        align: 'center'
                    },
@@ -127,7 +127,7 @@ $(function () {
                        dataIndex: 'detailLink'
                    }                   
                ];            
-            loadGrid(fields, './depoCompleteOrderList.html?'+$("#searchForm").serialize(), 'order',
+            loadGrid(fields, './distributorCompleteOrderList.html?'+$("#searchForm").serialize(), 'order',
 				columns, 440, 770, 'admin-order-grid');
 
         }

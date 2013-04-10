@@ -57,6 +57,8 @@
 }
 select{
 	width: 155px;
+	font-size: 12px !important;
+	height: 22px;
 }
 #errorMsgDiv{
 	padding: 10px 10px;

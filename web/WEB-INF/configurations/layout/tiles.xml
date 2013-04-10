@@ -72,5 +72,9 @@
     <definition name="manager/depoOrder" extends="manager.definition">
         <put-attribute name="body" value="/WEB-INF/views/operator/depoOrder.jsp" />
     </definition>
+    
+    <definition name="manager/distributorOrder" extends="manager.definition">
+        <put-attribute name="body" value="/WEB-INF/views/operator/distributorOrder.jsp" />
+    </definition>
         
 </tiles-definitions>

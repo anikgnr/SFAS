@@ -43,7 +43,7 @@
 									<option value="false">False</option>
 								</select>	
 							</td>		
-							<td  style="text-aling: right;">
+							<td  style="text-align: left;">
 								<input class="button orange" name="reset" type="reset" value='<spring:message code="login.button.reset"/>'/>&nbsp;<input class="button orange" id="orderSearchBtn" type="button" value='<spring:message code="search.button.title"/>'/>
 							</td>				
 						</tr>						
