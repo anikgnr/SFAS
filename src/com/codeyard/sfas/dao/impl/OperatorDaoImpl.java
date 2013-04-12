@@ -106,8 +106,8 @@ public class OperatorDaoImpl implements OperatorDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public DepoStockSummary getDepoStockSummaryByProductId(Long productId){
-		List<DepoStockSummary> summaryList = hibernateTemplate.find("From DepoStockSummary where product.id = ? ", productId);
+	public DepoStockSummary getDepoStockSummaryByProductId(Long productId, Long depoId){
+		List<DepoStockSummary> summaryList = hibernateTemplate.find("From DepoStockSummary where product.id = ? and depo.id = ?", productId, depoId);
     	if(summaryList != null && summaryList.size() > 0)
     		return (DepoStockSummary) summaryList.get(0);
     	else

@@ -21,7 +21,9 @@ import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.StockSummary;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
@@ -87,9 +89,11 @@ public class ManagerDepoController {
 	   	
 	   	try{ 	    
 	   	    if(request.getParameter("id") != null){
-	   	    	if(operatorService.approveDepoDeposit(Long.parseLong(request.getParameter("id"))))
+	   	    	if(operatorService.approveDepoDeposit(Long.parseLong(request.getParameter("id")))){
 	   	    		Utils.setSuccessMessage(request, "Depo Deposit approved successfully.");
-	   	    	else
+	   	    		DepoDeposit deposit = (DepoDeposit)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoDeposit");
+	   	    		NotificationGenerator.sendUserNameWiseNotification(deposit.getLastModifiedBy(), NotificationType.DEPO_DEPOSIT_APPROVED, deposit);
+	   	    	}else
 	   	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");	   	    		
 	   	    }else
 	    		Utils.setErrorMessage(request, "Depo Deposit couldn't be approved. Please contact with System Admin.");

@@ -23,7 +23,9 @@ import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.StockSummary;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
@@ -73,9 +75,11 @@ public class ManagerDistributorController {
 	   	
 	   	try{ 	    
 	   	    if(request.getParameter("id") != null){
-	   	    	if(oprDistributorService.approveDistributorDeposit(Long.parseLong(request.getParameter("id"))))
+	   	    	if(oprDistributorService.approveDistributorDeposit(Long.parseLong(request.getParameter("id")))){
 	   	    		Utils.setSuccessMessage(request, "Distributor Deposit approved successfully.");
-	   	    	else
+	   	    		DistributorDeposit deposit = (DistributorDeposit)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DistributorDeposit");
+	   	    		NotificationGenerator.sendUserNameWiseNotification(deposit.getLastModifiedBy(), NotificationType.DISTRIBUTOR_DEPOSIT_APPROVED, deposit);
+	   	    	}else
 	   	    		Utils.setErrorMessage(request, "Distributor Deposit couldn't be approved. Please contact with System Admin.");	   	    		
 	   	    }else
 	    		Utils.setErrorMessage(request, "Distributor Deposit couldn't be approved. Please contact with System Admin.");

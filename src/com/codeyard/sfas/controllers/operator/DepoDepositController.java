@@ -30,8 +30,10 @@ import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.StockSummary;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OperatorService;
 import com.codeyard.sfas.util.Utils;
@@ -105,9 +107,14 @@ public class DepoDepositController {
 	    	logger.debug(":::::::::: inside operator save or edit depo deposit:::::::::::::::::");
 	    	
 	    	try{    		
+	    		Depo depo = (Depo)adminService.loadEntityById(deposit.getDepo().getId(),"Depo");
+	    		deposit.setDepo(depo);
+	    		BankAccount account = (BankAccount)adminService.loadEntityById(deposit.getAccount().getId(),"BankAccount");
+	    		deposit.setAccount(account);
+	    		
 	    		adminService.saveOrUpdate(deposit);
 	    		Utils.setSuccessMessage(request, "Depo Deposit successfully saved/updated.");
-	    		//Utils.sendMail("anikgnr@gmail.com", "Test email from SFAS system", "sdalkjasdl asdflkasdjf");
+	    		NotificationGenerator.sendPostWiseNotification(ManagerType.ACCOUNT.getValue(), NotificationType.DEPO_DEPOSIT_IN, deposit);
 	    	}catch(Exception ex){
 	    		logger.debug("Error while saving/updating Depo Deposit :: "+ex);
 	    		Utils.setErrorMessage(request, "Depo Deposit can't be saved/updated. Please contact with System Admin.");
@@ -122,8 +129,10 @@ public class DepoDepositController {
 	    	
 	    	try{ 	    
 	    	    if(request.getParameter("id") != null){
+	    	    	DepoDeposit deposit = (DepoDeposit)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DepoDeposit");
 	    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"DepoDeposit");  
 	    	    	Utils.setSuccessMessage(request, "Depo Deposit successfully deleted.");
+	    	    	NotificationGenerator.sendUserNameWiseNotification(deposit.getLastModifiedBy(), NotificationType.DEPO_DEPOSIT_DELETED, deposit);
 	    	    }
 	    	}catch(Exception ex){
 	    		logger.debug("Error while delete Depo Deposit :: "+ex);

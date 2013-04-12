@@ -22,6 +22,6 @@ public interface OprDistributorDao {
 	List<DistributorOrder> getDistributorOrderList(OprSearchVo searchVo);
 	List<DistributorOrderLi> getDistributorOrderLiList(Long distributorOrderId);
 	void deleteDistributorOrderById(Long orderId);	
-	DistributorStockSummary getDistributorStockSummaryByProductId(Long productId);
+	DistributorStockSummary getDistributorStockSummaryByProductId(Long productId, Long distributorId);
 }
 

@@ -34,9 +34,11 @@ import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.StockSummary;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
@@ -97,6 +99,7 @@ public class DepoOrderController {
 	   			
 	   			Depo depo = (Depo)adminService.loadEntityById(order.getDepo().getId(),"Depo");
 	   			order.setDepo(depo);
+	   			order.setLastDeposit((DepoDeposit)adminService.loadEntityById(order.getLastDeposit().getId(),"DepoDeposit"));
 	   			
 	   			DepoOrderHelper.inventoryStockComparison(order, inventoryService);
 	   			
@@ -104,14 +107,14 @@ public class DepoOrderController {
 	   			
 	   			if(!Utils.isNullOrEmpty(order.getErrorMsg())){
 	   				order.setDepo(depo);
-	   				order.setDepoBalance(depo.getCurrentBalance());
-	   				order.setLastDeposit((DepoDeposit)adminService.loadEntityById(order.getLastDeposit().getId(),"DepoDeposit"));
+	   				order.setDepoBalance(depo.getCurrentBalance());	   				
 	   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
 	   				return "redirect:/operator/depoOrder.html?er=1";
 	   			}else if(request.getSession().getAttribute(Constants.SESSION_DEPO_ORDER) != null)
 	   				request.getSession().removeAttribute(Constants.SESSION_DEPO_ORDER);
 	   			operatorService.saveOrUpdateDepoOrder(order);
 	   			Utils.setSuccessMessage(request, "Depo Order successfully saved/updated.");
+	   			NotificationGenerator.sendPostWiseNotification(ManagerType.MIS.getValue(), NotificationType.DEPO_ORDER_IN, order);
 	   		}catch(Exception ex){
 	   			logger.debug("Operator save/edit depo order exception :: "+ex);
 	   			Utils.setErrorMessage(request, "Depo Order can't be saved/updated. Please contact with System Admin.");
@@ -159,6 +162,7 @@ public class DepoOrderController {
 		   			
 	   	    		operatorService.deliverDepoOrder(order);
 		   			Utils.setSuccessMessage(request, "Depo Order successfully delivered.");
+		   			return "redirect:/operator/depoOrderList.html?id="+order.getDepo().getId();
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");
 	   	    }else
@@ -167,7 +171,7 @@ public class DepoOrderController {
 	   		logger.debug("Error while delivering depo order :: "+ex);
 	   		Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");	   		
 	   	}      	    	
-		return "redirect:/operator/depoOrderList.html";
+		return "redirect:/operator/depoList.html";
 	}	
 	 
 	 @RequestMapping(value="/operator/depoOrderReject.html", method=RequestMethod.GET)

@@ -104,8 +104,8 @@ public class OprDistributorDaoImpl implements OprDistributorDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public DistributorStockSummary getDistributorStockSummaryByProductId(Long productId){
-		List<DistributorStockSummary> summaryList = hibernateTemplate.find("From DistributorStockSummary where product.id = ? ", productId);
+	public DistributorStockSummary getDistributorStockSummaryByProductId(Long productId, Long distributorId){
+		List<DistributorStockSummary> summaryList = hibernateTemplate.find("From DistributorStockSummary where product.id = ? and distributor.id = ?", productId, distributorId);
     	if(summaryList != null && summaryList.size() > 0)
     		return (DistributorStockSummary) summaryList.get(0);
     	else

@@ -65,13 +65,13 @@ public class OperatorServiceImpl implements OperatorService {
 			deposit.setAccountApproved(true);
 	    	deposit.setAccountApprovedBy(Utils.getLoggedUser());
 	    	deposit.setAccountApprovedDate(Utils.today());
-	    	adminService.saveOrUpdate(deposit);
+	    	adminService.onlySaveOrUpdate(deposit);
 	    	
 	    	Double currentBalance = deposit.getDepo().getCurrentBalance();
 	    	if(currentBalance == null)
 	    		currentBalance = 0.0;
 	    	deposit.getDepo().setCurrentBalance(currentBalance+deposit.getDepositAmount());
-	    	adminService.saveOrUpdate(deposit.getDepo());
+	    	adminService.onlySaveOrUpdate(deposit.getDepo());
 	    	
 	    	return true;
 		}
@@ -203,7 +203,7 @@ public class OperatorServiceImpl implements OperatorService {
 				if(orderLi.getQuantity() <= 0)
 					continue;
 				
-				DepoStockSummary stockSummary = operatorDao.getDepoStockSummaryByProductId(orderLi.getProduct().getId());
+				DepoStockSummary stockSummary = operatorDao.getDepoStockSummaryByProductId(orderLi.getProduct().getId(), order.getDepo().getId());
 				if(stockSummary == null){
 					stockSummary = new DepoStockSummary();
 					stockSummary.setDepo(depo);

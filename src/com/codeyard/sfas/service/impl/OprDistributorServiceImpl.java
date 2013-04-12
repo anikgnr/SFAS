@@ -71,13 +71,13 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 			deposit.setAccountApproved(true);
 	    	deposit.setAccountApprovedBy(Utils.getLoggedUser());
 	    	deposit.setAccountApprovedDate(Utils.today());
-	    	adminService.saveOrUpdate(deposit);
+	    	adminService.onlySaveOrUpdate(deposit);
 	    	
 	    	Double currentBalance = deposit.getDistributor().getCurrentBalance();
 	    	if(currentBalance == null)
 	    		currentBalance = 0.0;
 	    	deposit.getDistributor().setCurrentBalance(currentBalance+deposit.getDepositAmount());
-	    	adminService.saveOrUpdate(deposit.getDistributor());
+	    	adminService.onlySaveOrUpdate(deposit.getDistributor());
 	    	
 	    	return true;
 		}
@@ -262,7 +262,7 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 				if(orderLi.getQuantity() <= 0)
 					continue;
 				
-				DistributorStockSummary stockSummary = oprDistributorDao.getDistributorStockSummaryByProductId(orderLi.getProduct().getId());
+				DistributorStockSummary stockSummary = oprDistributorDao.getDistributorStockSummaryByProductId(orderLi.getProduct().getId(), order.getDistributor().getId());
 				if(stockSummary == null){
 					stockSummary = new DistributorStockSummary();
 					stockSummary.setDistributor(distributor);

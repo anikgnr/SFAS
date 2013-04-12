@@ -20,9 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.BankAccount;
+import com.codeyard.sfas.entity.Depo;
+import com.codeyard.sfas.entity.DepoDeposit;
 import com.codeyard.sfas.entity.Distributor;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OprDistributorService;
 import com.codeyard.sfas.util.Utils;
@@ -94,10 +98,15 @@ public class DistributorDepositController {
 	    public String saveUpdateEntity(@ModelAttribute("deposit") DistributorDeposit deposit, BindingResult result, HttpServletRequest request) {
 	    	logger.debug(":::::::::: inside operator save or edit distributor deposit:::::::::::::::::");
 	    	
-	    	try{    		
+	    	try{    	
+	    		Distributor distributor = (Distributor)adminService.loadEntityById(deposit.getDistributor().getId(),"Distributor");
+	    		deposit.setDistributor(distributor);
+	    		BankAccount account = (BankAccount)adminService.loadEntityById(deposit.getAccount().getId(),"BankAccount");
+	    		deposit.setAccount(account);
+
 	    		adminService.saveOrUpdate(deposit);
 	    		Utils.setSuccessMessage(request, "Distributor Deposit successfully saved/updated.");
-	    		//Utils.sendMail("anikgnr@gmail.com", "Test email from SFAS system", "sdalkjasdl asdflkasdjf");
+	    		NotificationGenerator.sendPostWiseNotification(ManagerType.ACCOUNT.getValue(), NotificationType.DISTRIBUTOR_DEPOSIT_IN, deposit);
 	    	}catch(Exception ex){
 	    		logger.debug("Error while saving/updating Distributor Deposit :: "+ex);
 	    		Utils.setErrorMessage(request, "Distributor Deposit can't be saved/updated. Please contact with System Admin.");
@@ -112,8 +121,10 @@ public class DistributorDepositController {
 	    	
 	    	try{ 	    
 	    	    if(request.getParameter("id") != null){
+	    	    	DistributorDeposit deposit = (DistributorDeposit)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"DistributorDeposit");		    	    
 	    	    	adminService.deleteEntityById(Long.parseLong(request.getParameter("id")),"DistributorDeposit");  
 	    	    	Utils.setSuccessMessage(request, "Distributor Deposit successfully deleted.");
+	    	    	NotificationGenerator.sendUserNameWiseNotification(deposit.getLastModifiedBy(), NotificationType.DISTRIBUTOR_DEPOSIT_DELETED, deposit);
 	    	    }
 	    	}catch(Exception ex){
 	    		logger.debug("Error while delete Distributor Deposit :: "+ex);

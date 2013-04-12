@@ -151,6 +151,7 @@ public class DistributorOrderController {
 		   			
 	   	    		oprDistributorService.deliverDistributorOrder(order);
 		   			Utils.setSuccessMessage(request, "Distributor Order successfully delivered.");
+		   			return "redirect:/operator/distributorOrderList.html?id="+order.getDistributor().getId();
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Distributor Order couldn't be delivered. Please contact with System Admin.");
 	   	    }else
@@ -159,7 +160,7 @@ public class DistributorOrderController {
 	   		logger.debug("Error while delivering Distributor order :: "+ex);
 	   		Utils.setErrorMessage(request, "Distributor Order couldn't be delivered. Please contact with System Admin.");	   		
 	   	}      	    	
-		return "redirect:/operator/distributorOrderList.html";
+		return "redirect:/operator/distributorList.html";
 	}	
 	 
 	 @RequestMapping(value="/operator/distributorOrderReject.html", method=RequestMethod.GET)
