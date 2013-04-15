@@ -89,8 +89,8 @@ public class DistributorOrderHelper {
 	   					orderLi.setTotalDamage(getCurrentDamage(damageList, product));
 	   					orderLi.setQuantity(0L);
 	   					orderLi.setPreviousQty(0L);
-	   					orderLi.setCurrentRate(product.getRate());
-	   					orderLi.setCurrentProfitMargin(product.getProfitMargin());
+	   					orderLi.setCurrentRate(adminService.getProductRateByIdAndRegionId(product.getId(), order.getDistributor().getTso().getAsm().getRsm().getRegion().getId()));
+	   					orderLi.setCurrentProfitMargin(adminService.getProductMarginByIdAndRegionId(product.getId(), order.getDistributor().getTso().getAsm().getRsm().getRegion().getId()));
 	   					orderLi.setAmount(0.0);
 	   					
 	   					order.getOrderLiList().add(orderLi);

@@ -10,7 +10,7 @@ $(function () {
 	function loadEntityGrid() {
 
         if ($("#admin-product-grid").html() == "") {
-        	fields = ['productName', 'bagSize', 'rate', 'profitMargin', 'active', 'editLink', 'deleteLink'];
+        	fields = ['productName', 'bagSize', 'active', 'editLink', 'deleteLink', 'rateLink'];
             columns = [
                    {
                        text: '',
@@ -19,7 +19,7 @@ $(function () {
                    },
                    {
                        text: 'Product Name',
-                       width: 190,
+                       width: 220,
                        dataIndex: 'productName'                       
                    },                   
                    {
@@ -28,39 +28,34 @@ $(function () {
                        dataIndex: 'bagSize',
                        align: "center",
                        renderer: function (value) { return value+" pcs"; }
-                   },                   
-                  {
-                      text: 'Sell Price',
-                      width: 130,
-                      dataIndex: 'rate',
-                      align: "center",
-                      renderer: function (value) { return value+" Tk"; }
-                  },
-                  {
-                      text: 'Profit Margin',
-                      width: 130,
-                      dataIndex: 'profitMargin',
-                      align: "center",
-	                  renderer: function (value) { return value+" %"; }
-                  },
+                   },
                   {
                       text: 'Is Active',
                       width: 80,
-                      dataIndex: 'active'
+                      dataIndex: 'active',
+                      align: "center"
                   },
                   {
                       text: '',
                       width: 60,
-                      dataIndex: 'editLink'
+                      dataIndex: 'editLink',
+                      align: "center"
                   },
                   {
                       text: '',
                       width: 60,
-                      dataIndex: 'deleteLink'
+                      dataIndex: 'deleteLink',
+                      align: "center"
+                  },
+                  {
+                      text: '',
+                      width: 100,
+                      dataIndex: 'rateLink',
+                      align: "center"
                   }                  
                ];
             loadGrid(fields, './completeProductList.html?'+$("#searchForm").serialize(), 'product',
-				columns, 220, 835, 'admin-product-grid');
+				columns, 220, 700, 'admin-product-grid');
 
         }
 
@@ -105,4 +100,9 @@ $(function () {
 		if(flag)
 			return false;
 	});
+	
+	$("#backToProduct").click(function(){
+		window.location = './productList.html';
+	});
+		
 });

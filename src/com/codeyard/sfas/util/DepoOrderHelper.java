@@ -95,9 +95,9 @@ public class DepoOrderHelper {
 	   					orderLi.setTotalSale(getCurrentSale(saleList, product));
 	   					orderLi.setTotalDamage(getCurrentDamage(damageList, product));
 	   					orderLi.setQuantity(0L);
-	   					orderLi.setPreviousQty(0L);
-	   					orderLi.setCurrentRate(product.getRate());
-	   					orderLi.setCurrentProfitMargin(product.getProfitMargin());
+	   					orderLi.setPreviousQty(0L);	   					
+	   					orderLi.setCurrentRate(adminService.getProductRateByIdAndRegionId(product.getId(), order.getDepo().getRsm().getRegion().getId()));
+	   					orderLi.setCurrentProfitMargin(adminService.getProductMarginByIdAndRegionId(product.getId(), order.getDepo().getRsm().getRegion().getId()));
 	   					orderLi.setAmount(0.0);
 	   					
 	   					order.getOrderLiList().add(orderLi);

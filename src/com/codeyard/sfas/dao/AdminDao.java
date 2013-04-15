@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.ProductRegionRate;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
@@ -22,5 +23,7 @@ public interface AdminDao {
     List<AbstractLookUpEntity> getLookUpEntityList(String className, String property, Object value);
     List<User> getUserListByDept(String dept);
     List<User> getUserListByRole(String role);
+    void deleteProductById(Long productId);
+    ProductRegionRate getRegionalProductRate(Long productId, Long regionId);
 }
 

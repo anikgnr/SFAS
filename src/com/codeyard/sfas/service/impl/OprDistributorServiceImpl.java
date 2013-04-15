@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codeyard.sfas.dao.JdbcDao;
 import com.codeyard.sfas.dao.OprDistributorDao;
+import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.Distributor;
@@ -287,7 +288,10 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 						adminService.saveOrUpdate(inventoryStockSummary);	
 					}
 				}else{
-
+					Depo depo = order.getDepo();
+					depo.setCurrentBalance(depo.getCurrentBalance() + order.getOrderAmount());
+					adminService.onlySaveOrUpdate(depo);
+					
 					DepoSellSummary depoSaleSummary = operatorService.getDepoSellSummaryByProductIdAndDepoId(orderLi.getProduct().getId(), order.getDepo().getId());
 					if(depoSaleSummary == null){
 						depoSaleSummary = new DepoSellSummary();

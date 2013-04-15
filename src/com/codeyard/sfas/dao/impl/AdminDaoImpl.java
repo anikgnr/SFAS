@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.ProductRegionRate;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
@@ -109,4 +110,18 @@ public class AdminDaoImpl implements AdminDao {
 	public List<User> getUserListByRole(String role){
 		return hibernateTemplate.find("FROM User where role = ?",role);
 	}
+	
+	public void deleteProductById(Long productId){
+		hibernateTemplate.bulkUpdate("Delete From ProductRegionRate where product.id = ?", productId);
+		hibernateTemplate.bulkUpdate("Delete From Product where id = ?", productId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ProductRegionRate getRegionalProductRate(Long productId, Long regionId){
+		List<ProductRegionRate> entityList = hibernateTemplate.find("From ProductRegionRate where product.id = ? and region.id = ?", productId, regionId);
+		if(entityList != null && entityList.size() > 0)
+			return entityList.get(0);
+		return null;
+	}
+	
 }

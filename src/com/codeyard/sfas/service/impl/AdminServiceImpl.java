@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codeyard.sfas.dao.AdminDao;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
+import com.codeyard.sfas.entity.ProductRegionRate;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
@@ -87,6 +88,36 @@ public class AdminServiceImpl implements AdminService {
 	
 	public List<User> getUserListByRole(String role){
 		return adminDao.getUserListByRole(role);
+	}
+	
+	@Transactional(readOnly = false)
+	public void deleteProductById(Long productId){
+		adminDao.deleteProductById(productId);
+	}
+	
+	public ProductRegionRate getRegionalProductRate(Long productId, Long regionId){
+		return adminDao.getRegionalProductRate(productId, regionId);
+	}
+	
+	public double getProductRateByIdAndRegionId(Long productId, Long regionId){
+		ProductRegionRate rate = getRegionalProductRate(productId, regionId);
+		if(rate != null && rate.getRate() != null)
+			return rate.getRate();
+		return 0.0;
+	}
+	
+	public double getProductMarginByIdAndRegionId(Long productId, Long regionId){
+		ProductRegionRate rate = getRegionalProductRate(productId, regionId);
+		if(rate != null && rate.getProfitMargin() != null)
+			return rate.getProfitMargin();
+		return 0.0;
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveOrUpdateProductRegionalRates(List<ProductRegionRate> rateList){		
+		for(ProductRegionRate rate : rateList){
+			adminDao.saveOrUpdate(rate);
+		}
 	}
 	
 }

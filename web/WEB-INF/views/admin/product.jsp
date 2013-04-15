@@ -28,16 +28,7 @@
 								<td><spring:message code="product.form.bagSize"/> : <span class="required">*</span></td>
 								<td><form:input path="bagSize" style="width: 100px"/>&nbsp;Pcs</td>
 								<td class="inputerrormsg">&nbsp;</td>
-							
-								<td><spring:message code="product.form.rate"/> : <span class="required">*</span></td>
-								<td><form:input path="rate"  style="width: 100px"/>&nbsp;Tk</td>
-								<td class="inputerrormsg">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><spring:message code="product.form.profitMargin"/> : <span class="required">*</span></td>
-								<td><form:input path="profitMargin" style="width: 100px"/>&nbsp;%</td>
-								<td class="inputerrormsg">&nbsp;</td>
-							
+								
 								<td><spring:message code="user.form.isActive"/> : </td>
 								<td>
 									<form:select path="active">
@@ -45,7 +36,7 @@
 									 	<form:option value="false" label="False"/>
 									</form:select>
 								</td>
-								<td class="inputerrormsg">&nbsp;</td>
+								<td class="inputerrormsg">&nbsp;</td>								
 							</tr>
 							<tr><td>&nbsp;</td></tr>
 							<tr><td>&nbsp;</td></tr>																		 

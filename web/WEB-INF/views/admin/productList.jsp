@@ -21,15 +21,6 @@
 								<spring:message code="product.form.bagSize"/> : <input type="text" id="bs" name="bs" style="width: 100px"/>&nbsp;pcs
 							</td>
 							<td>
-								<spring:message code="product.form.rate"/> : <input type="text" id="rt" name="rt"  style="width: 100px"/>&nbsp;Tk	
-							</td>
-						</tr>
-						<tr><td>&nbsp;</td></tr>
-						<tr>
-							<td>
-								<spring:message code="product.form.profitMargin"/> : <input type="text" id="pfm" name="pfm" style="width: 100px"/>&nbsp;%
-							</td>
-							<td>
 								<spring:message code="user.form.isActive"/> : 
 								<select id="ia" name="ia" style="width: 100px;">
 									<option value=""></option>
@@ -37,7 +28,6 @@
 									<option value="0">False</option>
 								</select>	
 							</td>
-							<td>&nbsp;</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
@@ -50,7 +40,7 @@
 					</form>
 				</div>
 				<br/><br/><br/>
-				<div id="admin-product-grid"></div><br/>
+				<div id="admin-product-grid" style="padding-left: 60px;"></div><br/>
 				<center>
 					<input class="button orange" id="createNew" type="button" value='<spring:message code="product.form.new"/>'/>
 				</center>		
