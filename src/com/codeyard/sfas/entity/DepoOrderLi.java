@@ -50,6 +50,13 @@ public class DepoOrderLi extends AbstractBaseEntity{
 	@Column(name = "serial")
 	private int serial;
 	
+	@Column(name = "plan_quantity")
+	private Long planQuantity;
+	
+	@Column(name = "plan_balance")
+	private Long planBalance;
+	
+	
 	@Transient
 	private boolean hasError;
 	
@@ -68,6 +75,8 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.amount = 0.0;    	
     	this.hasError = false;
     	this.previousQty = 0L;
+    	this.planQuantity = 0L;
+    	this.planBalance = 0L;
     }
 
     public DepoOrderLi(DepoOrder order, Product product){
@@ -82,6 +91,8 @@ public class DepoOrderLi extends AbstractBaseEntity{
     	this.amount = 0.0;
     	this.hasError = false;
     	this.previousQty = 0L;
+    	this.planQuantity = 0L;
+    	this.planBalance = 0L;
     }
 
 	public DepoOrder getDepoOrder() {
@@ -188,5 +199,20 @@ public class DepoOrderLi extends AbstractBaseEntity{
 		this.previousQty = previousQty;
 	}
 
+	public Long getPlanQuantity() {
+		return planQuantity;
+	}
+
+	public void setPlanQuantity(Long planQuantity) {
+		this.planQuantity = planQuantity;
+	}
+
+	public Long getPlanBalance() {
+		return planBalance;
+	}
+
+	public void setPlanBalance(Long planBalance) {
+		this.planBalance = planBalance;
+	}
     
 }

@@ -7,6 +7,7 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.vo.OprSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
 
@@ -28,4 +29,5 @@ public interface OperatorService {
 	void deliverDepoOrder(DepoOrder order);
 	DepoStockSummary getDepoCurrentStockSummaryByProductIdAndDepoId(Long productId, Long depoId);
 	DepoSellSummary getDepoSellSummaryByProductIdAndDepoId(Long productId, Long depoId);
+	List<DistributorProductPlanLi> getDistributorPlanLiListByDepoIdMonthYearProductId(Long depoId, int month, int year, Long productId);
 }

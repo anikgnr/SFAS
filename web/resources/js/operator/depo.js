@@ -10,7 +10,7 @@ $(function () {
 	function loadDEPOGrid() {
 
         if ($("#admin-depo-grid").html() == "") {
-        	fields = ['name' , 'rsm.nameWithRegion', 'currentBalance', 'ordersLink', 'orderLink', 'damageLink', 'planLink', 'stockLink', 'depositLink', 'salesLink'];
+        	fields = ['name' , 'rsm.region.name', 'rsm.name', 'currentBalance', 'ordersLink', 'orderLink', 'damageLink', 'stockLink', 'depositLink', 'salesLink'];
             columns = [
                    {
                        text: '',
@@ -19,13 +19,18 @@ $(function () {
                    },
                    {
                        text: 'DEPO Name',
-                       width: 130,
+                       width: 140,
                        dataIndex: 'name'                       
+                   },
+                   {
+                       text: 'Region',
+                       width: 130,
+                       dataIndex: 'rsm.region.name'
                    },
                   {
                       text: 'RSM',
-                      width: 190,
-                      dataIndex: 'rsm.nameWithRegion'
+                      width: 130,
+                      dataIndex: 'rsm.name'
                   },
                   {
                       text: 'Current Balance',
@@ -53,11 +58,6 @@ $(function () {
                       text: '',
                       width: 65,
                       dataIndex: 'depositLink'
-                  },
-                  {
-                      text: '',
-                      width: 80,
-                      dataIndex: 'planLink'
                   },
                   {
                       text: '',

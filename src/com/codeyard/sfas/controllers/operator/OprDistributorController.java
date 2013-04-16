@@ -156,7 +156,9 @@ public class OprDistributorController {
 	    	
 	    	List<DistributorProductPlanLi> planLiList = new ArrayList<DistributorProductPlanLi>();
 	    	List<DistributorProductPlanLi> currentPlanLiList = oprDistributorService.getDistributorPlanLiListByPlanId(plan.getId());
-	    	List<AbstractBaseEntity> products = adminService.getEnityList(new AdminSearchVo(),"Product");
+	    	AdminSearchVo searchVo = new AdminSearchVo();
+	    	searchVo.setIsActive("1");	    	
+	    	List<AbstractBaseEntity> products = adminService.getEnityList(searchVo,"Product");
 	    	
 	    	for(AbstractBaseEntity entity: products){
 	    		Product product = (Product)entity;

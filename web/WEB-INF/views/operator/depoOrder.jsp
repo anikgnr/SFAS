@@ -85,8 +85,8 @@
 											<th colspan="2"> Product Plan </th>
 										</tr>
 										<tr>
-											<th style="width: 30px;border-right: 1px solid gray;">Plan</th>
-											<th style="width: 60px;" >Balance</th>											
+											<th style="width: 45px;border-right: 1px solid gray;">Plan</th>
+											<th style="width: 45px;" >Balance</th>											
 										</tr>
 									</table>  
 								</th>
@@ -106,6 +106,8 @@
 								<form:hidden path="orderLiList[${idx.index}].totalSale"/>
 								<form:hidden path="orderLiList[${idx.index}].totalDamage"/>
 								<form:hidden path="orderLiList[${idx.index}].previousQty"/>
+								<form:hidden path="orderLiList[${idx.index}].planQuantity"/>
+								<form:hidden path="orderLiList[${idx.index}].planBalance"/>								
 								<form:hidden id="rate-${idx.index}" path="orderLiList[${idx.index}].currentRate"/>
 								<form:hidden path="orderLiList[${idx.index}].currentProfitMargin"/>
 								<form:hidden id="amount-${idx.index}" path="orderLiList[${idx.index}].amount"/>								
@@ -125,8 +127,8 @@
 									<td style="width: 90px;">
 										<table style="height: 35px;">
 											<tr>
-												<td style="width: 30px;border-right: 1px solid gray;"></td>
-												<td style="width: 60px;">0</td>																									
+												<td style="width: 45px;border-right: 1px solid gray;">${orderli.planQuantity}</td>
+												<td style="width: 45px;">${orderli.planBalance}</td>																									
 											</tr>
 										</table>
 									</td>

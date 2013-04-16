@@ -16,6 +16,7 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.util.Utils;
@@ -112,5 +113,12 @@ public class OperatorDaoImpl implements OperatorDao {
     		return (DepoStockSummary) summaryList.get(0);
     	else
     		return null;  
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DistributorProductPlanLi> getDistributorPlanLiListByDepoIdMonthYearProductId(Long depoId, int month, int year, Long productId){
+		
+		String sql = "FROM DistributorProductPlanLi where plan.distributor.depo.id = ? and plan.planMonth = ? and plan.planYear = ? and product.id = ? ";		
+		return hibernateTemplate.find(sql, depoId, month, year, productId);
 	}
 }

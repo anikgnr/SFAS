@@ -24,6 +24,7 @@ import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
@@ -85,6 +86,8 @@ public class DepoOrderHelper {
 	   				List<AbstractBaseEntity> products = adminService.getActiveEnityList(AdminSearchVo.fetchFromRequest(request),"Product");
 	   				DepoOrderLi orderLi = null;
 	   				int serial = 1;
+	   				long planQty = 0;
+	   				long planUsed = 0;
 	   				for(AbstractBaseEntity entity : products){
 	   					Product product = (Product)entity;
 	   					orderLi = new DepoOrderLi();
@@ -99,7 +102,21 @@ public class DepoOrderHelper {
 	   					orderLi.setCurrentRate(adminService.getProductRateByIdAndRegionId(product.getId(), order.getDepo().getRsm().getRegion().getId()));
 	   					orderLi.setCurrentProfitMargin(adminService.getProductMarginByIdAndRegionId(product.getId(), order.getDepo().getRsm().getRegion().getId()));
 	   					orderLi.setAmount(0.0);
-	   					
+	   					planQty = 0;
+		   				planUsed = 0;
+		   				List<DistributorProductPlanLi> planLiList = operatorService.getDistributorPlanLiListByDepoIdMonthYearProductId(order.getDepo().getId(), 
+		   																Utils.thisMonth(), Utils.thisYear(), product.getId());
+		   				if(planLiList != null && planLiList.size() > 0){
+		   					for(DistributorProductPlanLi planLi : planLiList){
+		   						planQty += planLi.getQuantity();
+		   						planUsed += planLi.getUsed();
+		   					}
+		   				}
+	   					orderLi.setPlanQuantity(planQty);
+	   					if((planQty - planUsed) > 0)
+	   						orderLi.setPlanBalance(planQty - planUsed);
+	   					else
+	   						orderLi.setPlanBalance(0L);
 	   					order.getOrderLiList().add(orderLi);
 	   				}
 	   			}

@@ -1,5 +1,6 @@
 package com.codeyard.sfas.controllers.operator; 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.DamageSummary;
@@ -20,10 +22,15 @@ import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.DepoDamageSummary;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.Distributor;
+import com.codeyard.sfas.entity.DistributorProductPlan;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
+import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.RSM;
 import com.codeyard.sfas.entity.StockSummary;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.OperatorService;
+import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 import com.codeyard.sfas.vo.StockSearchVo;
 
@@ -49,6 +56,7 @@ public class OprDepoController {
 	public String entityPanel(HttpServletRequest request,Model model) {
 	   	logger.debug(":::::::::: inside operator depo home:::::::::::::::::");
 	   	model.addAttribute("rsms", adminService.getEnityList(AdminSearchVo.fetchFromRequest(request),"RSM"));
+	   	model.addAttribute("regions", adminService.getAllLookUpEntity("Region"));
 	   	return "operator/depoList";
 	}
 
@@ -136,6 +144,5 @@ public class OprDepoController {
 	   	map.put("stock", stockList);
 		return map;
 	}
-    
-	
+    		
 }

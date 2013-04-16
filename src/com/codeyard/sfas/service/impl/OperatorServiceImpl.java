@@ -16,6 +16,7 @@ import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.DepoOrderLi;
 import com.codeyard.sfas.entity.DepoSellSummary;
 import com.codeyard.sfas.entity.DepoStockSummary;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.entity.OrderType;
 import com.codeyard.sfas.entity.StockOut;
@@ -250,5 +251,9 @@ public class OperatorServiceImpl implements OperatorService {
 		if(stockList != null && stockList.size() > 0)
 			return stockList.get(0);			
 		return null;
+	}
+	
+	public List<DistributorProductPlanLi> getDistributorPlanLiListByDepoIdMonthYearProductId(Long depoId, int month, int year, Long productId){
+		return operatorDao.getDistributorPlanLiListByDepoIdMonthYearProductId(depoId, month, year, productId);
 	}
 }

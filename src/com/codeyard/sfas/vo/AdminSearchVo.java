@@ -37,6 +37,7 @@ public class AdminSearchVo {
 	private long distributorTsoId;
 	private long distributorId;
 	private long depoId;
+	private long rsmRegionId;
 	
 	public AdminSearchVo(){
 		this.firstName = null;
@@ -70,6 +71,7 @@ public class AdminSearchVo {
 		this.distributorTsoId = 0;
 		this.distributorId = 0;
 		this.depoId = 0;
+		this.rsmRegionId = 0;
 	}
 	
 	public String getFirstName() {
@@ -307,6 +309,14 @@ public class AdminSearchVo {
 		this.bankAccount = bankAccount;
 	}
 
+	public long getRsmRegionId() {
+		return rsmRegionId;
+	}
+
+	public void setRsmRegionId(long rsmRegionId) {
+		this.rsmRegionId = rsmRegionId;
+	}
+
 	public static AdminSearchVo fetchFromRequest(HttpServletRequest request){
     	AdminSearchVo searchVo = new AdminSearchVo();
     	
@@ -368,7 +378,9 @@ public class AdminSearchVo {
     		searchVo.setProfitMargin(Double.parseDouble((String)request.getParameter("pfm")));      	
       	if(request.getParameter("dp") != null && !Utils.isNullOrEmpty((String)request.getParameter("dp")))
     		searchVo.setDepoId(Long.parseLong((String)request.getParameter("dp")));            	
-    	
+      	if(request.getParameter("rrg") != null && !Utils.isNullOrEmpty((String)request.getParameter("rrg")))
+    		searchVo.setRsmRegionId(Long.parseLong((String)request.getParameter("rrg")));
+      	
     	return searchVo;
     }
 	
@@ -498,6 +510,11 @@ public class AdminSearchVo {
     		sql += (hasClause ? "AND ":"WHERE ") + "depo.id = '"+this.depoId+"'";
     		hasClause = true;
     	}
+    	if(this.rsmRegionId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "rsm.region.id = '"+this.rsmRegionId+"'";
+    		hasClause = true;
+    	}
+    	
     	return sql;
 	}
 	
