@@ -50,6 +50,12 @@ public class DistributorOrderLi extends AbstractBaseEntity{
 	@Column(name = "serial")
 	private int serial;
 	
+	@Column(name = "plan_quantity")
+	private Long planQuantity;
+	
+	@Column(name = "plan_balance")
+	private Long planBalance;
+	
 	@Transient
 	private boolean hasError;
 	
@@ -68,6 +74,8 @@ public class DistributorOrderLi extends AbstractBaseEntity{
     	this.amount = 0.0;    	
     	this.hasError = false;
     	this.previousQty = 0L;
+    	this.planQuantity = 0L;
+    	this.planBalance = 0L;
     }
 
     public DistributorOrderLi(DistributorOrder order, Product product){
@@ -82,6 +90,8 @@ public class DistributorOrderLi extends AbstractBaseEntity{
     	this.amount = 0.0;
     	this.hasError = false;
     	this.previousQty = 0L;
+    	this.planQuantity = 0L;
+    	this.planBalance = 0L;
     }
 
 	public DistributorOrder getDistributorOrder() {
@@ -186,6 +196,22 @@ public class DistributorOrderLi extends AbstractBaseEntity{
 
 	public void setPreviousQty(long previousQty) {
 		this.previousQty = previousQty;
+	}
+
+	public Long getPlanQuantity() {
+		return planQuantity;
+	}
+
+	public void setPlanQuantity(Long planQuantity) {
+		this.planQuantity = planQuantity;
+	}
+
+	public Long getPlanBalance() {
+		return planBalance;
+	}
+
+	public void setPlanBalance(Long planBalance) {
+		this.planBalance = planBalance;
 	}
 
     

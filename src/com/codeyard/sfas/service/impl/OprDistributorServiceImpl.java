@@ -17,6 +17,8 @@ import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlan;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.DistributorSellSummary;
 import com.codeyard.sfas.entity.DistributorStockSummary;
 import com.codeyard.sfas.entity.ManagerType;
@@ -273,6 +275,15 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 				stockSummary.setLastStockInDate(Utils.today());
 				adminService.saveOrUpdate(stockSummary);
 				
+				
+				DistributorProductPlanLi planLi = oprDistributorDao.getLiteDistributorPlanLiByDistributorIdMonthYearProductId(order.getDistributor().getId(), 
+																		Utils.monthFromDate(order.getOrderDate()), Utils.yearFromDate(order.getOrderDate()),
+																		orderLi.getProduct().getId());
+				if(planLi != null){
+					planLi.setUsed(planLi.getUsed() + orderLi.getQuantity());
+					adminService.saveOrUpdate(planLi);					
+				}
+				
 				if(order.getDepo().isCompanyInventory()){
 					StockOut stockOut = new StockOut();
 					stockOut.setProduct(orderLi.getProduct());
@@ -312,4 +323,28 @@ public class OprDistributorServiceImpl implements OprDistributorService {
 		}
 		
 	}
+	
+	public DistributorProductPlan getDistributorPlanByIdMonthYear(Long distributorId, int month, int year){
+		return oprDistributorDao.getDistributorPlanByIdMonthYear(distributorId, month, year);
+	}
+	
+	public List<DistributorProductPlanLi> getDistributorPlanLiListByPlanId(Long planId){
+		return oprDistributorDao.getDistributorPlanLiListByPlanId(planId);
+	}
+	
+	@Transactional(readOnly = false)
+	public void saveOrUpdateDistributorProductPlan(DistributorProductPlan plan){
+		
+		adminService.saveOrUpdate(plan);
+		
+		for(DistributorProductPlanLi planLi : plan.getPlanLiList()){
+			planLi.setPlan(plan);
+			adminService.saveOrUpdate(planLi);	
+		}
+	}
+	
+	public DistributorProductPlanLi getDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId){
+		return oprDistributorDao.getDistributorPlanLiByDistributorIdMonthYearProductId(distributorId, month, year, productId);
+	}
+		
 }

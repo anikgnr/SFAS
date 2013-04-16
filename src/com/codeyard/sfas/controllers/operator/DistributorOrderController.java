@@ -1,5 +1,6 @@
 package com.codeyard.sfas.controllers.operator; 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Depo;
 import com.codeyard.sfas.entity.Distributor;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
+import com.codeyard.sfas.entity.Product;
+import com.codeyard.sfas.entity.ProductRegionRate;
+import com.codeyard.sfas.entity.Region;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
@@ -185,4 +190,5 @@ public class DistributorOrderController {
 	   	}      	    	
 		return "redirect:/operator/distributorOrderList.html";
 	}		 
+	
 }

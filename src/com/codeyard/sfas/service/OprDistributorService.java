@@ -5,6 +5,8 @@ import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlan;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.DistributorSellSummary;
 import com.codeyard.sfas.entity.DistributorStockSummary;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -26,4 +28,8 @@ public interface OprDistributorService {
 	void approveDistributorOrder(DistributorOrder order, String type);
 	void unApproveDistributorOrder(DistributorOrder order, String type);
 	void deliverDistributorOrder(DistributorOrder order);
+	DistributorProductPlan getDistributorPlanByIdMonthYear(Long distributorId, int month, int year);
+	List<DistributorProductPlanLi> getDistributorPlanLiListByPlanId(Long planId);
+	void saveOrUpdateDistributorProductPlan(DistributorProductPlan plan);
+	DistributorProductPlanLi getDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId);	
 }

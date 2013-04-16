@@ -24,7 +24,7 @@ public class JdbcDaoImpl implements JdbcDao {
 	private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public void setJdbcDataSource(DataSource dataSource) {
+    public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
         

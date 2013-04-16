@@ -14,6 +14,8 @@ import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlan;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.DistributorSellSummary;
 import com.codeyard.sfas.entity.DistributorStockSummary;
 import com.codeyard.sfas.util.Utils;
@@ -111,4 +113,43 @@ public class OprDistributorDaoImpl implements OprDistributorDao {
     	else
     		return null;  
 	}
+	
+	@SuppressWarnings("unchecked")
+	public DistributorProductPlan getDistributorPlanByIdMonthYear(Long distributorId, int month, int year){
+		List<DistributorProductPlan> planList = hibernateTemplate.find("From DistributorProductPlan where distributor.id = ? and planMonth = ? and planYear = ? ", distributorId, month, year);
+    	if(planList != null && planList.size() > 0)
+    		return (DistributorProductPlan) planList.get(0);
+    	else
+    		return null;  
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DistributorProductPlanLi> getDistributorPlanLiListByPlanId(Long planId){
+		return hibernateTemplate.find("From DistributorProductPlanLi where plan.id = ?", planId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public DistributorProductPlanLi getDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId){
+		
+		String sql = "FROM DistributorProductPlanLi where plan.distributor.id = ? and plan.planMonth = ? and plan.planYear = ? and product.id = ? ";
+		
+		List<DistributorProductPlanLi> planLiList = hibernateTemplate.find(sql, distributorId, month, year, productId);
+    	if(planLiList != null && planLiList.size() > 0)
+    		return (DistributorProductPlanLi) planLiList.get(0);
+    	else
+    		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public DistributorProductPlanLi getLiteDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId){
+		
+		String sql = "SELECT new com.codeyard.sfas.entity.DistributorProductPlanLi(id, plan.id, product.id, used, quantity) FROM DistributorProductPlanLi where plan.distributor.id = ? and plan.planMonth = ? and plan.planYear = ? and product.id = ? ";
+		
+		List<DistributorProductPlanLi> planLiList = hibernateTemplate.find(sql, distributorId, month, year, productId);
+    	if(planLiList != null && planLiList.size() > 0)
+    		return (DistributorProductPlanLi) planLiList.get(0);
+    	else
+    		return null;
+	}
+	
 }

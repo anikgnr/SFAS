@@ -6,6 +6,8 @@ import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlan;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.DistributorSellSummary;
 import com.codeyard.sfas.entity.DistributorStockSummary;
 import com.codeyard.sfas.vo.OprSearchVo;
@@ -23,5 +25,9 @@ public interface OprDistributorDao {
 	List<DistributorOrderLi> getDistributorOrderLiList(Long distributorOrderId);
 	void deleteDistributorOrderById(Long orderId);	
 	DistributorStockSummary getDistributorStockSummaryByProductId(Long productId, Long distributorId);
+	DistributorProductPlan getDistributorPlanByIdMonthYear(Long distributorId, int month, int year);
+	List<DistributorProductPlanLi> getDistributorPlanLiListByPlanId(Long planId);
+	DistributorProductPlanLi getDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId);
+	DistributorProductPlanLi getLiteDistributorPlanLiByDistributorIdMonthYearProductId(Long distributorId, int month, int year, Long productId);
 }
 

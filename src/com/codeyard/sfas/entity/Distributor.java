@@ -127,7 +127,7 @@ public class Distributor extends AbstractBaseEntity{
 		return "<a href='./distributorDamageStockList.html?id="+super.getId()+"'>Damages</a>";
 	}
 	public String getPlanLink(){
-		return "<a href=''>Product Plan</a>";
+		return "<a href='./distributorPlanSheet.html?id="+super.getId()+"'>Product Plan</a>";
 	}
 	public String getDepositLink(){
 		return "<a href='./distributorDepositList.html?id="+super.getId()+"'>Deposits</a>";

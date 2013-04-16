@@ -13,6 +13,7 @@ import com.codeyard.sfas.entity.DistributorDamageSummary;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
 import com.codeyard.sfas.entity.DistributorOrderLi;
+import com.codeyard.sfas.entity.DistributorProductPlanLi;
 import com.codeyard.sfas.entity.DistributorSellSummary;
 import com.codeyard.sfas.entity.DistributorStockSummary;
 import com.codeyard.sfas.entity.Product;
@@ -92,6 +93,14 @@ public class DistributorOrderHelper {
 	   					orderLi.setCurrentRate(adminService.getProductRateByIdAndRegionId(product.getId(), order.getDistributor().getTso().getAsm().getRsm().getRegion().getId()));
 	   					orderLi.setCurrentProfitMargin(adminService.getProductMarginByIdAndRegionId(product.getId(), order.getDistributor().getTso().getAsm().getRsm().getRegion().getId()));
 	   					orderLi.setAmount(0.0);
+	   					DistributorProductPlanLi planLi = operatorService.getDistributorPlanLiByDistributorIdMonthYearProductId(order.getDistributor().getId(), Utils.thisMonth(), Utils.thisYear(), product.getId());
+	   					if(planLi != null){
+	   						orderLi.setPlanQuantity(planLi.getQuantity());
+	   						orderLi.setPlanBalance(planLi.getBalance());
+	   					}else{
+	   						orderLi.setPlanQuantity(0L);
+	   						orderLi.setPlanBalance(0L);
+	   					}
 	   					
 	   					order.getOrderLiList().add(orderLi);
 	   				}

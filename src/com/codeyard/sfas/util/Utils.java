@@ -138,6 +138,30 @@ public class Utils {
 		return cal.getTime();
 	}
 	
+	public static int thisMonth(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today());
+		return cal.get(Calendar.MONTH)+1;
+	}
+
+	public static int thisYear(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today());
+		return cal.get(Calendar.YEAR);
+	}
+
+	public static int monthFromDate(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.MONTH)+1;
+	}
+
+	public static int yearFromDate(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.YEAR);
+	}
+
 	public static void setEditDeleteLinkOnAbstractEntity(AbstractBaseEntity entity, String moduleName){
 		if(entity != null && !Utils.isNullOrEmpty(moduleName)){
 			entity.setEditLink("<a href='./"+moduleName+".html?id="+entity.getId()+"'>edit</a>");
@@ -168,5 +192,5 @@ public class Utils {
 		}
 		return null;
 	}
-		
+				
 }
