@@ -27,8 +27,8 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 
 	
-	public 	boolean hasUserByUserName(String userName){
-		return adminDao.hasUserByUserName(userName);
+	public 	boolean hasUserByUserName(String userName, Long id){
+		return adminDao.hasUserByUserName(userName, id);
 	}
 	
 	public User getUserByUserName(String userName){

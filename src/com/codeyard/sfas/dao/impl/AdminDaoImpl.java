@@ -28,8 +28,8 @@ public class AdminDaoImpl implements AdminDao {
     }
     	
 	@SuppressWarnings("unchecked")
-	public 	boolean hasUserByUserName(String userName){
-		List<User> userList = hibernateTemplate.find("From User where userName = ?", userName);
+	public 	boolean hasUserByUserName(String userName, Long id){
+		List<User> userList = hibernateTemplate.find("From User where userName = ? and id <> ?", userName, id);
 		if(userList != null && userList.size() > 0)
 			return true;
 		return false;

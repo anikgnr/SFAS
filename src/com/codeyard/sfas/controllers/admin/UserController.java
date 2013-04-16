@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
 import com.codeyard.sfas.entity.Role;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
+import com.codeyard.sfas.util.Constants;
 import com.codeyard.sfas.util.Utils;
 import com.codeyard.sfas.vo.AdminSearchVo;
 
@@ -58,11 +61,16 @@ public class UserController {
     public ModelAndView addEditUser(HttpServletRequest request,Model model) {
     	logger.debug(":::::::::: inside admin add/edit user form:::::::::::::::::");
     	User user=null;
-    	if(request.getParameter("id") != null)
-    		user = (User)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"User");    		
-    	else
-    		user = new User();
-    	
+    	if(request.getParameter("er") != null){
+    		user = (User)request.getSession().getAttribute(Constants.SESSION_USER);
+    	}else{
+	    	if(request.getParameter("id") != null)
+	    		user = (User)adminService.loadEntityById(Long.parseLong(request.getParameter("id")),"User");    		
+	    	else{
+	    		user = new User();
+	    		user.setId(0L);
+	    	}
+    	}
     	Map<String,String> roles = new LinkedHashMap<String,String>();
     	for(Role role : Role.getAllRoles())
     		roles.put(role.getValue(), role.getLabel());
@@ -83,6 +91,13 @@ public class UserController {
     	logger.debug(":::::::::: inside admin save or edit user:::::::::::::::::");
     	
     	try{
+    		if(adminService.hasUserByUserName(user.getUserName(), user.getId())){
+    			user.setSameUserName(true);
+    			request.getSession().setAttribute(Constants.SESSION_USER, user);
+    			return "redirect:/admin/user.html?er=1";
+    		}else{
+    			request.getSession().removeAttribute(Constants.SESSION_USER);
+    		}
     		adminService.saveOrUpdate(user);
     		Utils.setSuccessMessage(request, "User successfully saved/updated.");
     	}catch(Exception ex){

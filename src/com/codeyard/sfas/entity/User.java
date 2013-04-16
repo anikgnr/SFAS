@@ -39,9 +39,13 @@ public class User extends AbstractBaseEntity{
     
     @Transient
     private String confirmPassword;
+    
+    @Transient
+    private boolean sameUserName;
 
     public User(){
     	active = true;
+    	sameUserName = false;
     }
     
 	public String getUserName() {
@@ -130,6 +134,14 @@ public class User extends AbstractBaseEntity{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isSameUserName() {
+		return sameUserName;
+	}
+
+	public void setSameUserName(boolean sameUserName) {
+		this.sameUserName = sameUserName;
 	}
 
 	@Override

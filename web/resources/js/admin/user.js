@@ -73,6 +73,10 @@ $(function () {
 	 *										For Add/Edit User Page 										
 	/********************************************************************************************************************/
 
+	if($("#sameUserName").length > 0 && $("#sameUserName").val()=="true"){
+		addError("#userName", 'Username already used. Please try another one.');
+	}
+		
 	$("#role").bind('change', function () {
 		if($("#managerRole").val()==$(this).val()){
 			$("#deptBlock").show();

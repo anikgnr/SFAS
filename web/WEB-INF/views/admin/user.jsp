@@ -19,6 +19,7 @@
 				<div id="formBlock" style="padding-left:160px" >
 					<form:form method="post" action="./saveUser.html">
 						<form:hidden path="id"/>						
+						<form:hidden path="sameUserName"/>
 						<table style="border-collapse: separate;border-spacing: 5px;">
 							<tr>
 								<td width="150px;"><spring:message code="user.form.firstName"/> : <span class="required">*</span></td>

@@ -10,7 +10,7 @@ import com.codeyard.sfas.vo.AdminSearchVo;
 
 public interface AdminDao { 
 	
-	boolean hasUserByUserName(String userName);
+	boolean hasUserByUserName(String userName, Long id);
 	User getUserByUserName(String userName);
 	List<AbstractBaseEntity> getEnityList(AdminSearchVo searchVo, String className);
 	List<AbstractBaseEntity> getActiveEnityList(AdminSearchVo searchVo, String className);
