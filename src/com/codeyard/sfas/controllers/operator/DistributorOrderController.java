@@ -20,12 +20,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeyard.sfas.entity.AbstractLookUpEntity;
 import com.codeyard.sfas.entity.Depo;
+import com.codeyard.sfas.entity.DepoDeposit;
+import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.Distributor;
 import com.codeyard.sfas.entity.DistributorDeposit;
 import com.codeyard.sfas.entity.DistributorOrder;
+import com.codeyard.sfas.entity.ManagerType;
+import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.Product;
 import com.codeyard.sfas.entity.ProductRegionRate;
 import com.codeyard.sfas.entity.Region;
+import com.codeyard.sfas.notification.NotificationGenerator;
 import com.codeyard.sfas.service.AdminService;
 import com.codeyard.sfas.service.InventoryService;
 import com.codeyard.sfas.service.OperatorService;
@@ -92,6 +97,8 @@ public class DistributorOrderController {
 	   			Depo depo= (Depo)adminService.loadEntityById(order.getDepo().getId(),"Depo");
 	   			order.setDepo(depo);
 	   			
+	   			order.setLastDeposit((DistributorDeposit)adminService.loadEntityById(order.getLastDeposit().getId(),"DistributorDeposit"));
+	   			
 	   			if(order.getDepo().isCompanyInventory())
 	   				DistributorOrderHelper.inventoryStockComparison(order, inventoryService);
 	   			else
@@ -109,6 +116,7 @@ public class DistributorOrderController {
 	   				request.getSession().removeAttribute(Constants.SESSION_DISTRIBUTOR_ORDER);
 	   			oprDistributorService.saveOrUpdateDistributorOrder(order);
 	   			Utils.setSuccessMessage(request, "Distributor Order successfully saved/updated.");
+	   			NotificationGenerator.sendPostWiseNotification(ManagerType.MIS.getValue(), NotificationType.DISTRIBUTOR_ORDER_IN, order);
 	   		}catch(Exception ex){
 	   			logger.debug("Operator save/edit Distributor order exception :: "+ex);
 	   			Utils.setErrorMessage(request, "Distributor Order can't be saved/updated. Please contact with System Admin.");
@@ -123,8 +131,13 @@ public class DistributorOrderController {
 	    	
 	   	try{ 	    
 	   	    if(request.getParameter("id") != null){
+	   	    	DistributorOrder order = (DistributorOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DistributorOrder");
+	   	    	if(order != null)
+	   	    		order.setOrderLiList(oprDistributorService.getDistributorOrderLiList(order.getId()));
 	   	    	oprDistributorService.deleteDistributorOrderById(Long.parseLong((String) request.getParameter("id")));
 	   	    	Utils.setSuccessMessage(request, "Distributor Order successfully deleted.");
+	   	    	if(order != null)
+	   	    		NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DISTRIBUTOR_ORDER_DELETED, order);	   	  
 	   	    }
 	   	}catch(Exception ex){
 	   		logger.debug("Error while delete Distributor Order :: "+ex);
@@ -147,6 +160,7 @@ public class DistributorOrderController {
 	   	    	DistributorOrder order = (DistributorOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DistributorOrder");
 	   	    	if(order != null){
 	   	    		
+	   	    		order.setOrderLiList(oprDistributorService.getDistributorOrderLiList(order.getId()));
 	   	    		DistributorOrderHelper.oderBalanceCurrentBalanceComparison(order);
 	   	    		
 	   	    		if(!Utils.isNullOrEmpty(order.getErrorMsg())){
@@ -156,6 +170,13 @@ public class DistributorOrderController {
 		   			
 	   	    		oprDistributorService.deliverDistributorOrder(order);
 		   			Utils.setSuccessMessage(request, "Distributor Order successfully delivered.");
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMdApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMmApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMgrApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getAccountApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMisApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DISTRIBUTOR_ORDER_DELIVERED, order);
+		   			
 		   			return "redirect:/operator/distributorOrderList.html?id="+order.getDistributor().getId();
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Distributor Order couldn't be delivered. Please contact with System Admin.");
@@ -180,6 +201,8 @@ public class DistributorOrderController {
 	   	    		order.setMdApproved(false);
 	   	    		adminService.saveOrUpdate(order);
 		   			Utils.setSuccessMessage(request, "Distributor Order successfully rejected.");
+		   			order.setOrderLiList(oprDistributorService.getDistributorOrderLiList(order.getId()));
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMdApprovedBy(), NotificationType.DISTRIBUTOR_ORDER_UNAPPROVED, order);
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Distributor Order couldn't be rejected. Please contact with System Admin.");
 	   	    }else

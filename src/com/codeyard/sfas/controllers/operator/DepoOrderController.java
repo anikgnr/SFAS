@@ -129,8 +129,13 @@ public class DepoOrderController {
 	    	
 	   	try{ 	    
 	   	    if(request.getParameter("id") != null){
+	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
+	   	    	if(order != null)
+	   	    		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
 	   	    	operatorService.deleteDepoOrderById(Long.parseLong((String) request.getParameter("id")));
 	   	    	Utils.setSuccessMessage(request, "Depo Order successfully deleted.");
+	   	    	if(order != null)
+	   	    		NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DEPO_ORDER_DELETED, order);	   	    	
 	   	    }
 	   	}catch(Exception ex){
 	   		logger.debug("Error while delete Depo Order :: "+ex);
@@ -153,6 +158,7 @@ public class DepoOrderController {
 	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
 	   	    	if(order != null){
 	   	    		
+	   	    		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
 	   	    		DepoOrderHelper.oderBalanceCurrentBalanceComparison(order);
 	   	    		
 	   	    		if(!Utils.isNullOrEmpty(order.getErrorMsg())){
@@ -162,6 +168,12 @@ public class DepoOrderController {
 		   			
 	   	    		operatorService.deliverDepoOrder(order);
 		   			Utils.setSuccessMessage(request, "Depo Order successfully delivered.");
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMdApprovedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMmApprovedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMgrApprovedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getAccountApprovedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMisApprovedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DEPO_ORDER_DELIVERED, order);
 		   			return "redirect:/operator/depoOrderList.html?id="+order.getDepo().getId();
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be delivered. Please contact with System Admin.");
@@ -186,6 +198,8 @@ public class DepoOrderController {
 	   	    		order.setMdApproved(false);
 	   	    		adminService.saveOrUpdate(order);
 		   			Utils.setSuccessMessage(request, "Depo Order successfully rejected.");
+		   			order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
+		   			NotificationGenerator.sendUserNameWiseNotification(order.getMdApprovedBy(), NotificationType.DEPO_ORDER_UNAPPROVED, order);
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be rejected. Please contact with System Admin.");
 	   	    }else

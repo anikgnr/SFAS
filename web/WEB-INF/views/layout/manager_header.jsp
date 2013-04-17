@@ -28,12 +28,10 @@
 </div>
 <div id="branding">
 	<div class="main_width">
-		<div class="right" style="padding: 25px 0;font-size: 14px;color: white;font-style: italic;">
-			<spring:message code="layout.module.manager"/>
-		</div>
-		<div style="color: white;font-size: 16px;font-style: italic;padding-top: 20px;">
-			Sales Forced Automation System
-		</div>		 
+		<img style="height: 63px; float: right;" src="<%= contextPath %>/resources/images/sub_logo.png"/>
+		<div style="color: white;font-size: 16px;font-style: italic;padding-top: 20px;">					
+			FMCG Automation System ( <spring:message code="layout.module.manager"/> )
+		</div>		
 	</div>
 </div>
 <div id="primary_nav" class="clearfix">

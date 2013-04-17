@@ -148,7 +148,7 @@ public class ManagerDepoController {
 	   	    if(request.getParameter("id") != null && request.getParameter("type") != null){
 	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
 	   	    	if(order != null){
-	   	    		
+	   	    		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
 	   	    		//DepoOrderHelper.inventoryStockComparison(order, inventoryService);
 	   	    		DepoOrderHelper.oderBalanceCurrentBalanceComparison(order);
 	   	    		
@@ -156,9 +156,15 @@ public class ManagerDepoController {
 		   				request.getSession().setAttribute(Constants.SESSION_DEPO_ORDER, order);
 		   				return "redirect:/manager/depoOrder.html?er=1";
 		   			}
+		   			String type = (String)request.getParameter("type");
+	   	    		operatorService.approveDepoOrder(order, type);
+		   			Utils.setSuccessMessage(request, "Depo Order successfully approved.");		   			
+		   			if(ManagerType.MD.getValue().equals(type)){
+		   				NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DEPO_ORDER_APPROVED, order);
+		   			}else{
+		   				NotificationGenerator.sendPostWiseNotification(getNotificationType(type), NotificationType.DEPO_ORDER_IN, order);	
+		   			}
 		   			
-	   	    		operatorService.approveDepoOrder(order, (String)request.getParameter("type"));
-		   			Utils.setSuccessMessage(request, "Depo Order successfully approved.");
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be approved. Please contact with System Admin.");
 	   	    }else
@@ -169,7 +175,19 @@ public class ManagerDepoController {
 	   	}      	    	
 		return "redirect:/manager/depoOrderList.html";
 	}	
-
+	 
+	private String getNotificationType(String type){
+			if(ManagerType.MIS.getValue().equals(type)){
+				return ManagerType.ACCOUNT.getValue();
+			}else if(ManagerType.ACCOUNT.getValue().equals(type)){
+				return ManagerType.Manager.getValue();
+			}else if(ManagerType.Manager.getValue().equals(type)){
+				return ManagerType.MM.getValue();
+			}else if(ManagerType.MM.getValue().equals(type)){
+				return ManagerType.MD.getValue();
+			}
+			return null;
+	}
 	 @RequestMapping(value="/manager/depoOrderUnApprove.html", method=RequestMethod.GET)
 	 public String unApproveDepoOrder(HttpServletRequest request,Model model) {
 	   	logger.debug(":::::::::: inside manager account un-approve depo order form:::::::::::::::::");
@@ -178,9 +196,11 @@ public class ManagerDepoController {
 	   	    if(request.getParameter("id") != null && request.getParameter("type") != null){
 	   	    	DepoOrder order = (DepoOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DepoOrder");
 	   	    	if(order != null){
-	   	    				   			
-	   	    		operatorService.unApproveDepoOrder(order, (String)request.getParameter("type"));
+	   	    		order.setOrderLiList(operatorService.getDepoOrderLiList(order.getId()));
+	   	    		String type = (String)request.getParameter("type");		   			
+	   	    		operatorService.unApproveDepoOrder(order, type);
 		   			Utils.setSuccessMessage(request, "Depo Order successfully un-approved.");
+		   			NotificationGenerator.sendUserNameWiseNotification(getUnApprovedNotificationType(type, order), NotificationType.DEPO_ORDER_UNAPPROVED, order);
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Depo Order couldn't be un-approved. Please contact with System Admin.");
 	   	    }else
@@ -191,5 +211,19 @@ public class ManagerDepoController {
 	   	}      	    	
 		return "redirect:/manager/depoOrderList.html";
 	}
+	 
+	private String getUnApprovedNotificationType(String type, DepoOrder order){
+			if(ManagerType.MD.getValue().equals(type)){
+				return order.getMmApprovedBy();
+			}else if(ManagerType.MM.getValue().equals(type)){
+				return order.getMgrApprovedBy();
+			}else if(ManagerType.Manager.getValue().equals(type)){
+				return order.getAccountApprovedBy();
+			}else if(ManagerType.ACCOUNT.getValue().equals(type)){
+				return order.getCreatedBy();
+			}
+			return null;
+	}
+	 
 	 
 }

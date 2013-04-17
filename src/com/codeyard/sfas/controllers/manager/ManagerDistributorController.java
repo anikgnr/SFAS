@@ -127,6 +127,7 @@ public class ManagerDistributorController {
 	   	    	DistributorOrder order = (DistributorOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DistributorOrder");
 	   	    	if(order != null){
 	   	    		
+	   	    		order.setOrderLiList(oprDistributorService.getDistributorOrderLiList(order.getId()));
 	   	    		DistributorOrderHelper.oderBalanceCurrentBalanceComparison(order);
 	   	    		
 	   	    		if(!Utils.isNullOrEmpty(order.getErrorMsg())){
@@ -134,8 +135,14 @@ public class ManagerDistributorController {
 		   				return "redirect:/manager/distributorOrder.html?er=1";
 		   			}
 		   			
-	   	    		oprDistributorService.approveDistributorOrder(order, (String)request.getParameter("type"));
+	   	    		String type = (String)request.getParameter("type");
+	   	    		oprDistributorService.approveDistributorOrder(order, type);
 		   			Utils.setSuccessMessage(request, "Distributor Order successfully approved.");
+		   			if(ManagerType.MD.getValue().equals(type)){
+		   				NotificationGenerator.sendUserNameWiseNotification(order.getCreatedBy(), NotificationType.DISTRIBUTOR_ORDER_APPROVED, order);
+		   			}else{
+		   				NotificationGenerator.sendPostWiseNotification(getNotificationType(type), NotificationType.DISTRIBUTOR_ORDER_IN, order);	
+		   			}
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Distributor Order couldn't be approved. Please contact with System Admin.");
 	   	    }else
@@ -147,6 +154,19 @@ public class ManagerDistributorController {
 		return "redirect:/manager/distributorOrderList.html";
 	}	
 
+	 private String getNotificationType(String type){
+			if(ManagerType.MIS.getValue().equals(type)){
+				return ManagerType.ACCOUNT.getValue();
+			}else if(ManagerType.ACCOUNT.getValue().equals(type)){
+				return ManagerType.Manager.getValue();
+			}else if(ManagerType.Manager.getValue().equals(type)){
+				return ManagerType.MM.getValue();
+			}else if(ManagerType.MM.getValue().equals(type)){
+				return ManagerType.MD.getValue();
+			}
+			return null;
+	}
+	 
 	 @RequestMapping(value="/manager/distributorOrderUnApprove.html", method=RequestMethod.GET)
 	 public String unApproveDistributorOrder(HttpServletRequest request,Model model) {
 	   	logger.debug(":::::::::: inside manager account un-approve Distributor order form:::::::::::::::::");
@@ -155,9 +175,11 @@ public class ManagerDistributorController {
 	   	    if(request.getParameter("id") != null && request.getParameter("type") != null){
 	   	    	DistributorOrder order = (DistributorOrder)adminService.loadEntityById(Long.parseLong((String)request.getParameter("id")),"DistributorOrder");
 	   	    	if(order != null){
-	   	    				   			
-	   	    		oprDistributorService.unApproveDistributorOrder(order, (String)request.getParameter("type"));
+	   	    		order.setOrderLiList(oprDistributorService.getDistributorOrderLiList(order.getId()));
+	   	    		String type = (String)request.getParameter("type");
+	   	    		oprDistributorService.unApproveDistributorOrder(order, type);
 		   			Utils.setSuccessMessage(request, "Distributor Order successfully un-approved.");
+		   			NotificationGenerator.sendUserNameWiseNotification(getUnApprovedNotificationType(type, order), NotificationType.DISTRIBUTOR_ORDER_UNAPPROVED, order);
 	   	    	}else
 		   	    	Utils.setErrorMessage(request, "Distributor Order couldn't be un-approved. Please contact with System Admin.");
 	   	    }else
@@ -168,4 +190,19 @@ public class ManagerDistributorController {
 	   	}      	    	
 		return "redirect:/manager/distributorOrderList.html";
 	}
+	 
+	private String getUnApprovedNotificationType(String type, DistributorOrder order){
+		if(ManagerType.MD.getValue().equals(type)){
+			return order.getMmApprovedBy();
+		}else if(ManagerType.MM.getValue().equals(type)){
+			return order.getMgrApprovedBy();
+		}else if(ManagerType.Manager.getValue().equals(type)){
+			return order.getAccountApprovedBy();
+		}else if(ManagerType.ACCOUNT.getValue().equals(type)){
+			return order.getCreatedBy();
+		}
+		return null;
+	}
+	 
+	 
 }

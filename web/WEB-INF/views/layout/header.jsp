@@ -6,20 +6,16 @@
 			<div style="float:left;">
 				<img src="<%= contextPath %>/resources/images/smalllogo.png"/>
 				<span style="color: green;font-size: 13px; padding-left:5px;">Mabco Group : Serving Fibre, Food, Feed &amp; Fertilizer Since 1958</span>
-			</div>			
-			<ul class="ipsList_inline right">				
-				<li>
-					<a href="<%= contextPath %>/login.html" title="Sign In" class="register_link">Sign In</a>
-				</li>
-			</ul>
+			</div>						
 		</div>
 	</div>
 </div>
 <div id="branding">
 	<div class="main_width">
+		<img style="height: 63px; float: right;" src="<%= contextPath %>/resources/images/sub_logo.png"/>
 		<div style="color: white;font-size: 16px;font-style: italic;padding-top: 20px;">					
-			Sales Forced Automation System
-		</div>		
+			FMCG Automation System
+		</div>				 		
 	</div>
 </div>
 <div id="primary_nav" class="clearfix"><div class="main_width" style="padding-bottom: 10px;">&nbsp;</div></div>
