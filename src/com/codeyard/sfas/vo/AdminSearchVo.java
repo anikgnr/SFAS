@@ -36,8 +36,10 @@ public class AdminSearchVo {
 	private long distributorTsoAsmId;
 	private long distributorTsoId;
 	private long distributorId;
+	private long distributorDepoId;
 	private long depoId;
 	private long rsmRegionId;
+	private long routeId;
 	
 	public AdminSearchVo(){
 		this.firstName = null;
@@ -72,6 +74,8 @@ public class AdminSearchVo {
 		this.distributorId = 0;
 		this.depoId = 0;
 		this.rsmRegionId = 0;
+		this.routeId = 0;
+		this.distributorDepoId = 0;
 	}
 	
 	public String getFirstName() {
@@ -317,6 +321,22 @@ public class AdminSearchVo {
 		this.rsmRegionId = rsmRegionId;
 	}
 
+	public long getRouteId() {
+		return routeId;
+	}
+
+	public void setRouteId(long routeId) {
+		this.routeId = routeId;
+	}
+
+	public long getDistributorDepoId() {
+		return distributorDepoId;
+	}
+
+	public void setDistributorDepoId(long distributorDepoId) {
+		this.distributorDepoId = distributorDepoId;
+	}
+
 	public static AdminSearchVo fetchFromRequest(HttpServletRequest request){
     	AdminSearchVo searchVo = new AdminSearchVo();
     	
@@ -380,6 +400,10 @@ public class AdminSearchVo {
     		searchVo.setDepoId(Long.parseLong((String)request.getParameter("dp")));            	
       	if(request.getParameter("rrg") != null && !Utils.isNullOrEmpty((String)request.getParameter("rrg")))
     		searchVo.setRsmRegionId(Long.parseLong((String)request.getParameter("rrg")));
+      	if(request.getParameter("rut") != null && !Utils.isNullOrEmpty((String)request.getParameter("rut")))
+    		searchVo.setRouteId(Long.parseLong((String)request.getParameter("rut")));
+      	if(request.getParameter("drdp") != null && !Utils.isNullOrEmpty((String)request.getParameter("drdp")))
+    		searchVo.setDistributorDepoId(Long.parseLong((String)request.getParameter("drdp")));
       	
     	return searchVo;
     }
@@ -512,6 +536,14 @@ public class AdminSearchVo {
     	}
     	if(this.rsmRegionId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "rsm.region.id = '"+this.rsmRegionId+"'";
+    		hasClause = true;
+    	}
+    	if(this.routeId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "route.id = '"+this.routeId+"'";
+    		hasClause = true;
+    	}
+    	if(this.distributorDepoId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "distributor.depo.id = '"+this.distributorDepoId+"'";
     		hasClause = true;
     	}
     	
