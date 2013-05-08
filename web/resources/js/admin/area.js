@@ -45,7 +45,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeAreaList.html?'+$("#searchForm").serialize(), 'area',
-				columns, 320, 770, 'admin-area-grid');
+				columns, 420, 770, 'admin-area-grid');
 
         }
 

@@ -55,7 +55,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeProductList.html?'+$("#searchForm").serialize(), 'product',
-				columns, 220, 700, 'admin-product-grid');
+				columns, 400, 700, 'admin-product-grid');
 
         }
 

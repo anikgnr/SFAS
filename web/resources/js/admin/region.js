@@ -40,7 +40,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeRegionList.html?'+$("#searchForm").serialize(), 'region',
-				columns, 220, 570, 'admin-region-grid');
+				columns, 320, 570, 'admin-region-grid');
 
         }
 
