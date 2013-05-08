@@ -13,10 +13,22 @@ public class Territory extends AbstractLookUpEntity{
     @JoinColumn(name="area_id")
     private Area area;
 
+	public Territory(){
+		this.area = new Area();
+	}
+	
 	public Area getArea() {
 		return area;
 	}
 	public void setArea(Area area) {
 		this.area = area;
 	}	
+	
+	public String getEditLink(){
+		return "<a href='./territory.html?id="+super.getId()+"'>edit</a>";
+	}
+	
+	public String getDeleteLink(){
+		return "<a href='javascript:deleteLinkClicked(\"./territoryDelete.html?id="+super.getId()+"\")'>delete</a>";
+	}
 }

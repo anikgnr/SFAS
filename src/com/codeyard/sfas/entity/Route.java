@@ -13,6 +13,10 @@ public class Route extends AbstractLookUpEntity{
     @JoinColumn(name="territory_id")
     private Territory territory;
 
+	public Route(){
+		this.territory = new Territory();
+	}
+	
 	public Territory getTerritory() {
 		return territory;
 	}
@@ -21,5 +25,12 @@ public class Route extends AbstractLookUpEntity{
 		this.territory = territory;
 	}
 
+	public String getEditLink(){
+		return "<a href='./route.html?id="+super.getId()+"'>edit</a>";
+	}
+	
+	public String getDeleteLink(){
+		return "<a href='javascript:deleteLinkClicked(\"./routeDelete.html?id="+super.getId()+"\")'>delete</a>";
+	}
 	
 }

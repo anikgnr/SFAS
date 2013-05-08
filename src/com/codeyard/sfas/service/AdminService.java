@@ -28,4 +28,6 @@ public interface AdminService {
     void saveOrUpdateProductRegionalRates(List<ProductRegionRate> rateList);
     double getProductRateByIdAndRegionId(Long productId, Long regionId);
     double getProductMarginByIdAndRegionId(Long productId, Long regionId);    
+    List<AbstractLookUpEntity> getLookUpEnityList(AdminSearchVo searchVo, String className);
+    void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity);    
 }

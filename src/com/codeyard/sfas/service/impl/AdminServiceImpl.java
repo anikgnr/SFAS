@@ -120,4 +120,13 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 	
+	public List<AbstractLookUpEntity> getLookUpEnityList(AdminSearchVo searchVo, String className){
+		return adminDao.getLookUpEnityList(searchVo, className);
+	}
+	
+	@Transactional(readOnly = false)
+    public void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity){
+    	adminDao.saveOrUpdateLookUpEntity(entity);
+    }
+	
 }

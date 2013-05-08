@@ -38,23 +38,11 @@
 						<li id="nav_menu_1" class="left  ">
 							<a id="menu1" href="<%= contextPath %>/admin/userList.html" title="">User Module</a>
 						</li>
+						<li id="nav_menu_12" class="left  ">
+							<a id="menu12"  href="#" class="ipbmenu" >Zone Settings <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
+						</li>
 						<li id="nav_menu_2" class="left  ">
-							<a id="menu2" href="<%= contextPath %>/admin/rsmList.html" title="">RSM Module</a>
-						</li>
-						<li id="nav_menu_3" class="left  ">
-							<a id="menu3" href="<%= contextPath %>/admin/asmList.html" title="">ASM Module</a>
-						</li>
-						<li id="nav_menu_4" class="left  ">
-							<a id="menu4" href="<%= contextPath %>/admin/tsoList.html" title="">TSO Module</a>
-						</li>
-						<li id="nav_menu_5" class="left  ">
-							<a id="menu5" href="<%= contextPath %>/admin/distributorList.html" title="">Distributor Module</a>
-						</li>
-						<li id="nav_menu_6" class="left  ">
-							<a id="menu6" href="<%= contextPath %>/admin/srList.html" title="">SR Module</a>
-						</li>
-						<li id="nav_menu_7" class="left  ">
-							<a id="menu7" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>
+							<a id="menu2"  href="#" class="ipbmenu" >Channel Settings <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
 						</li>
 						<li id="nav_menu_8" class="left  ">
 							<a id="menu8" href="<%= contextPath %>/admin/productList.html" title="">Product Module</a>
@@ -62,18 +50,65 @@
 						<li id="nav_menu_9" class="left  ">
 							<a id="menu9" href="<%= contextPath %>/admin/depoList.html" title="">DEPO Module</a>
 						</li>	
+						<li id="nav_menu_11" class="left  ">
+							<a id="menu11" href="<%= contextPath %>/admin/distributorList.html" title="">Distributor Module</a>
+						</li>
+						<li id="nav_menu_7" class="left  ">
+							<a id="menu7" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>
+						</li>
 						<li id="nav_other_apps" style="">
-							<a href="#" class="ipbmenu" id="more_apps">More <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
+							<a href="#" class="ipbmenu" id="more_apps">Other Settings <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
 						</li>											
 					</ul>
 				</div>
  </div>
  	
-	<div style="display: none; z-index: 9999; position: absolute;left: 920px;" id="more_apps_menucontent" class="submenu_container clearfix boxShadow">
+ 	<div style="display: none; z-index: 9999; position: absolute;left: 188px;" id="nav_12_menucontent" class="submenu_container clearfix boxShadow">
+		<div style="z-index: 10000;" class="left">
+			<ul style="z-index: 10000;" class="submenu_links" id="nav_12_menucontentul">
+				<li style="z-index: 10000;" id="nav_menu_13" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_13_trigger" href="<%= contextPath %>/admin/regionList.html" title="">Region Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_14" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_14_trigger" href="<%= contextPath %>/admin/areaList.html" title="">Area Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_15" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_15_trigger" href="<%= contextPath %>/admin/territoryList.html" title="">Territory Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_16" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_16_trigger" href="<%= contextPath %>/admin/routeList.html" title="">Route Module</a>								
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+ 	<div style="display: none; z-index: 9999; position: absolute;left: 324px;" id="nav_2_menucontent" class="submenu_container clearfix boxShadow">
+		<div style="z-index: 10000;" class="left">
+			<ul style="z-index: 10000;" class="submenu_links" id="nav_2_menucontentul">
+				<li style="z-index: 10000;" id="nav_menu_3" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_3_trigger" href="<%= contextPath %>/admin/rsmList.html" title="">RSM Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_4" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_4_trigger" href="<%= contextPath %>/admin/asmList.html" title="">ASM Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_5" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_5_trigger" href="<%= contextPath %>/admin/tsoList.html" title="">TSO Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_6" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_6_trigger" href="<%= contextPath %>/admin/srList.html" title="">SR Module</a>								
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div style="display: none; z-index: 9999; position: absolute;left: 969px;" id="more_apps_menucontent" class="submenu_container clearfix boxShadow">
 		<div style="z-index: 10000;" class="left">
 			<ul style="z-index: 10000;" class="submenu_links" id="more_apps_menucontentul">
 				<li style="z-index: 10000;" id="nav_menu_10" class="submenu_li">
 						<a style="z-index: 10000;" id="nav_menu_10_trigger" href="<%= contextPath %>/admin/accountList.html" title="">Company Bank Accounts</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_17" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_17_trigger" href="#" title="">Company Factories</a>								
 				</li>
 			</ul>
 		</div>
@@ -91,6 +126,32 @@
  		});
  		$("#more_apps_menucontent").mouseout(function(){
  			$('#more_apps_menucontent').hide();
+ 		});
+ 		
+ 		$("#nav_menu_2").mouseover(function(){
+ 			$('#nav_2_menucontent').show();
+ 		});
+ 		$("#nav_2_menucontent").mouseover(function(){
+ 			$('#nav_2_menucontent').show();
+ 		});
+ 		$("#nav_menu_2").mouseout(function(){
+ 			$('#nav_2_menucontent').hide();
+ 		});
+ 		$("#nav_2_menucontent").mouseout(function(){
+ 			$('#nav_2_menucontent').hide();
+ 		});
+ 		
+ 		$("#nav_menu_12").mouseover(function(){
+ 			$('#nav_12_menucontent').show();
+ 		});
+ 		$("#nav_12_menucontent").mouseover(function(){
+ 			$('#nav_12_menucontent').show();
+ 		});
+ 		$("#nav_menu_12").mouseout(function(){
+ 			$('#nav_12_menucontent').hide();
+ 		});
+ 		$("#nav_12_menucontent").mouseout(function(){
+ 			$('#nav_12_menucontent').hide();
  		});
  	});	
 </script>

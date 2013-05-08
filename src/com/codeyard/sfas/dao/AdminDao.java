@@ -25,5 +25,7 @@ public interface AdminDao {
     List<User> getUserListByRole(String role);
     void deleteProductById(Long productId);
     ProductRegionRate getRegionalProductRate(Long productId, Long regionId);
+    List<AbstractLookUpEntity> getLookUpEnityList(AdminSearchVo searchVo, String className);
+    void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity);
 }
 

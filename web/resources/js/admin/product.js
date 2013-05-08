@@ -81,21 +81,24 @@ $(function () {
 		if ($("#productName").val() == '') {
             flag = addError("#productName", '');
         }
+		
 		if ($("#bagSize").val() == '') {
             flag = addError("#bagSize", '');
         }else if (isNotNumber($("#bagSize").val())) {
         	flag = addError("#bagSize", '');      
         }
-		if ($("#rate").val() == '') {
+		
+		/*if ($("#rate").val() == '') {
             flag = addError("#rate", '');
         }else if (isNotNumber($("#rate").val())) {
         	flag = addError("#rate", '');      
         }
+		
 		if ($("#profitMargin").val() == '') {			
             flag = addError("#profitMargin", '');        
         }else if (isNotNumber($("#profitMargin").val())) {
         	flag = addError("#profitMargin", '');      
-        }
+        }*/
 		
 		if(flag)
 			return false;

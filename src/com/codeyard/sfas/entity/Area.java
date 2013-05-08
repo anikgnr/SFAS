@@ -13,6 +13,9 @@ public class Area extends AbstractLookUpEntity{
     @JoinColumn(name="region_id")
     private Region region;
 
+	public Area(){
+		this.region = new Region();
+	}
 	
 	public Region getRegion() {
 		return region;
@@ -22,5 +25,12 @@ public class Area extends AbstractLookUpEntity{
 		this.region = region;
 	}
     
+	public String getEditLink(){
+		return "<a href='./area.html?id="+super.getId()+"'>edit</a>";
+	}
+	
+	public String getDeleteLink(){
+		return "<a href='javascript:deleteLinkClicked(\"./areaDelete.html?id="+super.getId()+"\")'>delete</a>";
+	}
 	
 }

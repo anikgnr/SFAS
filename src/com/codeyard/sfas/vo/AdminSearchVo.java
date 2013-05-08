@@ -40,6 +40,7 @@ public class AdminSearchVo {
 	private long depoId;
 	private long rsmRegionId;
 	private long routeId;
+	private long areaRegionId;
 	
 	public AdminSearchVo(){
 		this.firstName = null;
@@ -76,6 +77,7 @@ public class AdminSearchVo {
 		this.rsmRegionId = 0;
 		this.routeId = 0;
 		this.distributorDepoId = 0;
+		this.areaRegionId = 0;
 	}
 	
 	public String getFirstName() {
@@ -337,6 +339,14 @@ public class AdminSearchVo {
 		this.distributorDepoId = distributorDepoId;
 	}
 
+	public long getAreaRegionId() {
+		return areaRegionId;
+	}
+
+	public void setAreaRegionId(long areaRegionId) {
+		this.areaRegionId = areaRegionId;
+	}
+
 	public static AdminSearchVo fetchFromRequest(HttpServletRequest request){
     	AdminSearchVo searchVo = new AdminSearchVo();
     	
@@ -404,6 +414,8 @@ public class AdminSearchVo {
     		searchVo.setRouteId(Long.parseLong((String)request.getParameter("rut")));
       	if(request.getParameter("drdp") != null && !Utils.isNullOrEmpty((String)request.getParameter("drdp")))
     		searchVo.setDistributorDepoId(Long.parseLong((String)request.getParameter("drdp")));
+      	if(request.getParameter("arrg") != null && !Utils.isNullOrEmpty((String)request.getParameter("arrg")))
+    		searchVo.setAreaRegionId(Long.parseLong((String)request.getParameter("arrg")));
       	
     	return searchVo;
     }
@@ -544,6 +556,10 @@ public class AdminSearchVo {
     	}
     	if(this.distributorDepoId != 0){
     		sql += (hasClause ? "AND ":"WHERE ") + "distributor.depo.id = '"+this.distributorDepoId+"'";
+    		hasClause = true;
+    	}
+    	if(this.areaRegionId != 0){
+    		sql += (hasClause ? "AND ":"WHERE ") + "area.region.id = '"+this.areaRegionId+"'";
     		hasClause = true;
     	}
     	

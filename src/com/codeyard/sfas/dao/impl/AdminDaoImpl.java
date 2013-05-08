@@ -124,4 +124,14 @@ public class AdminDaoImpl implements AdminDao {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<AbstractLookUpEntity> getLookUpEnityList(AdminSearchVo searchVo, String className){
+		String sql = searchVo.buildFilterQueryClauses("From "+className+" ", false);
+    	logger.debug(sql);
+    	return hibernateTemplate.find(sql);
+	}
+	
+    public void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity){
+    	hibernateTemplate.saveOrUpdate(entity);
+    }
 }
