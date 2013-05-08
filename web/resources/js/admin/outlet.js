@@ -49,7 +49,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeOutletList.html?'+$("#searchForm").serialize(), 'outlet',
-				columns, 220, 835, 'admin-outlet-grid');
+				columns, 320, 835, 'admin-outlet-grid');
 
         }
 

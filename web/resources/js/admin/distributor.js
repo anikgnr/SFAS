@@ -49,7 +49,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeDistributorList.html?'+$("#searchForm").serialize(), 'distributor',
-				columns, 220, 835, 'admin-distributor-grid');
+				columns, 320, 835, 'admin-distributor-grid');
 
         }
 

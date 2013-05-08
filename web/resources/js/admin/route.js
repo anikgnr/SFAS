@@ -49,7 +49,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeRouteList.html?'+$("#searchForm").serialize(), 'route',
-				columns, 420, 835, 'admin-route-grid');
+				columns, 400, 835, 'admin-route-grid');
 
         }
 

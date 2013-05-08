@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeUserList.html?'+$("#searchForm").serialize(), 'user',
-				columns, 220, 835, 'admin-user-grid');
+				columns, 320, 835, 'admin-user-grid');
 
         }
 

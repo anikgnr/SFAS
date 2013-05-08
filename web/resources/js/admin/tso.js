@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeTSOList.html?'+$("#searchForm").serialize(), 'tso',
-				columns, 220, 835, 'admin-tso-grid');
+				columns, 320, 835, 'admin-tso-grid');
 
         }
 

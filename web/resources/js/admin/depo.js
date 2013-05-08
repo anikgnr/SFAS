@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeDepoList.html?'+$("#searchForm").serialize(), 'depo',
-				columns, 220, 835, 'admin-depo-grid');
+				columns, 320, 835, 'admin-depo-grid');
 
         }
 

@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeASMList.html?'+$("#searchForm").serialize(), 'asm',
-				columns, 220, 835, 'admin-asm-grid');
+				columns, 320, 835, 'admin-asm-grid');
 
         }
 

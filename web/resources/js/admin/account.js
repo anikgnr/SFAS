@@ -44,7 +44,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeAccountList.html?'+$("#searchForm").serialize(), 'account',
-				columns, 220, 835, 'admin-account-grid');
+				columns, 320, 835, 'admin-account-grid');
 
         }
 

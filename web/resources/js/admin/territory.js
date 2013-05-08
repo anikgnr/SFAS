@@ -50,7 +50,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeTerritoryList.html?'+$("#searchForm").serialize(), 'territory',
-				columns, 420, 830, 'admin-territory-grid');
+				columns, 400, 830, 'admin-territory-grid');
 
         }
 

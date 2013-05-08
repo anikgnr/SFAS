@@ -46,16 +46,10 @@
 						</li>
 						<li id="nav_menu_8" class="left  ">
 							<a id="menu8" href="<%= contextPath %>/admin/productList.html" title="">Product Module</a>
-						</li>												
-						<li id="nav_menu_9" class="left  ">
-							<a id="menu9" href="<%= contextPath %>/admin/depoList.html" title="">DEPO Module</a>
-						</li>	
-						<li id="nav_menu_11" class="left  ">
-							<a id="menu11" href="<%= contextPath %>/admin/distributorList.html" title="">Distributor Module</a>
-						</li>
-						<li id="nav_menu_7" class="left  ">
-							<a id="menu7" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>
-						</li>
+						</li>			
+						<li id="nav_menu_18" class="left  ">
+							<a id="menu18"  href="#" class="ipbmenu" >Distribution Settings <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
+						</li>														
 						<li id="nav_other_apps" style="">
 							<a href="#" class="ipbmenu" id="more_apps">Other Settings <img src="<%= contextPath %>/resources/images/useropts_arrow.png"></a>
 						</li>											
@@ -63,6 +57,22 @@
 				</div>
  </div>
  	
+ 	<div style="display: none; z-index: 9999; position: absolute;left: 601px;" id="nav_18_menucontent" class="submenu_container clearfix boxShadow">
+		<div style="z-index: 10000;" class="left">
+			<ul style="z-index: 10000;" class="submenu_links" id="nav_18_menucontentul">
+				<li style="z-index: 10000;" id="nav_menu_9" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_9_trigger" href="<%= contextPath %>/admin/depoList.html" title="">DEPO Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_11" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_11_trigger" href="<%= contextPath %>/admin/distributorList.html" title="">Distributor Module</a>								
+				</li>
+				<li style="z-index: 10000;" id="nav_menu_7" class="submenu_li">
+						<a style="z-index: 10000;" id="nav_menu_7_trigger" href="<%= contextPath %>/admin/outletList.html" title="">Outlet Module</a>								
+				</li>
+			</ul>
+		</div>
+	</div>
+	
  	<div style="display: none; z-index: 9999; position: absolute;left: 188px;" id="nav_12_menucontent" class="submenu_container clearfix boxShadow">
 		<div style="z-index: 10000;" class="left">
 			<ul style="z-index: 10000;" class="submenu_links" id="nav_12_menucontentul">
@@ -101,7 +111,7 @@
 		</div>
 	</div>
 	
-	<div style="display: none; z-index: 9999; position: absolute;left: 969px;" id="more_apps_menucontent" class="submenu_container clearfix boxShadow">
+	<div style="display: none; z-index: 9999; position: absolute;left: 771px;" id="more_apps_menucontent" class="submenu_container clearfix boxShadow">
 		<div style="z-index: 10000;" class="left">
 			<ul style="z-index: 10000;" class="submenu_links" id="more_apps_menucontentul">
 				<li style="z-index: 10000;" id="nav_menu_10" class="submenu_li">
@@ -152,6 +162,19 @@
  		});
  		$("#nav_12_menucontent").mouseout(function(){
  			$('#nav_12_menucontent').hide();
+ 		});
+ 		
+ 		$("#nav_menu_18").mouseover(function(){
+ 			$('#nav_18_menucontent').show();
+ 		});
+ 		$("#nav_18_menucontent").mouseover(function(){
+ 			$('#nav_18_menucontent').show();
+ 		});
+ 		$("#nav_menu_18").mouseout(function(){
+ 			$('#nav_18_menucontent').hide();
+ 		});
+ 		$("#nav_18_menucontent").mouseout(function(){
+ 			$('#nav_18_menucontent').hide();
  		});
  	});	
 </script>

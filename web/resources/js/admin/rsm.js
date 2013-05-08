@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeRSMList.html?'+$("#searchForm").serialize(), 'rsm',
-				columns, 220, 835, 'admin-rsm-grid');
+				columns, 320, 835, 'admin-rsm-grid');
 
         }
 

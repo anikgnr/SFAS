@@ -54,7 +54,7 @@ $(function () {
                   }                  
                ];
             loadGrid(fields, './completeSRList.html?'+$("#searchForm").serialize(), 'sr',
-				columns, 220, 835, 'admin-sr-grid');
+				columns, 320, 835, 'admin-sr-grid');
 
         }
 
