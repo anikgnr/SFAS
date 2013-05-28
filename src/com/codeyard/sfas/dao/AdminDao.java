@@ -27,5 +27,6 @@ public interface AdminDao {
     ProductRegionRate getRegionalProductRate(Long productId, Long regionId);
     List<AbstractLookUpEntity> getLookUpEnityList(AdminSearchVo searchVo, String className);
     void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity);
+    void saveOrUpdateUser(User user);
 }
 

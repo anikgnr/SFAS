@@ -18,6 +18,7 @@
 	    <intercept-url pattern="/inventory/**" access="hasAnyRole('ROLE_INVENTORY_ADMIN','ROLE_INVENTORY_OPERATOR')"/>
 	    <intercept-url pattern="/operator/**" access="hasAnyRole('ROLE_OPERATOR')"/>	
 	   	<intercept-url pattern="/manager/**" access="hasAnyRole('ROLE_MANAGER')"/>
+		<intercept-url pattern="/factory/**" access="hasAnyRole('ROLE_FACTORY_ADMIN','ROLE_FACTORY_OPERATOR')"/>	   	
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		
 	    <access-denied-handler error-page="/access-denied.html"/>

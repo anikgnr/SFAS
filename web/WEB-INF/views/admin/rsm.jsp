@@ -20,7 +20,7 @@
 								<td width="180px;"><form:input path="firstName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>								
 							
-								<td><spring:message code="user.form.lastName"/> : <span class="required">*</span></td>
+								<td><spring:message code="user.form.lastName"/> :</td>
 								<td><form:input path="lastName" /></td>
 								<td class="inputerrormsg">&nbsp;</td>
 							</tr>

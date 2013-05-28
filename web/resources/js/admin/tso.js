@@ -105,9 +105,6 @@ $(function () {
 		if ($("#firstName").val() == '') {
             flag = addError("#firstName", '');
         }
-		if ($("#lastName").val() == '') {
-            flag = addError("#lastName", '');
-        }
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');
         }

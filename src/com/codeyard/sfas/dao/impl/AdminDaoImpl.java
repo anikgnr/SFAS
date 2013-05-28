@@ -134,4 +134,20 @@ public class AdminDaoImpl implements AdminDao {
     public void saveOrUpdateLookUpEntity(AbstractLookUpEntity entity){
     	hibernateTemplate.saveOrUpdate(entity);
     }
+    
+    public void saveOrUpdateUser(User user){
+    	logger.debug("user id "+user.getId());
+    	if(user.getId() == null || user.getId() == 0){
+    		user.setCreatedBy(Utils.getLoggedUser());
+    		user.setCreated(Utils.today());
+    	}
+    	user.setLastModifiedBy(Utils.getLoggedUser());
+    	user.setLastModified(Utils.today());
+    	
+    	if(user.getId() == null || user.getId() == 0)
+    		hibernateTemplate.save(user);		
+    	else
+    		hibernateTemplate.update(user);
+	}
+    
 }

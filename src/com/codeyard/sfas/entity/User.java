@@ -37,6 +37,9 @@ public class User extends AbstractBaseEntity{
     @Column(name = "email")
     private String email;
     
+    @Column(name = "company_factory_id")
+    private String factoryId;
+    
     @Transient
     private String confirmPassword;
     
@@ -144,14 +147,24 @@ public class User extends AbstractBaseEntity{
 		this.sameUserName = sameUserName;
 	}
 
+	public String getFactoryId() {
+		return factoryId;
+	}
+
+	public void setFactoryId(String factoryId) {
+		this.factoryId = factoryId;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password
 				+ ", role=" + role + ", active=" + active + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", mobileNumber="
-				+ mobileNumber + ", confirmPassword=" + confirmPassword + "]";
+				+ mobileNumber + ", department=" + department + ", email="
+				+ email + ", confirmPassword=" + confirmPassword
+				+ ", sameUserName=" + sameUserName + "]";
 	}
-    
-    
+
+	
     
 }

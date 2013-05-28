@@ -78,11 +78,14 @@ $(function () {
 	}
 		
 	$("#role").bind('change', function () {
+		$("#deptBlock").hide();
+		$("#factoryBlock").hide();
+		
 		if($("#managerRole").val()==$(this).val()){
 			$("#deptBlock").show();
-		}else{
-			$("#deptBlock").hide();	
-		}			
+		}else if($("#factoryMgrRole").val()==$(this).val() || $("#factoryOprRole").val()==$(this).val()){
+			$("#factoryBlock").show();
+		}
 	});
 	
 	$("#saveBtn").click(function(){
@@ -106,7 +109,9 @@ $(function () {
 		if ($("#role").val() == '') {
             flag = addError("#role", '');
         }else if($("#role").val() ==  $("#managerRole").val() && $("#department").val() == ''){
-        	flag = addError("#department", '');
+        	flag = addError("#department", '');        
+        }else if(($("#role").val() ==  $("#factoryMgrRole").val() || $("#role").val() ==  $("#factoryOprRole").val()) && $("#factoryId").val() == ''){
+        	flag = addError("#factoryId", '');
         }
 		if ($("#mobileNumber").val() == '') {
             flag = addError("#mobileNumber", '');

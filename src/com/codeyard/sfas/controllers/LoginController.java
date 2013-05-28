@@ -40,7 +40,10 @@ public class LoginController {
 			return "redirect:/operator/home.html";
 		}else if(Utils.isInRole(Role.MANAGER.getValue())){
 			return "redirect:/manager/home.html";
+		}else if(Utils.isInRole(Role.FACTORY_MANAGER.getValue()) || Utils.isInRole(Role.FACTORY_OPERATOR.getValue())){			
+			return "redirect:/factory/home.html";
 		}
+		
 		return "login";
     }
     

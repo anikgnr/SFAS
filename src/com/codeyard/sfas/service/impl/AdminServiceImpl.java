@@ -56,6 +56,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Transactional(readOnly = false)
+	public void saveOrUpdateUser(User user){
+		adminDao.saveOrUpdateUser(user);
+	}
+	
+	@Transactional(readOnly = false)
 	public void saveOrUpdate(AbstractBaseEntity entity){
 		adminDao.saveOrUpdate(entity);		
 	}

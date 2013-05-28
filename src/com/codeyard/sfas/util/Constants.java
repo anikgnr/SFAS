@@ -17,4 +17,7 @@ public interface Constants {
 	public static final String SESSION_USER= "SESSION_KEY_USER";
 	public static final String SESSION_DEPO_ORDER= "SESSION_KEY_DEPO_ORDER";
 	public static final String SESSION_DISTRIBUTOR_ORDER= "SESSION_KEY_DISTRIBUTOR_ORDER";
+	public static final String SESSION_USER_FACTORY_ID= "SESSION_KEY_USER_FACTORY_ID";
+	public static final String SESSION_USER_FACTORY_NAME= "SESSION_KEY_USER_FACTORY_NAME";
+	public static final String FACTORY_DEFAULT_NAME= "Company Factory";
 }

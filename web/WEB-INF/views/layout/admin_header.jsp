@@ -118,7 +118,7 @@
 						<a style="z-index: 10000;" id="nav_menu_10_trigger" href="<%= contextPath %>/admin/accountList.html" title="">Company Bank Accounts</a>								
 				</li>
 				<li style="z-index: 10000;" id="nav_menu_17" class="submenu_li">
-						<a style="z-index: 10000;" id="nav_menu_17_trigger" href="#" title="">Company Factories</a>								
+						<a style="z-index: 10000;" id="nav_menu_17_trigger" href="<%= contextPath %>/admin/factoryList.html" title="">Company Factories</a>								
 				</li>
 			</ul>
 		</div>

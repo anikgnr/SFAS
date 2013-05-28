@@ -16,6 +16,7 @@ public interface AdminService {
 	List<AbstractBaseEntity> getActiveEnityList(AdminSearchVo searchVo, String className);
     AbstractBaseEntity loadEntityById(Long id, String className);
     AbstractLookUpEntity loadLookUpEntityById(Long id, String className);
+    void saveOrUpdateUser(User user);
     void saveOrUpdate(AbstractBaseEntity entity);
     void onlySaveOrUpdate(AbstractBaseEntity entity);
     void deleteEntityById(Long id, String className);

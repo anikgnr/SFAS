@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codeyard.sfas.entity.CompanyFactory;
 import com.codeyard.sfas.entity.DepoOrder;
 import com.codeyard.sfas.entity.ManagerType;
 import com.codeyard.sfas.entity.AbstractBaseEntity;
@@ -83,6 +84,14 @@ public class UserController {
     	
     	model.addAttribute("types", types);
     	
+    	Map<Long,String> factories = new LinkedHashMap<Long,String>();
+    	List<AbstractBaseEntity> factoryList = adminService.getEnityList(AdminSearchVo.fetchFromRequest(request), "CompanyFactory");
+    	for(AbstractBaseEntity entity: factoryList){
+    		CompanyFactory factory = (CompanyFactory)entity;
+    		factories.put(factory.getId(), factory.getName());
+    	}
+    	model.addAttribute("factories", factories);
+    	
     	return new ModelAndView("admin/user", "command", user);
 	}    
 
@@ -98,7 +107,8 @@ public class UserController {
     		}else{
     			request.getSession().removeAttribute(Constants.SESSION_USER);
     		}
-    		adminService.saveOrUpdate(user);
+    		
+    		adminService.saveOrUpdateUser(user);
     		Utils.setSuccessMessage(request, "User successfully saved/updated.");
     	}catch(Exception ex){
     		logger.debug("Error while saving/updating user :: "+ex);

@@ -43,6 +43,14 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
     
+    <definition name="factory.definition"
+        template="/WEB-INF/views/layout/layout.jsp">
+		<!-- <put-attribute name="title" value="" /> -->
+        <put-attribute name="header" value="/WEB-INF/views/layout/factory_header.jsp" />        
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+    
      <definition name="base.definition.withoutheaderfooter"
         template="/WEB-INF/views/layout/layoutWithoutHeaderFooter.jsp">
 		<!-- <put-attribute name="title" value="" /> -->
@@ -75,6 +83,10 @@
     
     <definition name="manager/distributorOrder" extends="manager.definition">
         <put-attribute name="body" value="/WEB-INF/views/operator/distributorOrder.jsp" />
+    </definition>
+    
+    <definition name="factory/*" extends="factory.definition">
+        <put-attribute name="body" value="/WEB-INF/views/factory/{1}.jsp" />
     </definition>
         
 </tiles-definitions>

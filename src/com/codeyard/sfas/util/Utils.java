@@ -6,14 +6,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.codeyard.sfas.entity.AbstractBaseEntity;
+import com.codeyard.sfas.entity.CompanyFactory;
 import com.codeyard.sfas.entity.NotificationType;
 import com.codeyard.sfas.entity.User;
 import com.codeyard.sfas.service.AdminService;
@@ -191,6 +196,57 @@ public class Utils {
 			logger.debug("Error while retrieving logged user name :: "+ex);
 		}
 		return null;
+	}
+	
+	public static String getLoggedUserFactoryId(){
+		try{
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession();
+			
+			if(session != null && session.getAttribute(Constants.SESSION_USER_FACTORY_ID) != null){
+				return (String)session.getAttribute(Constants.SESSION_USER_FACTORY_ID);
+			}else{
+				AdminService adminService = (AdminService)ContextLoader.getCurrentWebApplicationContext().getBean("adminService");
+				if(adminService != null){
+					User user = adminService.getUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+					if(user != null){
+						if(session != null)
+							session.setAttribute(Constants.SESSION_USER_FACTORY_ID, user.getFactoryId());
+						return user.getFactoryId();
+					}
+				}		
+			}
+		}catch(Exception ex){
+			logger.debug("Error while retrieving logged user name :: "+ex);
+		}
+		return null;
+	}
+	
+	public static String getLoggedUserFactoryName(){
+		try{
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession();
+			
+			if(session != null && session.getAttribute(Constants.SESSION_USER_FACTORY_NAME) != null){
+				return (String)session.getAttribute(Constants.SESSION_USER_FACTORY_NAME);
+			}else{
+				String factoryId = getLoggedUserFactoryId();
+				if(!isNullOrEmpty(factoryId)){
+					AdminService adminService = (AdminService)ContextLoader.getCurrentWebApplicationContext().getBean("adminService");
+					if(adminService != null){
+						CompanyFactory factory = (CompanyFactory)adminService.loadEntityById(Long.parseLong(factoryId),"CompanyFactory");
+						if(factory != null){
+							if(session != null)
+								session.setAttribute(Constants.SESSION_USER_FACTORY_NAME, factory.getName());
+							return factory.getName();
+						}
+					}
+				}
+			}
+		}catch(Exception ex){
+			logger.debug("Error while retrieving logged factory name :: "+ex);
+		}
+		return Constants.FACTORY_DEFAULT_NAME;
 	}
 				
 }

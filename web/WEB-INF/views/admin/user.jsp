@@ -6,12 +6,16 @@
 <%	
 	final String contextPath = request.getContextPath();
 	pageContext.setAttribute("managerRole", Role.MANAGER.getValue());
+	pageContext.setAttribute("factoryMgrRole", Role.FACTORY_MANAGER.getValue());
+	pageContext.setAttribute("factoryOprRole", Role.FACTORY_OPERATOR.getValue());
 %>
 <html>
 
 <body>
 	<script type="text/javascript" src="<%= contextPath %>/resources/js/admin/user.js"></script>
 	<input type="hidden" id="managerRole" value="${managerRole}"/>	
+	<input type="hidden" id="factoryMgrRole" value="${factoryMgrRole}"/>
+	<input type="hidden" id="factoryOprRole" value="${factoryOprRole}"/>
 	<div class="category_block block_wrap" style="width: 1020px;padding-top:20px;padding-left: 100px;">
 		<h3 class="maintitle"><spring:message code="user.form.title"/></h3>
 		<div class="ipsBox table_wrap">
@@ -62,6 +66,16 @@
 										<form:select path="department">
 										 	<form:option value="" label=""/>
 		    								<form:options items="${types}" />
+										</form:select>
+									</td>
+									<td class="inputerrormsg">&nbsp;</td>
+							</tr>							
+							<tr id="factoryBlock" <c:if test="${factoryMgrRole != command.role && factoryOprRole != command.role}">style="display:none;"</c:if>>
+									<td><spring:message code="user.form.factory"/> : <span class="required">*</span></td>
+									<td>
+										<form:select path="factoryId">
+										 	<form:option value="" label=""/>
+		    								<form:options items="${factories}" />
 										</form:select>
 									</td>
 									<td class="inputerrormsg">&nbsp;</td>
